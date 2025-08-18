@@ -68,6 +68,7 @@
      cursor: pointer;
      transition: background-color 0.3s ease;
      border: none;
+     font-size: 1.25rem;
    }
    #btn-tts:hover,
    #btn-tts:focus {
@@ -82,27 +83,45 @@
      background: white;
      border-radius: 0.5rem;
      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-     padding: 1rem;
-     width: 280px;
+     padding: 0.75rem 1rem;
+     width: 240px;
+     max-width: 90vw;
      z-index: 10000;
-     display: none;
      font-size: 0.875rem;
      color: #1e40af; /* blue-900 */
      user-select: none;
+     display: none;
+     flex-direction: column;
+     gap: 0.5rem;
+   }
+   #tts-control-panel[aria-hidden="false"] {
+     display: flex;
    }
    #tts-control-panel h4 {
      font-weight: 600;
-     margin-bottom: 0.5rem;
+     margin-bottom: 0.25rem;
+     font-size: 1rem;
+     user-select: none;
+   }
+   #tts-control-panel .tts-controls {
+     display: flex;
+     justify-content: space-between;
+     gap: 0.5rem;
    }
    #tts-control-panel button {
      background-color: #2563eb; /* blue-600 */
      color: white;
      border: none;
      border-radius: 0.375rem;
-     padding: 0.4rem 0.75rem;
-     margin-right: 0.5rem;
+     padding: 0.4rem 0;
+     flex: 1;
      cursor: pointer;
      transition: background-color 0.3s ease;
+     font-size: 1.25rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 38px;
    }
    #tts-control-panel button:hover,
    #tts-control-panel button:focus {
@@ -111,20 +130,26 @@
    }
    #tts-control-panel label {
      display: block;
-     margin-top: 0.5rem;
-     margin-bottom: 0.25rem;
+     margin-top: 0.25rem;
+     margin-bottom: 0.15rem;
      font-weight: 600;
+     font-size: 0.875rem;
    }
    #tts-control-panel select,
    #tts-control-panel input[type="range"] {
      width: 100%;
-     margin-bottom: 0.5rem;
+     margin-bottom: 0.25rem;
+     height: 28px;
+     border-radius: 0.375rem;
+     border: 1px solid #cbd5e1; /* gray-300 */
+     padding: 0 0.5rem;
+     font-size: 0.875rem;
    }
-   #tts-control-panel .tts-controls {
-     margin-bottom: 0.75rem;
-   }
-   #tts-control-panel .tts-controls button:last-child {
-     margin-right: 0;
+   #tts-control-panel select:focus,
+   #tts-control-panel input[type="range"]:focus {
+     outline: none;
+     border-color: #2563eb; /* blue-600 */
+     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.5);
    }
   </style>
  </head>
@@ -136,8 +161,8 @@
     Justiça Digital
    </h1>
    <!-- Accessibility Voice Button -->
-   <button id="btn-tts" aria-label="Ler em voz alta" title="Ler em voz alta" type="button" class="absolute top-1/2 right-20 -translate-y-1/2 focus:ring-4 focus:ring-red-400" >
-    <span aria-hidden="true" style="font-size: 1.5rem; line-height: 1;">🎤</span>
+   <button id="btn-tts" aria-label="Ler em voz alta" title="Ler em voz alta" type="button" class="absolute top-1/2 right-20 -translate-y-1/2 focus:ring-4 focus:ring-red-400" aria-pressed="false">
+    <i aria-hidden="true" class="fas fa-microphone"></i>
    </button>
   </header>
   <!-- Main content -->
@@ -686,12 +711,18 @@
    </div>
   </div>
   <!-- TTS Control Panel -->
-  <div id="tts-control-panel" role="region" aria-label="Controles de leitura em voz alta" tabindex="-1">
+  <div id="tts-control-panel" role="region" aria-label="Controles de leitura em voz alta" tabindex="-1" aria-hidden="true">
    <h4>Leitura em voz alta</h4>
-   <div class="tts-controls mb-2">
-    <button id="tts-play-pause" aria-label="Reproduzir ou pausar leitura" title="Reproduzir / Pausar">▶️</button>
-    <button id="tts-stop" aria-label="Parar leitura" title="Parar">⏹️</button>
-    <button id="tts-next" aria-label="Pular para próximo parágrafo" title="Próximo">⏩</button>
+   <div class="tts-controls">
+    <button id="tts-play-pause" aria-label="Reproduzir ou pausar leitura" title="Reproduzir / Pausar">
+     <i class="fas fa-play"></i>
+    </button>
+    <button id="tts-stop" aria-label="Parar leitura" title="Parar">
+     <i class="fas fa-stop"></i>
+    </button>
+    <button id="tts-next" aria-label="Pular para próximo parágrafo" title="Próximo">
+     <i class="fas fa-forward"></i>
+    </button>
    </div>
    <div>
     <label for="tts-voice">Voz</label>
@@ -711,7 +742,6 @@
    function showModal(modal) {
      if (!modal) return;
      modal.classList.remove('hidden');
-     // Force reflow to enable transition
      void modal.offsetWidth;
      modal.style.opacity = '1';
      modal.style.transform = 'scale(1)';
@@ -732,7 +762,6 @@
      panel.classList.remove('hidden');
      panel.style.opacity = '0';
      panel.style.transform = 'translateY(-10px)';
-     // Force reflow
      void panel.offsetWidth;
      panel.style.transition = 'opacity 250ms ease, transform 250ms ease';
      panel.style.opacity = '1';
@@ -821,7 +850,6 @@
          whatsapp.focus();
          return;
        }
-       // Basic pattern check for WhatsApp (digits and +)
        const pattern = /^\+?\d{10,15}$/;
        if (!pattern.test(whatsapp.value.trim().replace(/\D/g, ''))) {
          alert('Por favor, insira um número de WhatsApp válido.');
@@ -830,7 +858,6 @@
        }
        alert('Formulário enviado com sucesso! Entraremos em contato.');
        form.reset();
-       // Close modal if inside one
        const modal = form.closest('[role="dialog"]');
        if (modal) hideModal(modal);
      });
@@ -848,7 +875,7 @@
          hidePanel(painelContato);
          btnContato.setAttribute('aria-expanded', 'false');
        }
-       if (ttsControlPanel.style.display === 'block') {
+       if (ttsControlPanel.getAttribute('aria-hidden') === 'false') {
          stopReading();
        }
      }
@@ -886,7 +913,6 @@
    let isReading = false;
    let highlightedElement = null;
 
-   // Load voices and populate select
    function loadVoices() {
      voices = synth.getVoices();
      ttsVoiceSelect.innerHTML = '';
@@ -902,7 +928,6 @@
    }
    loadVoices();
 
-   // Update rate and pitch display
    ttsRateInput.addEventListener('input', () => {
      ttsRateValue.textContent = ttsRateInput.value;
    });
@@ -910,41 +935,31 @@
      ttsPitchValue.textContent = ttsPitchInput.value;
    });
 
-   // Get all paragraphs and text nodes for reading
    function gatherParagraphs() {
-     // We'll consider all visible text-containing elements inside mainContent
-     // We'll split by block elements and paragraphs
      const elements = [];
-     // Select all elements with visible text inside mainContent
      const walker = document.createTreeWalker(mainContent, NodeFilter.SHOW_ELEMENT, {
        acceptNode: function(node) {
-         // Filter out hidden or script/style elements
          const style = window.getComputedStyle(node);
          if (style.display === 'none' || style.visibility === 'hidden') return NodeFilter.FILTER_REJECT;
-         // Only accept elements with visible text nodes
          if (node.childNodes.length === 0) return NodeFilter.FILTER_REJECT;
          return NodeFilter.FILTER_ACCEPT;
        }
      });
      let node = walker.nextNode();
      while (node) {
-       // Only block or paragraph-like elements with text content
        if (node.textContent.trim().length > 0 && ['P', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'DIV', 'ARTICLE', 'SECTION', 'SPAN', 'A', 'BUTTON', 'LABEL', 'TD', 'TH'].includes(node.tagName)) {
          elements.push(node);
        }
        node = walker.nextNode();
      }
-     // Filter duplicates and empty text
      return elements.filter(el => el.textContent.trim().length > 0);
    }
 
-   // Highlight element
    function highlightElement(el) {
      clearHighlight();
      if (el) {
        el.classList.add('tts-highlight');
        highlightedElement = el;
-       // Scroll into view smoothly, center vertically
        el.scrollIntoView({behavior: 'smooth', block: 'center'});
      }
    }
@@ -955,7 +970,6 @@
      }
    }
 
-   // Speak a paragraph by index
    function speakParagraph(index) {
      if (index < 0 || index >= paragraphs.length) {
        stopReading();
@@ -983,7 +997,7 @@
        isReading = true;
        isPaused = false;
        highlightElement(paragraphs[currentParagraphIndex]);
-       ttsPlayPauseBtn.textContent = '⏸️';
+       ttsPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
      };
      utterance.onend = () => {
        clearHighlight();
@@ -1001,7 +1015,6 @@
      synth.speak(utterance);
    }
 
-   // Controls
    function playPause() {
      if (!isReading) {
        if (paragraphs.length === 0) {
@@ -1015,11 +1028,11 @@
      } else if (isPaused) {
        synth.resume();
        isPaused = false;
-       ttsPlayPauseBtn.textContent = '⏸️';
+       ttsPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
      } else {
        synth.pause();
        isPaused = true;
-       ttsPlayPauseBtn.textContent = '▶️';
+       ttsPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
      }
    }
    function stopReading() {
@@ -1032,8 +1045,8 @@
      isPaused = false;
      currentParagraphIndex = 0;
      clearHighlight();
-     ttsPlayPauseBtn.textContent = '▶️';
-     ttsControlPanel.style.display = 'none';
+     ttsPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+     ttsControlPanel.setAttribute('aria-hidden', 'true');
      btnTTS.setAttribute('aria-pressed', 'false');
    }
    function nextParagraph() {
@@ -1057,11 +1070,9 @@
      }
    }
 
-   // Read selected text or entire page
    function readSelectedOrAll() {
      const selection = window.getSelection();
      if (selection && selection.toString().trim().length > 0) {
-       // Read selected text only
        if (utterance) {
          utterance.onend = null;
          utterance.onerror = null;
@@ -1077,12 +1088,12 @@
        utterance.onstart = () => {
          isReading = true;
          isPaused = false;
-         ttsPlayPauseBtn.textContent = '⏸️';
+         ttsPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
        };
        utterance.onend = () => {
          isReading = false;
          isPaused = false;
-         ttsPlayPauseBtn.textContent = '▶️';
+         ttsPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
        };
        utterance.onerror = (e) => {
          console.error('SpeechSynthesisUtterance error:', e);
@@ -1090,7 +1101,6 @@
        };
        synth.speak(utterance);
      } else {
-       // Read entire page from start
        paragraphs = gatherParagraphs();
        if (paragraphs.length === 0) {
          alert('Nenhum texto encontrado para leitura.');
@@ -1101,12 +1111,12 @@
      }
    }
 
-   // Toggle TTS control panel visibility
    function toggleTTSPanel() {
-     if (ttsControlPanel.style.display === 'block') {
+     const isVisible = ttsControlPanel.getAttribute('aria-hidden') === 'false';
+     if (isVisible) {
        stopReading();
      } else {
-       ttsControlPanel.style.display = 'block';
+       ttsControlPanel.setAttribute('aria-hidden', 'false');
        btnTTS.setAttribute('aria-pressed', 'true');
        readSelectedOrAll();
        ttsControlPanel.focus();
@@ -1117,7 +1127,6 @@
      toggleTTSPanel();
    });
 
-   // Control panel buttons
    ttsPlayPauseBtn.addEventListener('click', () => {
      playPause();
    });
@@ -1128,7 +1137,6 @@
      nextParagraph();
    });
 
-   // Keyboard accessibility for TTS control panel
    ttsControlPanel.addEventListener('keydown', e => {
      if (e.key === 'Escape') {
        stopReading();
@@ -1136,12 +1144,10 @@
      }
    });
 
-   // Clicking any text on page reads only that text
    mainContent.addEventListener('click', e => {
-     // Ignore clicks on buttons, links, inputs, modals, etc.
      const tag = e.target.tagName.toLowerCase();
      if (['button', 'a', 'input', 'textarea', 'select', 'label'].includes(tag)) return;
-     if (ttsControlPanel.style.display !== 'block') return; // Only active if panel open
+     if (ttsControlPanel.getAttribute('aria-hidden') === 'true') return;
      e.preventDefault();
      if (utterance) {
        utterance.onend = null;
@@ -1160,14 +1166,14 @@
      utterance.onstart = () => {
        isReading = true;
        isPaused = false;
-       ttsPlayPauseBtn.textContent = '⏸️';
+       ttsPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
        highlightElement(e.target);
      };
      utterance.onend = () => {
        clearHighlight();
        isReading = false;
        isPaused = false;
-       ttsPlayPauseBtn.textContent = '▶️';
+       ttsPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
      };
      utterance.onerror = (e) => {
        console.error('SpeechSynthesisUtterance error:', e);
