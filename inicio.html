@@ -1,0 +1,780 @@
+<html class="scroll-smooth" lang="pt-BR">
+ <head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Justiça Digital – Inclusão e Cidadania</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+   body {
+    font-family: 'Roboto', Arial, sans-serif;
+   }
+   /* Highlight style for currently read text */
+   .tts-highlight {
+    background-color: rgba(191, 219, 254, 0.5); /* blue-200 with opacity */
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+   }
+   /* Floating control panel scrollbar fix */
+   #ttsControlPanel::-webkit-scrollbar {
+    width: 6px;
+   }
+   #ttsControlPanel::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 116, 139, 0.5);
+    border-radius: 3px;
+   }
+  </style>
+ </head>
+ <body class="bg-white text-gray-700 min-h-screen flex flex-col relative">
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+   <div class="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
+    <i aria-hidden="true" class="fas fa-gavel text-blue-600 text-2xl"></i>
+    <nav>
+     <ul class="flex space-x-8 text-blue-600 font-medium text-base">
+      <li>
+       <a
+        class="transition-colors duration-200 hover:text-blue-500 focus:outline-none focus:text-blue-500"
+        href="#inicio"
+        tabindex="0"
+        >Início</a
+       >
+      </li>
+      <li>
+       <a
+        class="transition-colors duration-200 hover:text-blue-500 focus:outline-none focus:text-blue-500"
+        href="#oficinas"
+        tabindex="0"
+        >Oficinas</a
+       >
+      </li>
+      <li>
+       <a
+        class="transition-colors duration-200 hover:text-blue-500 focus:outline-none focus:text-blue-500"
+        href="#tutoriais"
+        tabindex="0"
+        >Tutoriais</a
+       >
+      </li>
+      <li>
+       <a
+        class="transition-colors duration-200 hover:outline-none focus:text-blue-500"
+        href="#contato"
+        tabindex="0"
+        >Contato</a
+       >
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+
+  <!-- Main content wrapper with padding top to offset fixed header -->
+  <main class="flex-grow max-w-4xl mx-auto px-6 pt-20 pb-20 w-full">
+   <!-- Welcome Section -->
+   <section class="text-center mb-16" id="inicio">
+    <h2 class="text-3xl font-semibold text-blue-600 mb-4 leading-tight">
+     Bem-vindo ao Justiça Digital
+    </h2>
+    <p class="max-w-xl mx-auto text-base leading-relaxed">
+     Aqui você aprende a acessar seus direitos digitais de forma simples,
+     gratuita e acessível.
+    </p>
+    <div
+     class="flex flex-col sm:flex-row justify-center gap-6 mt-8 max-w-md mx-auto"
+    >
+     <a
+      aria-label="Participar das Oficinas"
+      class="bg-blue-600 hover:bg-blue-500 focus:bg-blue-500 text-white font-semibold rounded-md py-3 px-8 transition-colors duration-200 text-center shadow-sm"
+      href="#oficinas"
+      role="button"
+      tabindex="0"
+      >Participar das Oficinas</a
+     >
+     <a
+      aria-label="Ver Tutoriais"
+      class="bg-blue-100 hover:bg-blue-200 focus:bg-blue-200 text-blue-600 font-semibold rounded-md py-3 px-8 transition-colors duration-200 text-center shadow-sm"
+      href="#tutoriais"
+      role="button"
+      tabindex="0"
+      >Ver Tutoriais</a
+     >
+    </div>
+   </section>
+
+   <!-- Content Blocks 2x2 grid -->
+   <section
+    aria-label="Blocos de serviços"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16"
+    id="oficinas"
+   >
+    <article
+     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
+     tabindex="0"
+    >
+     <div class="flex items-center mb-4 text-blue-600">
+      <i
+       aria-hidden="true"
+       class="fas fa-id-card-alt text-3xl mr-4 flex-shrink-0"
+      ></i>
+      <h3 class="text-xl font-semibold leading-snug">Emitir Documentos Online</h3>
+     </div>
+     <p class="text-base leading-relaxed">
+      RG, carteira de trabalho digital, CPF, etc.
+     </p>
+    </article>
+    <article
+     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
+     tabindex="0"
+    >
+     <div class="flex items-center mb-4 text-blue-600">
+      <i
+       aria-hidden="true"
+       class="fas fa-hand-holding-usd text-3xl mr-4 flex-shrink-0"
+      ></i>
+      <h3 class="text-xl font-semibold leading-snug">Acessar Benefícios Sociais</h3>
+     </div>
+     <p class="text-base leading-relaxed">
+      Bolsa Família, INSS, Auxílio Emergencial, etc.
+     </p>
+    </article>
+    <article
+     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
+     tabindex="0"
+    >
+     <div class="flex items-center mb-4 text-blue-600">
+      <i
+       aria-hidden="true"
+       class="fas fa-balance-scale text-3xl mr-4 flex-shrink-0"
+      ></i>
+      <h3 class="text-xl font-semibold leading-snug">Acompanhar Processos Jurídicos</h3>
+     </div>
+     <p class="text-base leading-relaxed">Sites de tribunais, defensoria, gov.br.</p>
+    </article>
+    <article
+     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
+     tabindex="0"
+    >
+     <div class="flex items-center mb-4 text-blue-600">
+      <i
+       aria-hidden="true"
+       class="fas fa-phone-volume text-3xl mr-4 flex-shrink-0"
+      ></i>
+      <h3 class="text-xl font-semibold leading-snug">Falar com a Defensoria Pública</h3>
+     </div>
+     <p class="text-base leading-relaxed mb-3">
+      Orientações + link direto para contato.
+     </p>
+     <a
+      aria-label="Contato direto com a Defensoria Pública"
+      class="text-blue-600 hover:text-blue-500 font-semibold text-sm focus:outline-none focus:underline transition-colors duration-200"
+      href="#contato"
+      tabindex="0"
+      >Entrar em contato</a
+     >
+    </article>
+   </section>
+
+   <!-- Tutorials Section -->
+   <section aria-label="Tutoriais" class="mb-16" id="tutoriais">
+    <h2
+     class="text-2xl font-semibold text-blue-600 mb-6 text-center leading-tight"
+    >
+     Tutoriais
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+     <article
+      class="bg-gray-50 rounded-md shadow-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      tabindex="0"
+     >
+      <div class="relative w-full" style="padding-top: 56.25%">
+       <img
+        alt="Pessoa usando computador para acessar serviços digitais, tutorial 1"
+        class="absolute top-0 left-0 w-full h-full object-cover rounded-md"
+        height="338"
+        loading="lazy"
+        src="https://storage.googleapis.com/a1aa/image/7607e967-8e5f-42bd-9797-de1739e6fe95.jpg"
+        width="600"
+       />
+      </div>
+      <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-1 leading-snug">
+       Como emitir RG digital
+      </h3>
+      <p class="text-base leading-relaxed">
+       Passo a passo para emitir seu RG pela internet.
+      </p>
+     </article>
+     <article
+      class="bg-gray-50 rounded-md shadow-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      tabindex="0"
+     >
+      <div class="relative w-full" style="padding-top: 56.25%">
+       <img
+        alt="Smartphone com aplicativo de benefícios sociais aberto, tutorial 2"
+        class="absolute top-0 left-0 w-full h-full object-cover rounded-md"
+        height="338"
+        loading="lazy"
+        src="https://storage.googleapis.com/a1aa/image/2d3a2eb7-84f7-43d0-cdb1-479b6ebfb12f.jpg"
+        width="600"
+       />
+      </div>
+      <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-1 leading-snug">
+       Acessar benefícios sociais
+      </h3>
+      <p class="text-base leading-relaxed">
+       Como consultar e solicitar benefícios online.
+      </p>
+     </article>
+     <article
+      class="bg-gray-50 rounded-md shadow-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      tabindex="0"
+     >
+      <div class="relative w-full" style="padding-top: 56.25%">
+       <img
+        alt="Tela de computador com processo jurídico aberto, tutorial 3"
+        class="absolute top-0 left-0 w-full h-full object-cover rounded-md"
+        height="338"
+        loading="lazy"
+        src="https://storage.googleapis.com/a1aa/image/c2789d08-741f-45c4-b0b8-27900ed65e0e.jpg"
+        width="600"
+       />
+      </div>
+      <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-1 leading-snug">
+       Acompanhar processos jurídicos
+      </h3>
+      <p class="text-base leading-relaxed">
+       Dicas para acompanhar seus processos pela internet.
+      </p>
+     </article>
+    </div>
+   </section>
+
+   <!-- Contact Section -->
+   <section aria-label="Contato" class="max-w-md mx-auto" id="contato">
+    <h2
+     class="text-2xl font-semibold text-blue-600 mb-6 text-center leading-tight"
+    >
+     Contato
+    </h2>
+    <div class="flex flex-col space-y-5">
+     <a
+      aria-label="Entrar em contato via WhatsApp"
+      class="flex items-center justify-center gap-3 bg-blue-50 text-blue-700 font-semibold rounded-md py-3 px-6 hover:bg-blue-100 focus:bg-blue-100 focus:outline-none transition-colors duration-200 shadow-sm"
+      href="https://wa.me/5511999999999"
+      rel="noopener noreferrer"
+      tabindex="0"
+      target="_blank"
+     >
+      <i class="fab fa-whatsapp text-xl"></i>
+      <span>WhatsApp</span>
+     </a>
+     <a
+      aria-label="Enviar email para contato@justicadigital.gov.br"
+      class="flex items-center justify-center gap-3 bg-blue-50 text-blue-700 font-semibold rounded-md py-3 px-6 hover:bg-blue-100 focus:bg-blue-100 focus:outline-none transition-colors duration-200 shadow-sm"
+      href="mailto:contato@justicadigital.gov.br"
+      tabindex="0"
+     >
+      <i class="fas fa-envelope text-lg"></i>
+      <span>Email</span>
+     </a>
+     <a
+      aria-label="Ligar para (11) 99999-9999"
+      class="flex items-center justify-center gap-3 bg-blue-50 text-blue-700 font-semibold rounded-md py-3 px-6 hover:bg-blue-100 focus:bg-blue-100 focus:outline-none transition-colors duration-200 shadow-sm"
+      href="tel:+5511999999999"
+      tabindex="0"
+     >
+      <i class="fas fa-phone-alt text-lg"></i>
+      <span>Telefone</span>
+     </a>
+    </div>
+   </section>
+  </main>
+
+  <!-- Floating Accessibility Voice Button -->
+  <button
+   id="ttsToggleBtn"
+   aria-label="Ler em voz alta"
+   title="Ler em voz alta"
+   class="fixed bottom-20 right-6 bg-blue-600 hover:bg-red-400 focus:bg-red-400 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-md z-50 focus:outline-none transition-colors duration-300"
+   type="button"
+  >
+   <i class="fas fa-microphone-alt text-2xl"></i>
+  </button>
+
+  <!-- Floating Contact Button -->
+  <button
+   aria-label="Abrir opções de contato"
+   class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-500 focus:bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-md z-50 focus:outline-none transition-colors duration-200"
+   id="contactToggleBtn"
+   type="button"
+  >
+   <i class="fab fa-whatsapp text-2xl"></i>
+  </button>
+
+  <!-- Contact Card -->
+  <div
+   aria-hidden="true"
+   aria-labelledby="contactCardTitle"
+   aria-modal="true"
+   class="fixed bottom-20 right-6 w-64 bg-white rounded-md shadow-md p-4 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300 z-50"
+   id="contactCard"
+   role="dialog"
+  >
+   <h3 class="text-blue-600 font-semibold text-lg mb-3" id="contactCardTitle">
+    Contato
+   </h3>
+   <div class="flex flex-col space-y-4">
+    <a
+     aria-label="Entrar em contato via WhatsApp"
+     class="flex items-center gap-3 text-blue-600 hover:text-blue-500 focus:text-blue-500 font-semibold transition focus:outline-none"
+     href="https://wa.me/5511999999999"
+     rel="noopener noreferrer"
+     tabindex="0"
+     target="_blank"
+    >
+     <i class="fab fa-whatsapp text-2xl"></i>
+     <span>WhatsApp</span>
+    </a>
+    <a
+     aria-label="Enviar email para contato@justicadigital.gov.br"
+     class="flex items-center gap-3 text-blue-600 hover:text-blue-500 focus:text-blue-500 font-semibold transition focus:outline-none"
+     href="mailto:contato@justicadigital.gov.br"
+     tabindex="0"
+    >
+     <i class="fas fa-envelope text-xl"></i>
+     <span>Email</span>
+    </a>
+    <a
+     aria-label="Ligar para (11) 99999-9999"
+     class="flex items-center gap-3 text-blue-600 hover:text-blue-500 focus:text-blue-500 font-semibold transition focus:outline-none"
+     href="tel:+5511999999999"
+     tabindex="0"
+    >
+     <i class="fas fa-phone-alt text-xl"></i>
+     <span>Telefone</span>
+    </a>
+   </div>
+  </div>
+
+  <!-- Floating TTS Control Panel -->
+  <div
+   id="ttsControlPanel"
+   aria-label="Controle de leitura em voz alta"
+   class="fixed bottom-6 left-6 w-72 bg-white rounded-md shadow-md p-4 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300 z-50 flex flex-col space-y-4"
+   role="region"
+  >
+   <div class="flex justify-between items-center">
+    <h4 class="text-blue-600 font-semibold text-lg">Leitura em voz alta</h4>
+    <button
+     id="ttsCloseBtn"
+     aria-label="Fechar controle de leitura"
+     class="text-gray-500 hover:text-gray-700 focus:outline-none"
+     type="button"
+    >
+     <i class="fas fa-times"></i>
+    </button>
+   </div>
+   <div class="flex justify-around items-center text-blue-600">
+    <button
+     id="ttsPlayPauseBtn"
+     aria-label="Reproduzir ou pausar leitura"
+     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
+     type="button"
+    >
+     <i class="fas fa-play" id="ttsPlayPauseIcon"></i>
+    </button>
+    <button
+     id="ttsStopBtn"
+     aria-label="Parar leitura"
+     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
+     type="button"
+    >
+     <i class="fas fa-stop"></i>
+    </button>
+    <button
+     id="ttsNextBtn"
+     aria-label="Pular para próximo parágrafo"
+     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
+     type="button"
+    >
+     <i class="fas fa-forward"></i>
+    </button>
+    <button
+     id="ttsSettingsBtn"
+     aria-label="Abrir configurações de voz"
+     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
+     type="button"
+    >
+     <i class="fas fa-cog"></i>
+    </button>
+   </div>
+   <div id="ttsSettingsPanel" class="hidden flex flex-col space-y-3">
+    <label class="flex flex-col text-sm text-gray-700" for="ttsRate">
+     Velocidade: <span id="ttsRateValue">1</span>
+     <input
+      id="ttsRate"
+      type="range"
+      min="0.5"
+      max="2"
+      step="0.1"
+      value="1"
+      class="mt-1"
+     />
+    </label>
+    <label class="flex flex-col text-sm text-gray-700" for="ttsPitch">
+     Tom: <span id="ttsPitchValue">1</span>
+     <input
+      id="ttsPitch"
+      type="range"
+      min="0"
+      max="2"
+      step="0.1"
+      value="1"
+      class="mt-1"
+     />
+    </label>
+    <label class="flex flex-col text-sm text-gray-700" for="ttsVoiceSelect">
+     Voz:
+     <select id="ttsVoiceSelect" class="mt-1 rounded border border-gray-300 p-1">
+      <!-- Options populated by JS -->
+     </select>
+    </label>
+   </div>
+  </div>
+
+  <script>
+   // Contact card toggle
+   const toggleBtn = document.getElementById('contactToggleBtn');
+   const contactCard = document.getElementById('contactCard');
+   let contactOpen = false;
+
+   toggleBtn.addEventListener('click', () => {
+    contactOpen = !contactOpen;
+    if (contactOpen) {
+     contactCard.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+     contactCard.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+     contactCard.setAttribute('aria-hidden', 'false');
+     toggleBtn.setAttribute('aria-expanded', 'true');
+    } else {
+     contactCard.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+     contactCard.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+     contactCard.setAttribute('aria-hidden', 'true');
+     toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+   });
+
+   document.addEventListener('click', (e) => {
+    if (
+     contactOpen &&
+     !contactCard.contains(e.target) &&
+     !toggleBtn.contains(e.target)
+    ) {
+     contactOpen = false;
+     contactCard.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+     contactCard.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+     contactCard.setAttribute('aria-hidden', 'true');
+     toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+   });
+
+   document.addEventListener('keydown', (e) => {
+    if (contactOpen && e.key === 'Escape') {
+     contactOpen = false;
+     contactCard.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+     contactCard.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+     contactCard.setAttribute('aria-hidden', 'true');
+     toggleBtn.setAttribute('aria-expanded', 'false');
+     toggleBtn.focus();
+    }
+   });
+
+   // TTS (Text-to-Speech) Implementation with full control panel
+   const ttsToggleBtn = document.getElementById('ttsToggleBtn');
+   const ttsControlPanel = document.getElementById('ttsControlPanel');
+   const ttsCloseBtn = document.getElementById('ttsCloseBtn');
+   const ttsPlayPauseBtn = document.getElementById('ttsPlayPauseBtn');
+   const ttsStopBtn = document.getElementById('ttsStopBtn');
+   const ttsNextBtn = document.getElementById('ttsNextBtn');
+   const ttsSettingsBtn = document.getElementById('ttsSettingsBtn');
+   const ttsSettingsPanel = document.getElementById('ttsSettingsPanel');
+   const ttsRateInput = document.getElementById('ttsRate');
+   const ttsPitchInput = document.getElementById('ttsPitch');
+   const ttsVoiceSelect = document.getElementById('ttsVoiceSelect');
+   const ttsRateValue = document.getElementById('ttsRateValue');
+   const ttsPitchValue = document.getElementById('ttsPitchValue');
+   const ttsPlayPauseIcon = document.getElementById('ttsPlayPauseIcon');
+
+   let synth = window.speechSynthesis;
+   let voices = [];
+   let paragraphs = [];
+   let currentIndex = 0;
+   let isPlaying = false;
+   let isPaused = false;
+   let isTTSActive = false;
+   let lastHighlighted = null;
+   let currentUtterance = null;
+
+   // Load voices and populate select
+   function loadVoices() {
+    voices = synth.getVoices().filter((v) => v.lang.startsWith('pt'));
+    if (voices.length === 0) {
+     voices = synth.getVoices();
+    }
+    ttsVoiceSelect.innerHTML = '';
+    voices.forEach((voice, i) => {
+     const option = document.createElement('option');
+     option.value = i;
+     option.textContent = voice.name + (voice.lang ? ` (${voice.lang})` : '');
+     ttsVoiceSelect.appendChild(option);
+    });
+   }
+
+   if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = loadVoices;
+   } else {
+    loadVoices();
+   }
+
+   // Prepare paragraphs for reading
+   function prepareParagraphs() {
+    const selector =
+     'p, h1, h2, h3, h4, h5, h6, li, article, section, div';
+    const allElements = Array.from(document.querySelectorAll(selector)).filter(
+     (el) =>
+      el.offsetParent !== null && // visible
+      el.textContent.trim().length > 0 &&
+      !ttsControlPanel.contains(el) &&
+      !contactCard.contains(el) &&
+      el !== ttsToggleBtn &&
+      el !== toggleBtn
+    );
+    return allElements;
+   }
+
+   // Clear highlight
+   function clearHighlight() {
+    if (lastHighlighted) {
+     lastHighlighted.classList.remove('tts-highlight');
+     lastHighlighted = null;
+    }
+   }
+
+   // Highlight current paragraph
+   function highlightParagraph(index) {
+    clearHighlight();
+    if (paragraphs[index]) {
+     paragraphs[index].classList.add('tts-highlight');
+     paragraphs[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+     lastHighlighted = paragraphs[index];
+    }
+   }
+
+   // Speak text with current settings
+   function speakText(text, onEndCallback) {
+    if (synth.speaking) {
+     synth.cancel();
+    }
+    currentUtterance = new SpeechSynthesisUtterance(text);
+    currentUtterance.lang = 'pt-BR';
+    currentUtterance.rate = parseFloat(ttsRateInput.value);
+    currentUtterance.pitch = parseFloat(ttsPitchInput.value);
+    const selectedVoiceIndex = parseInt(ttsVoiceSelect.value, 10);
+    if (voices[selectedVoiceIndex]) {
+     currentUtterance.voice = voices[selectedVoiceIndex];
+    }
+    currentUtterance.onend = () => {
+     onEndCallback && onEndCallback();
+    };
+    currentUtterance.onerror = () => {
+     onEndCallback && onEndCallback();
+    };
+    synth.speak(currentUtterance);
+   }
+
+   // Read all paragraphs from currentIndex
+   function readAllFromIndex(index) {
+    if (index >= paragraphs.length) {
+     stopReading();
+     return;
+    }
+    currentIndex = index;
+    isPlaying = true;
+    isPaused = false;
+    ttsPlayPauseIcon.className = 'fas fa-pause';
+    highlightParagraph(currentIndex);
+    speakText(paragraphs[currentIndex].textContent, () => {
+     if (!isPaused) {
+      currentIndex++;
+      readAllFromIndex(currentIndex);
+     }
+    });
+   }
+
+   // Stop reading
+   function stopReading() {
+    if (synth.speaking) {
+     synth.cancel();
+    }
+    isPlaying = false;
+    isPaused = false;
+    currentIndex = 0;
+    clearHighlight();
+    ttsPlayPauseIcon.className = 'fas fa-play';
+    hideControlPanel();
+    isTTSActive = false;
+    ttsToggleBtn.classList.remove('hover:bg-red-400', 'focus:bg-red-400');
+   }
+
+   // Pause reading
+   function pauseReading() {
+    if (synth.speaking) {
+     synth.pause();
+     isPaused = true;
+     isPlaying = false;
+     ttsPlayPauseIcon.className = 'fas fa-play';
+    }
+   }
+
+   // Resume reading
+   function resumeReading() {
+    if (synth.paused) {
+     synth.resume();
+     isPaused = false;
+     isPlaying = true;
+     ttsPlayPauseIcon.className = 'fas fa-pause';
+    }
+   }
+
+   // Toggle play/pause
+   function togglePlayPause() {
+    if (!isPlaying && !isPaused) {
+     readAllFromIndex(currentIndex);
+    } else if (isPlaying) {
+     pauseReading();
+    } else if (isPaused) {
+     resumeReading();
+    }
+   }
+
+   // Skip to next paragraph
+   function skipNext() {
+    if (currentIndex + 1 < paragraphs.length) {
+     if (synth.speaking) {
+      synth.cancel();
+     }
+     currentIndex++;
+     readAllFromIndex(currentIndex);
+    } else {
+     stopReading();
+    }
+   }
+
+   // Show/hide control panel
+   function showControlPanel() {
+    ttsControlPanel.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+    ttsControlPanel.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+    ttsControlPanel.setAttribute('aria-hidden', 'false');
+   }
+   function hideControlPanel() {
+    ttsControlPanel.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+    ttsControlPanel.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+    ttsControlPanel.setAttribute('aria-hidden', 'true');
+   }
+
+   // Read intro text on first activation
+   function readIntroText() {
+    const introText =
+     'Olá, este é o recurso de leitura em voz alta. Para ouvir, clique no texto que deseja. O que você clicar será lido para você.';
+    speakText(introText, () => {
+     // After intro, prepare paragraphs for reading all
+     paragraphs = prepareParagraphs();
+    });
+   }
+
+   // TTS toggle button click
+   ttsToggleBtn.addEventListener('click', () => {
+    if (!isTTSActive) {
+     isTTSActive = true;
+     ttsToggleBtn.classList.add('hover:bg-red-400', 'focus:bg-red-400');
+     readIntroText();
+     showControlPanel();
+    } else {
+     stopReading();
+    }
+   });
+
+   // Play/pause button
+   ttsPlayPauseBtn.addEventListener('click', () => {
+    togglePlayPause();
+   });
+
+   // Stop button
+   ttsStopBtn.addEventListener('click', () => {
+    stopReading();
+   });
+
+   // Next button
+   ttsNextBtn.addEventListener('click', () => {
+    skipNext();
+   });
+
+   // Settings toggle
+   ttsSettingsBtn.addEventListener('click', () => {
+    if (ttsSettingsPanel.classList.contains('hidden')) {
+     ttsSettingsPanel.classList.remove('hidden');
+    } else {
+     ttsSettingsPanel.classList.add('hidden');
+    }
+   });
+
+   // Update rate and pitch display
+   ttsRateInput.addEventListener('input', () => {
+    ttsRateValue.textContent = ttsRateInput.value;
+   });
+   ttsPitchInput.addEventListener('input', () => {
+    ttsPitchValue.textContent = ttsPitchInput.value;
+   });
+
+   // Close control panel button
+   ttsCloseBtn.addEventListener('click', () => {
+    stopReading();
+   });
+
+   // Click on any text to read only that text when TTS active
+   document.body.addEventListener('click', (e) => {
+    if (!isTTSActive) return;
+
+    // Ignore clicks on buttons, links, inputs, selects, textareas, and the TTS/contact buttons and control panel
+    if (
+     e.target.closest(
+      'button, a, input, select, textarea, #ttsToggleBtn, #contactToggleBtn, #contactCard, #ttsControlPanel'
+     )
+    )
+     return;
+
+    const el = e.target.closest(
+     'p, h1, h2, h3, h4, h5, h6, li, article, section, div'
+    );
+    if (el && el.textContent.trim().length > 0) {
+     e.preventDefault();
+     if (synth.speaking) {
+      synth.cancel();
+     }
+     clearHighlight();
+     el.classList.add('tts-highlight');
+     lastHighlighted = el;
+     speakText(el.textContent);
+    }
+   });
+
+   // Stop speech and clear highlight on Escape key
+   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isTTSActive) {
+     stopReading();
+     ttsToggleBtn.focus();
+    }
+   });
+  </script>
+ </body>
+</html>
