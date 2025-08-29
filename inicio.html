@@ -1,14 +1,17 @@
 <html class="scroll-smooth" lang="pt-BR">
  <head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <title>Justiça Digital – Inclusão e Cidadania</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Justiça Digital – Inclusão e Cidadania
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <style>
    body {
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
    }
    /* Highlight style for currently read text */
    .tts-highlight {
@@ -24,425 +27,427 @@
     background-color: rgba(100, 116, 139, 0.5);
     border-radius: 3px;
    }
+   /* Subtle letter spacing for headings */
+   h2, h3, h4 {
+    letter-spacing: 0.03em;
+   }
+   /* Highlight keywords in text */
+   .highlight-keyword {
+    color: #22d3ee; /* cyan-400 */
+    font-weight: 600;
+   }
+   /* Buttons with smooth rounded corners and subtle transitions */
+   .btn-primary {
+    background-color: #22d3ee; /* cyan-400 */
+    color: #1e293b; /* slate-800 */
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+   }
+   .btn-primary:hover,
+   .btn-primary:focus {
+    background-color: #0e7490; /* cyan-700 */
+    color: #f1f5f9; /* slate-100 */
+    outline: none;
+   }
+   .btn-secondary {
+    background-color: #bae6fd; /* sky-300 */
+    color: #0c4a6e; /* sky-900 */
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+   }
+   .btn-secondary:hover,
+   .btn-secondary:focus {
+    background-color: #7dd3fc; /* sky-400 */
+    color: #0c4a6e; /* sky-900 */
+    outline: none;
+   }
+   /* Icon container with flat style */
+   .icon-flat {
+    background-color: #e0f2fe; /* sky-100 */
+    color: #0284c7; /* sky-600 */
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+   }
+   .icon-flat:hover,
+   .icon-flat:focus {
+    background-color: #bae6fd; /* sky-300 */
+    outline: none;
+   }
+   /* Card shadows and spacing */
+   .card {
+    background-color: #f8fafc; /* gray-50 */
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+   }
+   .card:hover,
+   .card:focus-within {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+    outline: none;
+   }
+   /* Section spacing */
+   section {
+    margin-bottom: 4.5rem;
+   }
+   /* Responsive grid for modular layout */
+   .grid-3-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+   }
+   @media (min-width: 640px) {
+    .grid-3-cols {
+     grid-template-columns: repeat(3, 1fr);
+    }
+   }
+   /* Responsive grid for 2 columns */
+   .grid-2-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+   }
+   @media (min-width: 640px) {
+    .grid-2-cols {
+     grid-template-columns: repeat(2, 1fr);
+    }
+   }
+   /* Larger spacing between main sections */
+   main > section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+   }
+   /* Button container spacing */
+   .btn-group > *:not(:last-child) {
+    margin-bottom: 1rem;
+   }
+   @media (min-width: 640px) {
+    .btn-group {
+     display: flex;
+     gap: 1.5rem;
+    }
+    .btn-group > *:not(:last-child) {
+     margin-bottom: 0;
+    }
+   }
   </style>
  </head>
- <body class="bg-white text-gray-700 min-h-screen flex flex-col relative">
+ <body class="bg-white text-slate-800 min-h-screen flex flex-col relative">
   <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+  <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
-    <i aria-hidden="true" class="fas fa-gavel text-blue-600 text-2xl"></i>
+    <i aria-hidden="true" class="fas fa-gavel text-cyan-600 text-3xl" title="Ícone de martelo da justiça">
+    </i>
     <nav>
-     <ul class="flex space-x-8 text-blue-600 font-medium text-base">
+     <ul class="flex space-x-10 font-semibold text-base tracking-wide">
       <li>
-       <a
-        class="transition-colors duration-200 hover:text-blue-500 focus:outline-none focus:text-blue-500"
-        href="#inicio"
-        tabindex="0"
-        >Início</a
-       >
+       <a class="transition-colors duration-200 hover:text-cyan-500 focus:outline-none focus:text-cyan-500" href="#inicio" tabindex="0">
+        <span class="highlight-keyword">
+         Início
+        </span>
+       </a>
       </li>
       <li>
-       <a
-        class="transition-colors duration-200 hover:text-blue-500 focus:outline-none focus:text-blue-500"
-        href="#oficinas"
-        tabindex="0"
-        >Oficinas</a
-       >
+       <a class="transition-colors duration-200 hover:text-cyan-500 focus:outline-none focus:text-cyan-500" href="#oficinas" tabindex="0">
+        <span class="highlight-keyword">
+         Oficinas
+        </span>
+       </a>
       </li>
       <li>
-       <a
-        class="transition-colors duration-200 hover:text-blue-500 focus:outline-none focus:text-blue-500"
-        href="#tutoriais"
-        tabindex="0"
-        >Tutoriais</a
-       >
+       <a class="transition-colors duration-200 hover:text-cyan-500 focus:outline-none focus:text-cyan-500" href="#tutoriais" tabindex="0">
+        <span class="highlight-keyword">
+         Tutoriais
+        </span>
+       </a>
       </li>
       <li>
-       <a
-        class="transition-colors duration-200 hover:outline-none focus:text-blue-500"
-        href="#contato"
-        tabindex="0"
-        >Contato</a
-       >
+       <a class="transition-colors duration-200 hover:text-cyan-500 focus:outline-none focus:text-cyan-500" href="#contato" tabindex="0">
+        <span class="highlight-keyword">
+         Contato
+        </span>
+       </a>
       </li>
      </ul>
     </nav>
    </div>
   </header>
-
   <!-- Main content wrapper with padding top to offset fixed header -->
-  <main class="flex-grow max-w-4xl mx-auto px-6 pt-20 pb-20 w-full">
-   <!-- Welcome Section -->
-   <section class="text-center mb-16" id="inicio">
-    <h2 class="text-3xl font-semibold text-blue-600 mb-4 leading-tight">
-     Bem-vindo ao Justiça Digital
+  <main class="flex-grow max-w-5xl mx-auto px-6 pt-24 pb-24 w-full">
+   <!-- Banner Section -->
+   <section class="text-center" id="inicio" tabindex="0">
+    <h2 class="text-4xl font-semibold text-cyan-600 mb-6 leading-tight tracking-wide">
+     Bem-vindo ao
+     <span class="highlight-keyword">
+      Justiça Digital
+     </span>
     </h2>
-    <p class="max-w-xl mx-auto text-base leading-relaxed">
-     Aqui você aprende a acessar seus direitos digitais de forma simples,
-     gratuita e acessível.
+    <p class="max-w-2xl mx-auto text-lg leading-relaxed mb-10">
+     Aprenda a exercer seus direitos digitais com clareza, sem burocracia.
+     <span class="highlight-keyword">
+      Gratuito
+     </span>
+     ,
+     <span class="highlight-keyword">
+      simples
+     </span>
+     e
+     <span class="highlight-keyword">
+      acessível
+     </span>
+     .
     </p>
-    <div
-     class="flex flex-col sm:flex-row justify-center gap-6 mt-8 max-w-md mx-auto"
-    >
-     <a
-      aria-label="Participar das Oficinas"
-      class="bg-blue-600 hover:bg-blue-500 focus:bg-blue-500 text-white font-semibold rounded-md py-3 px-8 transition-colors duration-200 text-center shadow-sm"
-      href="#oficinas"
-      role="button"
-      tabindex="0"
-      >Participar das Oficinas</a
-     >
-     <a
-      aria-label="Ver Tutoriais"
-      class="bg-blue-100 hover:bg-blue-200 focus:bg-blue-200 text-blue-600 font-semibold rounded-md py-3 px-8 transition-colors duration-200 text-center shadow-sm"
-      href="#tutoriais"
-      role="button"
-      tabindex="0"
-      >Ver Tutoriais</a
-     >
+    <div class="btn-group justify-center max-w-md mx-auto">
+     <a aria-label="Participar das Oficinas" class="btn-primary py-3 px-10 shadow-md" href="#oficinas" role="button" tabindex="0">
+      Participe das Oficinas
+     </a>
+     <a aria-label="Ver Tutoriais" class="btn-secondary py-3 px-10 shadow-md" href="#tutoriais" role="button" tabindex="0">
+      Veja os Tutoriais
+     </a>
     </div>
    </section>
-
-   <!-- Content Blocks 2x2 grid -->
-   <section
-    aria-label="Blocos de serviços"
-    class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16"
-    id="oficinas"
-   >
-    <article
-     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
-     tabindex="0"
-    >
-     <div class="flex items-center mb-4 text-blue-600">
-      <i
-       aria-hidden="true"
-       class="fas fa-id-card-alt text-3xl mr-4 flex-shrink-0"
-      ></i>
-      <h3 class="text-xl font-semibold leading-snug">Emitir Documentos Online</h3>
+ 
+   
+   <!-- Oficinas Section -->
+   <section aria-label="Oficinas digitais" class="grid-2-cols max-w-4xl mx-auto" id="oficinas" tabindex="0">
+    <article aria-describedby="docDesc" aria-labelledby="docTitle" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
+     <div class="flex items-center mb-5">
+      <div aria-hidden="true" class="icon-flat mr-4" title="Ícone de documento">
+       <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 12h6m-6 4h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h5l5 5v9a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-cyan-600 tracking-wide" id="docTitle">
+       Emitir Documentos Online
+      </h3>
      </div>
-     <p class="text-base leading-relaxed">
-      RG, carteira de trabalho digital, CPF, etc.
+     <p class="text-base leading-relaxed text-slate-700" id="docDesc">
+      RG, carteira de trabalho digital, CPF e outros documentos oficiais.
      </p>
     </article>
-    <article
-     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
-     tabindex="0"
-    >
-     <div class="flex items-center mb-4 text-blue-600">
-      <i
-       aria-hidden="true"
-       class="fas fa-hand-holding-usd text-3xl mr-4 flex-shrink-0"
-      ></i>
-      <h3 class="text-xl font-semibold leading-snug">Acessar Benefícios Sociais</h3>
+    <article aria-describedby="benefDesc" aria-labelledby="benefTitle" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
+     <div class="flex items-center mb-5">
+      <div aria-hidden="true" class="icon-flat mr-4" title="Ícone de benefícios sociais">
+       <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 8c-1.657 0-3 1.343-3 3v3h6v-3c0-1.657-1.343-3-3-3zM6 19h12v2H6v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-cyan-600 tracking-wide" id="benefTitle">
+       Acessar Benefícios Sociais
+      </h3>
      </div>
-     <p class="text-base leading-relaxed">
-      Bolsa Família, INSS, Auxílio Emergencial, etc.
+     <p class="text-base leading-relaxed text-slate-700" id="benefDesc">
+      Bolsa Família, INSS, Auxílio Emergencial e outros benefícios.
      </p>
     </article>
-    <article
-     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
-     tabindex="0"
-    >
-     <div class="flex items-center mb-4 text-blue-600">
-      <i
-       aria-hidden="true"
-       class="fas fa-balance-scale text-3xl mr-4 flex-shrink-0"
-      ></i>
-      <h3 class="text-xl font-semibold leading-snug">Acompanhar Processos Jurídicos</h3>
+    <article aria-describedby="procDesc" aria-labelledby="procTitle" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
+     <div class="flex items-center mb-5">
+      <div aria-hidden="true" class="icon-flat mr-4" title="Ícone de balança da justiça">
+       <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 10h18M12 3v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-cyan-600 tracking-wide" id="procTitle">
+       Acompanhar Processos Jurídicos
+      </h3>
      </div>
-     <p class="text-base leading-relaxed">Sites de tribunais, defensoria, gov.br.</p>
-    </article>
-    <article
-     class="bg-gray-50 rounded-md shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-blue-300"
-     tabindex="0"
-    >
-     <div class="flex items-center mb-4 text-blue-600">
-      <i
-       aria-hidden="true"
-       class="fas fa-phone-volume text-3xl mr-4 flex-shrink-0"
-      ></i>
-      <h3 class="text-xl font-semibold leading-snug">Falar com a Defensoria Pública</h3>
-     </div>
-     <p class="text-base leading-relaxed mb-3">
-      Orientações + link direto para contato.
+     <p class="text-base leading-relaxed text-slate-700" id="procDesc">
+      Sites de tribunais, defensoria pública e gov.br.
      </p>
-     <a
-      aria-label="Contato direto com a Defensoria Pública"
-      class="text-blue-600 hover:text-blue-500 font-semibold text-sm focus:outline-none focus:underline transition-colors duration-200"
-      href="#contato"
-      tabindex="0"
-      >Entrar em contato</a
-     >
+    </article>
+    <article aria-describedby="defDesc" aria-labelledby="defTitle" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
+     <div class="flex items-center mb-5">
+      <div aria-hidden="true" class="icon-flat mr-4" title="Ícone de telefone">
+       <svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 10h18M12 3v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-cyan-600 tracking-wide" id="defTitle">
+       Fale com a Defensoria Pública
+      </h3>
+     </div>
+     <p class="text-base leading-relaxed text-slate-700 mb-3" id="defDesc">
+      Orientações e contato direto para ajuda imediata.
+     </p>
+     <a aria-label="Contato direto com a Defensoria Pública" class="text-cyan-600 hover:text-cyan-500 font-semibold text-sm focus:outline-none focus:underline transition-colors duration-200" href="#contato" tabindex="0">
+      Entrar em contato
+     </a>
     </article>
    </section>
-
    <!-- Tutorials Section -->
-   <section aria-label="Tutoriais" class="mb-16" id="tutoriais">
-    <h2
-     class="text-2xl font-semibold text-blue-600 mb-6 text-center leading-tight"
-    >
+   <section aria-label="Tutoriais" class="mb-16" id="tutoriais" tabindex="0">
+    <h2 class="text-3xl font-semibold text-cyan-600 mb-8 text-center tracking-wide">
      Tutoriais
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-     <article
-      class="bg-gray-50 rounded-md shadow-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      tabindex="0"
-     >
+    <div class="grid-3-cols max-w-5xl mx-auto">
+     <article aria-describedby="tutorial1Desc" aria-labelledby="tutorial1Title" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
       <div class="relative w-full" style="padding-top: 56.25%">
-       <img
-        alt="Pessoa usando computador para acessar serviços digitais, tutorial 1"
-        class="absolute top-0 left-0 w-full h-full object-cover rounded-md"
-        height="338"
-        loading="lazy"
-        src="https://storage.googleapis.com/a1aa/image/7607e967-8e5f-42bd-9797-de1739e6fe95.jpg"
-        width="600"
-       />
+       <img alt="Pessoa usando computador para acessar serviços digitais, tutorial 1" class="absolute top-0 left-0 w-full h-full object-cover rounded-md" height="338" loading="lazy" src="https://storage.googleapis.com/a1aa/image/c499e1d7-b8bc-46be-e907-8e9dac71793d.jpg" width="600"/>
       </div>
-      <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-1 leading-snug">
+      <h3 class="text-lg font-semibold text-cyan-600 mt-5 mb-2 tracking-wide" id="tutorial1Title">
        Como emitir RG digital
       </h3>
-      <p class="text-base leading-relaxed">
+      <p class="text-base leading-relaxed text-slate-700" id="tutorial1Desc">
        Passo a passo para emitir seu RG pela internet.
       </p>
      </article>
-     <article
-      class="bg-gray-50 rounded-md shadow-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      tabindex="0"
-     >
+     <article aria-describedby="tutorial2Desc" aria-labelledby="tutorial2Title" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
       <div class="relative w-full" style="padding-top: 56.25%">
-       <img
-        alt="Smartphone com aplicativo de benefícios sociais aberto, tutorial 2"
-        class="absolute top-0 left-0 w-full h-full object-cover rounded-md"
-        height="338"
-        loading="lazy"
-        src="https://storage.googleapis.com/a1aa/image/2d3a2eb7-84f7-43d0-cdb1-479b6ebfb12f.jpg"
-        width="600"
-       />
+       <img alt="Smartphone com aplicativo de benefícios sociais aberto, tutorial 2" class="absolute top-0 left-0 w-full h-full object-cover rounded-md" height="338" loading="lazy" src="https://storage.googleapis.com/a1aa/image/5d9bac54-f106-469e-1bfe-2c72faeeddc6.jpg" width="600"/>
       </div>
-      <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-1 leading-snug">
+      <h3 class="text-lg font-semibold text-cyan-600 mt-5 mb-2 tracking-wide" id="tutorial2Title">
        Acessar benefícios sociais
       </h3>
-      <p class="text-base leading-relaxed">
+      <p class="text-base leading-relaxed text-slate-700" id="tutorial2Desc">
        Como consultar e solicitar benefícios online.
       </p>
      </article>
-     <article
-      class="bg-gray-50 rounded-md shadow-sm p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      tabindex="0"
-     >
+     <article aria-describedby="tutorial3Desc" aria-labelledby="tutorial3Title" class="card focus:outline-none focus:ring-4 focus:ring-cyan-300" tabindex="0">
       <div class="relative w-full" style="padding-top: 56.25%">
-       <img
-        alt="Tela de computador com processo jurídico aberto, tutorial 3"
-        class="absolute top-0 left-0 w-full h-full object-cover rounded-md"
-        height="338"
-        loading="lazy"
-        src="https://storage.googleapis.com/a1aa/image/c2789d08-741f-45c4-b0b8-27900ed65e0e.jpg"
-        width="600"
-       />
+       <img alt="Tela de computador com processo jurídico aberto, tutorial 3" class="absolute top-0 left-0 w-full h-full object-cover rounded-md" height="338" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2f5e7070-7c93-445c-a85a-5136c7ec4609.jpg" width="600"/>
       </div>
-      <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-1 leading-snug">
+      <h3 class="text-lg font-semibold text-cyan-600 mt-5 mb-2 tracking-wide" id="tutorial3Title">
        Acompanhar processos jurídicos
       </h3>
-      <p class="text-base leading-relaxed">
+      <p class="text-base leading-relaxed text-slate-700" id="tutorial3Desc">
        Dicas para acompanhar seus processos pela internet.
       </p>
      </article>
     </div>
    </section>
-
    <!-- Contact Section -->
-   <section aria-label="Contato" class="max-w-md mx-auto" id="contato">
-    <h2
-     class="text-2xl font-semibold text-blue-600 mb-6 text-center leading-tight"
-    >
+   <section aria-label="Contato" class="max-w-md mx-auto" id="contato" tabindex="0">
+    <h2 class="text-3xl font-semibold text-cyan-600 mb-8 text-center tracking-wide">
      Contato
     </h2>
-    <div class="flex flex-col space-y-5">
-     <a
-      aria-label="Entrar em contato via WhatsApp"
-      class="flex items-center justify-center gap-3 bg-blue-50 text-blue-700 font-semibold rounded-md py-3 px-6 hover:bg-blue-100 focus:bg-blue-100 focus:outline-none transition-colors duration-200 shadow-sm"
-      href="https://wa.me/5511999999999"
-      rel="noopener noreferrer"
-      tabindex="0"
-      target="_blank"
-     >
-      <i class="fab fa-whatsapp text-xl"></i>
-      <span>WhatsApp</span>
+    <div class="flex flex-col space-y-6">
+     <a aria-label="Entrar em contato via WhatsApp" class="flex items-center justify-center gap-4 btn-secondary py-3 px-6 shadow-md" href="https://wa.me/5511999999999" rel="noopener noreferrer" tabindex="0" target="_blank">
+      <i aria-hidden="true" class="fab fa-whatsapp text-2xl">
+      </i>
+      <span class="font-semibold text-lg">
+       WhatsApp
+      </span>
      </a>
-     <a
-      aria-label="Enviar email para contato@justicadigital.gov.br"
-      class="flex items-center justify-center gap-3 bg-blue-50 text-blue-700 font-semibold rounded-md py-3 px-6 hover:bg-blue-100 focus:bg-blue-100 focus:outline-none transition-colors duration-200 shadow-sm"
-      href="mailto:contato@justicadigital.gov.br"
-      tabindex="0"
-     >
-      <i class="fas fa-envelope text-lg"></i>
-      <span>Email</span>
+     <a aria-label="Enviar email para contato@justicadigital.gov.br" class="flex items-center justify-center gap-4 btn-secondary py-3 px-6 shadow-md" href="mailto:contato@justicadigital.gov.br" tabindex="0">
+      <i aria-hidden="true" class="fas fa-envelope text-xl">
+      </i>
+      <span class="font-semibold text-lg">
+       Email
+      </span>
      </a>
-     <a
-      aria-label="Ligar para (11) 99999-9999"
-      class="flex items-center justify-center gap-3 bg-blue-50 text-blue-700 font-semibold rounded-md py-3 px-6 hover:bg-blue-100 focus:bg-blue-100 focus:outline-none transition-colors duration-200 shadow-sm"
-      href="tel:+5511999999999"
-      tabindex="0"
-     >
-      <i class="fas fa-phone-alt text-lg"></i>
-      <span>Telefone</span>
+     <a aria-label="Ligar para (11) 99999-9999" class="flex items-center justify-center gap-4 btn-secondary py-3 px-6 shadow-md" href="tel:+5511999999999" tabindex="0">
+      <i aria-hidden="true" class="fas fa-phone-alt text-xl">
+      </i>
+      <span class="font-semibold text-lg">
+       Telefone
+      </span>
      </a>
     </div>
    </section>
   </main>
-
   <!-- Floating Accessibility Voice Button -->
-  <button
-   id="ttsToggleBtn"
-   aria-label="Ler em voz alta"
-   title="Ler em voz alta"
-   class="fixed bottom-20 right-6 bg-blue-600 hover:bg-red-400 focus:bg-red-400 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-md z-50 focus:outline-none transition-colors duration-300"
-   type="button"
-  >
-   <i class="fas fa-microphone-alt text-2xl"></i>
+  <button aria-label="Ler em voz alta" class="fixed bottom-20 right-6 bg-cyan-400 hover:bg-cyan-600 focus:bg-cyan-600 text-slate-100 rounded-full w-14 h-14 flex items-center justify-center shadow-md z-50 focus:outline-none transition-colors duration-300" id="ttsToggleBtn" title="Ler em voz alta" type="button">
+   <i class="fas fa-microphone-alt text-2xl">
+   </i>
   </button>
-
   <!-- Floating Contact Button -->
-  <button
-   aria-label="Abrir opções de contato"
-   class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-500 focus:bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-md z-50 focus:outline-none transition-colors duration-200"
-   id="contactToggleBtn"
-   type="button"
-  >
-   <i class="fab fa-whatsapp text-2xl"></i>
+  <button aria-label="Abrir opções de contato" class="fixed bottom-6 right-6 bg-cyan-400 hover:bg-cyan-600 focus:bg-cyan-600 text-slate-100 rounded-full w-14 h-14 flex items-center justify-center shadow-md z-50 focus:outline-none transition-colors duration-200" id="contactToggleBtn" type="button">
+   <i class="fab fa-whatsapp text-2xl">
+   </i>
   </button>
-
   <!-- Contact Card -->
-  <div
-   aria-hidden="true"
-   aria-labelledby="contactCardTitle"
-   aria-modal="true"
-   class="fixed bottom-20 right-6 w-64 bg-white rounded-md shadow-md p-4 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300 z-50"
-   id="contactCard"
-   role="dialog"
-  >
-   <h3 class="text-blue-600 font-semibold text-lg mb-3" id="contactCardTitle">
+  <div aria-hidden="true" aria-labelledby="contactCardTitle" aria-modal="true" class="fixed bottom-20 right-6 w-64 bg-white rounded-lg shadow-lg p-5 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300 z-50" id="contactCard" role="dialog">
+   <h3 class="text-cyan-600 font-semibold text-lg mb-4" id="contactCardTitle">
     Contato
    </h3>
-   <div class="flex flex-col space-y-4">
-    <a
-     aria-label="Entrar em contato via WhatsApp"
-     class="flex items-center gap-3 text-blue-600 hover:text-blue-500 focus:text-blue-500 font-semibold transition focus:outline-none"
-     href="https://wa.me/5511999999999"
-     rel="noopener noreferrer"
-     tabindex="0"
-     target="_blank"
-    >
-     <i class="fab fa-whatsapp text-2xl"></i>
-     <span>WhatsApp</span>
+   <div class="flex flex-col space-y-5">
+    <a aria-label="Entrar em contato via WhatsApp" class="flex items-center gap-4 text-cyan-600 hover:text-cyan-500 focus:text-cyan-500 font-semibold transition focus:outline-none" href="https://wa.me/5511999999999" rel="noopener noreferrer" tabindex="0" target="_blank">
+     <i class="fab fa-whatsapp text-2xl">
+     </i>
+     <span>
+      WhatsApp
+     </span>
     </a>
-    <a
-     aria-label="Enviar email para contato@justicadigital.gov.br"
-     class="flex items-center gap-3 text-blue-600 hover:text-blue-500 focus:text-blue-500 font-semibold transition focus:outline-none"
-     href="mailto:contato@justicadigital.gov.br"
-     tabindex="0"
-    >
-     <i class="fas fa-envelope text-xl"></i>
-     <span>Email</span>
+    <a aria-label="Enviar email para contato@justicadigital.gov.br" class="flex items-center gap-4 text-cyan-600 hover:text-cyan-500 focus:text-cyan-500 font-semibold transition focus:outline-none" href="mailto:contato@justicadigital.gov.br" tabindex="0">
+     <i class="fas fa-envelope text-xl">
+     </i>
+     <span>
+      Email
+     </span>
     </a>
-    <a
-     aria-label="Ligar para (11) 99999-9999"
-     class="flex items-center gap-3 text-blue-600 hover:text-blue-500 focus:text-blue-500 font-semibold transition focus:outline-none"
-     href="tel:+5511999999999"
-     tabindex="0"
-    >
-     <i class="fas fa-phone-alt text-xl"></i>
-     <span>Telefone</span>
+    <a aria-label="Ligar para (11) 99999-9999" class="flex items-center gap-4 text-cyan-600 hover:text-cyan-500 focus:text-cyan-500 font-semibold transition focus:outline-none" href="tel:+5511999999999" tabindex="0">
+     <i class="fas fa-phone-alt text-xl">
+     </i>
+     <span>
+      Telefone
+     </span>
     </a>
    </div>
   </div>
-
   <!-- Floating TTS Control Panel -->
-  <div
-   id="ttsControlPanel"
-   aria-label="Controle de leitura em voz alta"
-   class="fixed bottom-6 left-6 w-72 bg-white rounded-md shadow-md p-4 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300 z-50 flex flex-col space-y-4"
-   role="region"
-  >
+  <div aria-label="Controle de leitura em voz alta" class="fixed bottom-6 left-6 w-72 bg-white rounded-lg shadow-lg p-5 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300 z-50 flex flex-col space-y-5" id="ttsControlPanel" role="region">
    <div class="flex justify-between items-center">
-    <h4 class="text-blue-600 font-semibold text-lg">Leitura em voz alta</h4>
-    <button
-     id="ttsCloseBtn"
-     aria-label="Fechar controle de leitura"
-     class="text-gray-500 hover:text-gray-700 focus:outline-none"
-     type="button"
-    >
-     <i class="fas fa-times"></i>
+    <h4 class="text-cyan-600 font-semibold text-lg">
+     Leitura em voz alta
+    </h4>
+    <button aria-label="Fechar controle de leitura" class="text-gray-500 hover:text-gray-700 focus:outline-none" id="ttsCloseBtn" type="button">
+     <i class="fas fa-times">
+     </i>
     </button>
    </div>
-   <div class="flex justify-around items-center text-blue-600">
-    <button
-     id="ttsPlayPauseBtn"
-     aria-label="Reproduzir ou pausar leitura"
-     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
-     type="button"
-    >
-     <i class="fas fa-play" id="ttsPlayPauseIcon"></i>
+   <div class="flex justify-around items-center text-cyan-600">
+    <button aria-label="Reproduzir ou pausar leitura" class="focus:outline-none hover:text-cyan-500 transition-colors duration-200" id="ttsPlayPauseBtn" type="button">
+     <i class="fas fa-play" id="ttsPlayPauseIcon">
+     </i>
     </button>
-    <button
-     id="ttsStopBtn"
-     aria-label="Parar leitura"
-     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
-     type="button"
-    >
-     <i class="fas fa-stop"></i>
+    <button aria-label="Parar leitura" class="focus:outline-none hover:text-cyan-500 transition-colors duration-200" id="ttsStopBtn" type="button">
+     <i class="fas fa-stop">
+     </i>
     </button>
-    <button
-     id="ttsNextBtn"
-     aria-label="Pular para próximo parágrafo"
-     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
-     type="button"
-    >
-     <i class="fas fa-forward"></i>
+    <button aria-label="Pular para próximo parágrafo" class="focus:outline-none hover:text-cyan-500 transition-colors duration-200" id="ttsNextBtn" type="button">
+     <i class="fas fa-forward">
+     </i>
     </button>
-    <button
-     id="ttsSettingsBtn"
-     aria-label="Abrir configurações de voz"
-     class="focus:outline-none hover:text-blue-500 transition-colors duration-200"
-     type="button"
-    >
-     <i class="fas fa-cog"></i>
+    <button aria-label="Abrir configurações de voz" class="focus:outline-none hover:text-cyan-500 transition-colors duration-200" id="ttsSettingsBtn" type="button">
+     <i class="fas fa-cog">
+     </i>
     </button>
    </div>
-   <div id="ttsSettingsPanel" class="hidden flex flex-col space-y-3">
-    <label class="flex flex-col text-sm text-gray-700" for="ttsRate">
-     Velocidade: <span id="ttsRateValue">1</span>
-     <input
-      id="ttsRate"
-      type="range"
-      min="0.5"
-      max="2"
-      step="0.1"
-      value="1"
-      class="mt-1"
-     />
+   <div class="hidden flex flex-col space-y-4" id="ttsSettingsPanel">
+    <label class="flex flex-col text-sm text-slate-700" for="ttsRate">
+     Velocidade:
+     <span id="ttsRateValue">
+      1
+     </span>
+     <input class="mt-1" id="ttsRate" max="2" min="0.5" step="0.1" type="range" value="1"/>
     </label>
-    <label class="flex flex-col text-sm text-gray-700" for="ttsPitch">
-     Tom: <span id="ttsPitchValue">1</span>
-     <input
-      id="ttsPitch"
-      type="range"
-      min="0"
-      max="2"
-      step="0.1"
-      value="1"
-      class="mt-1"
-     />
+    <label class="flex flex-col text-sm text-slate-700" for="ttsPitch">
+     Tom:
+     <span id="ttsPitchValue">
+      1
+     </span>
+     <input class="mt-1" id="ttsPitch" max="2" min="0" step="0.1" type="range" value="1"/>
     </label>
-    <label class="flex flex-col text-sm text-gray-700" for="ttsVoiceSelect">
+    <label class="flex flex-col text-sm text-slate-700" for="ttsVoiceSelect">
      Voz:
-     <select id="ttsVoiceSelect" class="mt-1 rounded border border-gray-300 p-1">
-      <!-- Options populated by JS -->
+     <select class="mt-1 rounded border border-gray-300 p-1" id="ttsVoiceSelect">
      </select>
     </label>
    </div>
   </div>
-
   <script>
    // Contact card toggle
    const toggleBtn = document.getElementById('contactToggleBtn');
@@ -623,7 +628,7 @@
     ttsPlayPauseIcon.className = 'fas fa-play';
     hideControlPanel();
     isTTSActive = false;
-    ttsToggleBtn.classList.remove('hover:bg-red-400', 'focus:bg-red-400');
+    ttsToggleBtn.classList.remove('hover:bg-cyan-600', 'focus:bg-cyan-600');
    }
 
    // Pause reading
@@ -696,7 +701,7 @@
    ttsToggleBtn.addEventListener('click', () => {
     if (!isTTSActive) {
      isTTSActive = true;
-     ttsToggleBtn.classList.add('hover:bg-red-400', 'focus:bg-red-400');
+     ttsToggleBtn.classList.add('hover:bg-cyan-600', 'focus:bg-cyan-600');
      readIntroText();
      showControlPanel();
     } else {
