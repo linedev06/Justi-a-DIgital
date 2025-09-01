@@ -1,0 +1,349 @@
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minhas Consultas - Plataforma de Saúde Mental</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      background-color: #f5f5f7;
+      color: #111827;
+      margin: 0;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+      color: #111827;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+    button {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    button:focus {
+      outline: 2px solid #374151;
+      outline-offset: 2px;
+    }
+    a {
+      text-decoration: none;
+      color: #111827;
+      transition: color 0.3s ease;
+    }
+    a:hover,
+    a:focus {
+      color: #374151;
+      outline: none;
+    }
+    /* Scrollbar for better UX */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f5f5f7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 4px;
+    }
+    /* Modal animations */
+    .fade-in {
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .fade-out {
+      animation: fadeOut 0.3s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+    /* Details slide animation */
+    .slide-down-enter {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+    }
+    .slide-down-enter-active {
+      max-height: 500px;
+      opacity: 1;
+    }
+    .slide-down-leave {
+      max-height: 500px;
+      opacity: 1;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+    }
+    .slide-down-leave-active {
+      max-height: 0;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen bg-[#f5f5f7] text-gray-900">
+  <header class="bg-white border-b border-gray-300 shadow-sm sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+      <h1 class="text-3xl select-text tracking-wide">
+        Minhas Consultas
+      </h1>
+      <a aria-label="Voltar para o lobby" class="text-gray-600 hover:text-gray-900 focus:text-gray-900 focus:outline-none select-none font-normal tracking-wide" href="lobby.html">
+        Voltar
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-5xl mx-auto px-6 py-12">
+    <p class="text-center text-gray-700 mb-12 select-text tracking-wide">
+      Visualize, agende e cancele suas consultas com facilidade.
+    </p>
+
+    <section aria-label="Lista de consultas agendadas" class="space-y-8" id="consultas-lista">
+      <!-- Consultas serão renderizadas aqui -->
+    </section>
+
+    <div class="mt-16 flex flex-col sm:flex-row justify-center gap-6">
+      <a class="inline-block bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white rounded-xl px-14 py-4 shadow-lg tracking-wide transition select-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 text-center whitespace-nowrap" href="#agendar">
+        Agendar Nova Consulta
+      </a>
+      <a class="inline-block bg-gray-700 hover:bg-gray-600 focus:bg-gray-600 text-white rounded-xl px-14 py-4 shadow-lg tracking-wide transition select-none focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 text-center whitespace-nowrap" href="chat.html">
+        Abrir Chat Geral
+      </a>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-300 py-8 mt-auto">
+    <div class="max-w-5xl mx-auto px-6 text-center text-gray-500 text-sm select-none tracking-wide">
+      © 2024 Plataforma de Saúde Mental Online. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div aria-hidden="true" aria-labelledby="modal-title" aria-modal="true" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-40" id="modal-cancel" role="dialog" tabindex="-1">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-lg ring-1 ring-gray-300 fade-in" id="modal-content">
+      <h2 class="text-xl font-normal text-gray-900 mb-4 select-text" id="modal-title">Confirmar Cancelamento</h2>
+      <p class="text-gray-700 mb-6 select-text" id="modal-message">Tem certeza que deseja cancelar esta consulta?</p>
+      <div class="flex justify-end gap-4">
+        <button class="px-6 py-3 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition select-none" id="modal-cancel-btn" type="button">
+          Cancelar
+        </button>
+        <button class="px-6 py-3 rounded-xl bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition select-none" id="modal-confirm-btn" type="button">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dados simulados das consultas do usuário
+    const consultas = [
+      {
+        id: 'c1',
+        profissional: 'Dra. Ana Silva',
+        especialidade: 'Psicóloga Clínica',
+        descricao: 'Sessão presencial - Terapia Cognitivo-Comportamental',
+        data: '2024-07-10T09:00',
+        foto: 'https://storage.googleapis.com/a1aa/image/f712a74d-9f86-4e84-9519-69a2a4647cec.jpg',
+        chatLink: 'chat.html?profissional=ana-silva'
+      },
+      {
+        id: 'c2',
+        profissional: 'Dr. Carlos Pereira',
+        especialidade: 'Psiquiatra',
+        descricao: 'Sessão por videochamada - Tratamento de transtornos de ansiedade',
+        data: '2024-07-15T16:00',
+        foto: 'https://storage.googleapis.com/a1aa/image/5060a121-4fb0-40c7-80df-9ad672cf0982.jpg',
+        chatLink: 'chat.html?profissional=carlos-pereira'
+      },
+      {
+        id: 'c3',
+        profissional: 'Dra. Mariana Costa',
+        especialidade: 'Psicóloga Infantil',
+        descricao: 'Sessão presencial - Terapia lúdica e desenvolvimento infantil',
+        data: '2024-07-20T14:30',
+        foto: 'https://storage.googleapis.com/a1aa/image/ad183db6-6cfa-44e8-1f57-f395dfee1a0a.jpg',
+        chatLink: 'chat.html?profissional=mariana-costa'
+      }
+    ];
+
+    const consultasLista = document.getElementById('consultas-lista');
+    const modal = document.getElementById('modal-cancel');
+    const modalContent = document.getElementById('modal-content');
+    const modalMessage = document.getElementById('modal-message');
+    const modalCancelBtn = document.getElementById('modal-cancel-btn');
+    const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+
+    let consultaParaCancelar = null;
+
+    function formatarData(dataISO) {
+      const data = new Date(dataISO);
+      return data.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) + ' às ' + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function criarConsultaCard(consulta) {
+      const article = document.createElement('article');
+      article.setAttribute('aria-label', `Consulta com ${consulta.profissional}, ${consulta.especialidade}, no dia ${formatarData(consulta.data)}`);
+      article.className = 'bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 select-text';
+      article.tabIndex = 0;
+
+      article.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+          <img alt="Foto da profissional ${consulta.profissional}, ${consulta.especialidade}" class="rounded-full w-20 h-20 object-cover flex-shrink-0" loading="lazy" src="${consulta.foto}" width="80" height="80"/>
+          <div>
+            <h2 class="text-xl text-gray-900 tracking-wide">${consulta.profissional}</h2>
+            <p class="text-gray-600 text-sm tracking-wide">${consulta.especialidade}</p>
+            <p class="text-gray-600 text-sm tracking-wide mt-1 max-w-md">${consulta.descricao}</p>
+            <p class="text-gray-600 text-sm tracking-wide mt-1">Data: ${formatarData(consulta.data)}</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3 mt-4 sm:mt-0">
+          <button type="button" aria-label="Cancelar consulta com ${consulta.profissional} em ${formatarData(consulta.data)}" class="text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 rounded px-5 py-2 tracking-wide transition whitespace-nowrap cancelar-btn">
+            Cancelar
+          </button>
+          <a href="${consulta.chatLink}" aria-label="Abrir chat com ${consulta.profissional}" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white rounded px-5 py-2 tracking-wide transition select-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 whitespace-nowrap flex items-center gap-2">
+            <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            Chat
+          </a>
+          <button type="button" aria-label="Ver detalhes da consulta com ${consulta.profissional}" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 rounded px-5 py-2 tracking-wide transition whitespace-nowrap detalhes-btn" aria-expanded="false" aria-controls="detalhes-${consulta.id}">
+            Detalhes
+          </button>
+        </div>
+        <div id="detalhes-${consulta.id}" class="overflow-hidden max-h-0 opacity-0 transition-[max-height,opacity] duration-400 ease-in-out mt-4 bg-gray-50 border border-gray-300 rounded-xl p-4 text-gray-700 text-sm select-text" aria-hidden="true"></div>
+      `;
+
+      return article;
+    }
+
+    function renderizarConsultas() {
+      consultasLista.innerHTML = '';
+      if (consultas.length === 0) {
+        const vazio = document.createElement('p');
+        vazio.className = 'text-center text-gray-600 select-text';
+        vazio.textContent = 'Você não possui consultas agendadas.';
+        consultasLista.appendChild(vazio);
+        return;
+      }
+      consultas.forEach(consulta => {
+        const card = criarConsultaCard(consulta);
+        consultasLista.appendChild(card);
+      });
+      adicionarEventos();
+    }
+
+    function adicionarEventos() {
+      document.querySelectorAll('.cancelar-btn').forEach(btn => {
+        btn.addEventListener('click', abrirModalCancelamento);
+      });
+      document.querySelectorAll('.detalhes-btn').forEach(btn => {
+        btn.addEventListener('click', toggleDetalhes);
+      });
+    }
+
+    function abrirModalCancelamento(e) {
+      const btn = e.currentTarget;
+      const article = btn.closest('article');
+      const idx = Array.from(consultasLista.children).indexOf(article);
+      consultaParaCancelar = idx;
+      modalMessage.textContent = `Tem certeza que deseja cancelar a consulta com ${consultas[idx].profissional} no dia ${formatarData(consultas[idx].data)}?`;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      modal.setAttribute('aria-hidden', 'false');
+      modalCancelBtn.focus();
+    }
+
+    function fecharModal() {
+      modalContent.classList.remove('fade-in');
+      modalContent.classList.add('fade-out');
+      modalContent.addEventListener('animationend', () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal.setAttribute('aria-hidden', 'true');
+        modalContent.classList.remove('fade-out');
+        modalContent.classList.add('fade-in');
+      }, { once: true });
+      consultaParaCancelar = null;
+    }
+
+    function confirmarCancelamento() {
+      if (consultaParaCancelar === null) return;
+      consultas.splice(consultaParaCancelar, 1);
+      renderizarConsultas();
+      fecharModal();
+    }
+
+    function toggleDetalhes(e) {
+      const btn = e.currentTarget;
+      const article = btn.closest('article');
+      const detalhes = article.querySelector(`#detalhes-${consultas[Array.from(consultasLista.children).indexOf(article)].id}`);
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+
+      if (!expanded) {
+        // Show details with animation
+        detalhes.innerHTML = `
+          <p><strong>Profissional:</strong> ${consultas[Array.from(consultasLista.children).indexOf(article)].profissional}</p>
+          <p><strong>Especialidade:</strong> ${consultas[Array.from(consultasLista.children).indexOf(article)].especialidade}</p>
+          <p><strong>Descrição:</strong> ${consultas[Array.from(consultasLista.children).indexOf(article)].descricao}</p>
+          <p><strong>Data e Hora:</strong> ${formatarData(consultas[Array.from(consultasLista.children).indexOf(article)].data)}</p>
+          <p><strong>Local:</strong> ${consultas[Array.from(consultasLista.children).indexOf(article)].descricao.toLowerCase().includes('videochamada') ? 'Online (Videochamada)' : 'Presencial'}</p>
+          <p><strong>Status:</strong> Agendada</p>
+        `;
+        detalhes.style.maxHeight = detalhes.scrollHeight + 'px';
+        detalhes.style.opacity = '1';
+        detalhes.setAttribute('aria-hidden', 'false');
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        // Hide details with animation
+        detalhes.style.maxHeight = '0';
+        detalhes.style.opacity = '0';
+        detalhes.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        setTimeout(() => {
+          detalhes.innerHTML = '';
+        }, 400);
+      }
+    }
+
+    // Eventos modal
+    modalCancelBtn.addEventListener('click', fecharModal);
+    modalConfirmBtn.addEventListener('click', confirmarCancelamento);
+    modal.addEventListener('click', e => {
+      if (e.target === modal) fecharModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+        fecharModal();
+      }
+    });
+
+    // Inicializar
+    renderizarConsultas();
+  </script>
+</body>
+</html>

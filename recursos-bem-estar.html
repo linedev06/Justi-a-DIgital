@@ -1,0 +1,365 @@
+<html class="scroll-smooth" lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Recursos - Plataforma de Saúde Mental
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      background-color: #f5f5f7;
+      color: #111827;
+      margin: 0;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 400;
+      color: #111827;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+    a {
+      text-decoration: none;
+      color: #111827;
+      transition: color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      user-select: none;
+      cursor: pointer;
+      z-index: 0;
+    }
+    a .link-text {
+      position: relative;
+      z-index: 2;
+      color: #111827;
+      transition: color 0.4s ease;
+      white-space: nowrap;
+    }
+    a .fas {
+      position: relative;
+      z-index: 2;
+      color: #111827;
+      margin-left: 0.5rem;
+      transition: color 0.4s ease, transform 0.4s ease;
+      will-change: transform;
+    }
+    a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #111827;
+      z-index: 1;
+      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0.5rem;
+      will-change: left;
+    }
+    a:hover::before,
+    a:focus::before {
+      left: 0;
+    }
+    a:hover,
+    a:focus {
+      color: white;
+      outline: none;
+      z-index: 2;
+    }
+    a:hover .link-text,
+    a:focus .link-text {
+      color: white;
+    }
+    a:hover .fas,
+    a:focus .fas {
+      color: white;
+      transform: translateX(5px);
+    }
+    /* Scrollbar for better UX */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f5f5f7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 4px;
+    }
+    /* Back button specific */
+    .back-button {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      font-weight: 500;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      color: #6b7280; /* gray-500 */
+      transition: color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 0;
+    }
+    .back-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #111827;
+      z-index: 1;
+      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 0.75rem;
+      will-change: left;
+    }
+    .back-button:hover::before,
+    .back-button:focus::before {
+      left: 0;
+    }
+    .back-button:hover,
+    .back-button:focus {
+      color: white;
+      outline: none;
+      z-index: 2;
+    }
+    .back-button:hover .fas,
+    .back-button:focus .fas {
+      color: white;
+      transform: translateX(-4px);
+      transition: color 0.4s ease, transform 0.4s ease;
+    }
+    .back-button .fas {
+      position: relative;
+      z-index: 2;
+      color: #6b7280;
+      transition: color 0.4s ease, transform 0.4s ease;
+    }
+    /* Additional useful resources styling */
+    .extra-resources {
+      margin-top: 4rem;
+    }
+    .extra-resources h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      color: #111827;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .extra-list {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media(min-width: 640px) {
+      .extra-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .extra-list li a {
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 1.5rem;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #111827;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+    }
+    .extra-list li a:hover,
+    .extra-list li a:focus {
+      background-color: #111827;
+      color: white;
+      outline: none;
+      z-index: 1;
+    }
+    .extra-list li a:hover::before,
+    .extra-list li a:focus::before {
+      left: 0;
+    }
+    .extra-list li a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #111827;
+      border-radius: 1.5rem;
+      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 0;
+      will-change: left;
+    }
+    .extra-list li a .fas {
+      transition: color 0.4s ease, transform 0.4s ease;
+      color: #111827;
+      position: relative;
+      z-index: 2;
+    }
+    .extra-list li a:hover .fas,
+    .extra-list li a:focus .fas {
+      color: white;
+      transform: translateX(5px);
+    }
+  </style>
+ </head>
+ <body class="flex flex-col min-h-screen bg-[#f5f5f7] text-gray-900">
+  <header class="bg-white border-b border-gray-300 shadow-sm sticky top-0 z-30">
+   <div class="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
+    <h1 class="text-3xl select-text tracking-wide">
+     Recursos
+    </h1>
+    <a aria-label="Voltar para o lobby" class="back-button" href="lobby.html">
+     <i class="fas fa-arrow-left" aria-hidden="true"></i>
+     <span>Voltar</span>
+    </a>
+   </div>
+  </header>
+  <main class="flex-grow max-w-5xl mx-auto px-6 py-12">
+   <p class="text-center text-gray-700 mb-12 select-text tracking-wide max-w-xl mx-auto">
+    Acesse artigos, vídeos e dicas para cuidar da sua saúde mental.
+   </p>
+   <section aria-label="Lista de recursos de saúde mental" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <article class="bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col select-text">
+     <img alt="Imagem ilustrativa de uma pessoa meditando em um ambiente tranquilo com luz suave para artigo sobre mindfulness" class="rounded-2xl object-cover w-full h-48 mb-4" height="240" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8b078fcd-e7f6-46dc-c393-a7c50d72adb8.jpg" width="400"/>
+     <h2 class="text-xl text-gray-900 tracking-wide mb-2">
+      Mindfulness para Iniciantes
+     </h2>
+     <p class="text-gray-600 text-sm tracking-wide flex-grow">
+      Aprenda técnicas simples para praticar atenção plena e reduzir o estresse no dia a dia.
+     </p>
+     <a aria-label="Ler artigo Mindfulness para Iniciantes" class="mt-4" href="https://www.example.com/artigos/mindfulness-para-iniciantes" target="_blank" rel="noopener noreferrer">
+      <span class="link-text">Ler artigo</span>
+      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+     </a>
+    </article>
+    <article class="bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col select-text">
+     <img alt="Imagem ilustrativa de uma pessoa relaxando em um parque com expressão calma para vídeo sobre ansiedade" class="rounded-2xl object-cover w-full h-48 mb-4" height="240" loading="lazy" src="https://storage.googleapis.com/a1aa/image/80a94e4d-3302-492b-a1f0-7107b873ad81.jpg" width="400"/>
+     <h2 class="text-xl text-gray-900 tracking-wide mb-2">
+      Como Lidar com a Ansiedade
+     </h2>
+     <p class="text-gray-600 text-sm tracking-wide flex-grow">
+      Vídeo explicativo com dicas práticas para reconhecer e controlar a ansiedade.
+     </p>
+     <a aria-label="Assistir vídeo Como Lidar com a Ansiedade" class="mt-4" href="https://www.example.com/videos/como-lidar-com-a-ansiedade" target="_blank" rel="noopener noreferrer">
+      <span class="link-text">Assistir vídeo</span>
+      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+     </a>
+    </article>
+    <article class="bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col select-text">
+     <img alt="Imagem ilustrativa de um quarto aconchegante com cama arrumada e luz suave para dicas de sono saudável" class="rounded-2xl object-cover w-full h-48 mb-4" height="240" loading="lazy" src="https://storage.googleapis.com/a1aa/image/16422a49-0af7-4425-0331-28399b910e96.jpg" width="400"/>
+     <h2 class="text-xl text-gray-900 tracking-wide mb-2">
+      Dicas para Sono Saudável
+     </h2>
+     <p class="text-gray-600 text-sm tracking-wide flex-grow">
+      Conheça hábitos que ajudam a melhorar a qualidade do sono e o bem-estar geral.
+     </p>
+     <a aria-label="Ler dicas para sono saudável" class="mt-4" href="https://www.example.com/artigos/dicas-sono-saudavel" target="_blank" rel="noopener noreferrer">
+      <span class="link-text">Ler dicas</span>
+      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+     </a>
+    </article>
+    <article class="bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col select-text">
+     <img alt="Imagem ilustrativa de uma pessoa sorrindo confiante em ambiente natural para artigo sobre autoestima" class="rounded-2xl object-cover w-full h-48 mb-4" height="240" loading="lazy" src="https://storage.googleapis.com/a1aa/image/359f091a-e5b6-4d85-505f-481ad05edd0f.jpg" width="400"/>
+     <h2 class="text-xl text-gray-900 tracking-wide mb-2">
+      Construindo Autoestima
+     </h2>
+     <p class="text-gray-600 text-sm tracking-wide flex-grow">
+      Artigo com estratégias para fortalecer a autoconfiança e o amor-próprio.
+     </p>
+     <a aria-label="Ler artigo Construindo Autoestima" class="mt-4" href="https://www.example.com/artigos/construindo-autoestima" target="_blank" rel="noopener noreferrer">
+      <span class="link-text">Ler artigo</span>
+      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+     </a>
+    </article>
+    <article class="bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col select-text">
+     <img alt="Imagem ilustrativa de uma pessoa sentada em posição de meditação em ambiente calmo para vídeo de meditação guiada" class="rounded-2xl object-cover w-full h-48 mb-4" height="240" loading="lazy" src="https://storage.googleapis.com/a1aa/image/163f2849-d9c7-4022-2d8d-658fae778301.jpg" width="400"/>
+     <h2 class="text-xl text-gray-900 tracking-wide mb-2">
+      Meditação Guiada para Relaxar
+     </h2>
+     <p class="text-gray-600 text-sm tracking-wide flex-grow">
+      Vídeo com meditação guiada para ajudar a aliviar o estresse e melhorar o foco.
+     </p>
+     <a aria-label="Assistir vídeo Meditação Guiada para Relaxar" class="mt-4" href="https://www.example.com/videos/meditacao-guiada-para-relaxar" target="_blank" rel="noopener noreferrer">
+      <span class="link-text">Assistir vídeo</span>
+      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+     </a>
+    </article>
+    <article class="bg-white rounded-3xl shadow-md border border-gray-300 p-6 flex flex-col select-text">
+     <img alt="Imagem ilustrativa de uma pessoa respirando profundamente ao ar livre para dicas de gerenciamento de estresse" class="rounded-2xl object-cover w-full h-48 mb-4" height="240" loading="lazy" src="https://storage.googleapis.com/a1aa/image/9bbc4129-87fe-4873-41b5-1534ac3dd2a8.jpg" width="400"/>
+     <h2 class="text-xl text-gray-900 tracking-wide mb-2">
+      Gerenciando o Estresse
+     </h2>
+     <p class="text-gray-600 text-sm tracking-wide flex-grow">
+      Dicas práticas para identificar fontes de estresse e técnicas para lidar com elas.
+     </p>
+     <a aria-label="Ler dicas para gerenciar o estresse" class="mt-4" href="https://www.example.com/artigos/gerenciando-o-estresse" target="_blank" rel="noopener noreferrer">
+      <span class="link-text">Ler dicas</span>
+      <i class="fas fa-arrow-right" aria-hidden="true"></i>
+     </a>
+    </article>
+   </section>
+
+   <section class="extra-resources max-w-5xl mx-auto px-6 mt-16">
+    <h2>Mais recursos úteis</h2>
+    <ul class="extra-list">
+     <li>
+      <a href="https://www.example.com/ferramentas/diario-emocional" target="_blank" rel="noopener noreferrer" aria-label="Abrir ferramenta Diário Emocional">
+       Diário Emocional
+       <i class="fas fa-book-open" aria-hidden="true"></i>
+      </a>
+     </li>
+     <li>
+      <a href="https://www.example.com/ferramentas/exercicios-respiratorios" target="_blank" rel="noopener noreferrer" aria-label="Abrir ferramenta Exercícios Respiratórios">
+       Exercícios Respiratórios
+       <i class="fas fa-lungs" aria-hidden="true"></i>
+      </a>
+     </li>
+     <li>
+      <a href="https://www.example.com/ferramentas/agenda-de-habitos" target="_blank" rel="noopener noreferrer" aria-label="Abrir ferramenta Agenda de Hábitos">
+       Agenda de Hábitos
+       <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+      </a>
+     </li>
+     <li>
+      <a href="https://www.example.com/ferramentas/autoavaliacao" target="_blank" rel="noopener noreferrer" aria-label="Abrir ferramenta Autoavaliação">
+       Autoavaliação
+       <i class="fas fa-check-circle" aria-hidden="true"></i>
+      </a>
+     </li>
+    </ul>
+   </section>
+  </main>
+  <footer class="bg-white border-t border-gray-300 py-8 mt-auto">
+   <div class="max-w-5xl mx-auto px-6 text-center text-gray-500 text-sm select-none tracking-wide">
+    © 2024 Plataforma de Saúde Mental Online. Todos os direitos reservados.
+   </div>
+  </footer>
+ </body>
+</html>
