@@ -1,0 +1,1178 @@
+<html class="scroll-smooth" lang="pt-BR" >
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Chat com Terapeutas - Plataforma de Saúde Mental Online
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      background-color: #f5f5f7;
+      color: #1f2937;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 400;
+      color: #111827;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+    /* Scrollbar for chat messages */
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 4px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    /* Scrollbar for therapist list */
+    .therapist-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .therapist-list::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 3px;
+    }
+    .therapist-list::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    /* Message bubbles */
+    .message {
+      max-width: 70%;
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .message.user {
+      background-color: #111827;
+      color: white;
+      border-bottom-right-radius: 0.25rem;
+      align-self: flex-end;
+    }
+    .message.therapist {
+      background-color: #e2e8f0;
+      color: #1f2937;
+      border-bottom-left-radius: 0.25rem;
+      align-self: flex-start;
+    }
+    /* Input focus */
+    input:focus, textarea:focus, button:focus {
+      outline-offset: 2px;
+    }
+    /* Toast container */
+    #toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 9999;
+      max-width: 320px;
+    }
+    .toast {
+      background-color: rgba(17, 24, 39, 0.95);
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: slideIn 0.3s ease forwards;
+    }
+    .toast .close-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    /* Modal overlay */
+    #modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(31, 41, 55, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 1.5rem;
+    }
+    #modal-overlay.active {
+      display: flex;
+    }
+    /* Modal content */
+    #modal-content {
+      background-color: white;
+      border-radius: 1rem;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      padding: 1.5rem 2rem;
+      font-family: "Montserrat", sans-serif;
+      color: #111827;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    #modal-content h3 {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin: 0;
+    }
+    #modal-content p {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin: 0;
+      white-space: pre-line;
+    }
+    #modal-close-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #6b7280;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    #modal-close-btn:hover,
+    #modal-close-btn:focus {
+      color: #111827;
+      outline: none;
+    }
+    /* Dropdown menu */
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      min-width: 200px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 500;
+      color: #111827;
+      z-index: 10001;
+      padding: 0.5rem 0;
+      display: none;
+      flex-direction: column;
+      user-select: none;
+    }
+    .dropdown-menu.active {
+      display: flex;
+    }
+    .dropdown-menu button {
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #111827;
+      transition: background-color 0.15s ease;
+    }
+    .dropdown-menu button:hover,
+    .dropdown-menu button:focus {
+      background-color: #f3f4f6;
+      outline: none;
+    }
+    /* Hamburger menu button */
+    #hamburger-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #111827;
+      cursor: pointer;
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+      transition: color 0.2s ease;
+    }
+    #hamburger-btn:hover,
+    #hamburger-btn:focus {
+      color: #374151;
+      outline: none;
+    }
+    /* Mobile menu overlay */
+    #mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(31, 41, 55, 0.6);
+      display: none;
+      z-index: 9998;
+    }
+    #mobile-menu-overlay.active {
+      display: block;
+    }
+    /* Mobile menu panel */
+    #mobile-menu-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: white;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1rem 2rem 1rem;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    #mobile-menu-panel.active {
+      transform: translateX(0);
+    }
+    #mobile-menu-close-btn {
+      align-self: flex-end;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #6b7280;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+    #mobile-menu-close-btn:hover,
+    #mobile-menu-close-btn:focus {
+      color: #111827;
+      outline: none;
+    }
+    /* Mobile therapist list inside menu */
+    #mobile-therapist-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    #mobile-therapist-list .therapist-item {
+      width: 100%;
+    }
+    /* Mobile chat adjustments */
+    @media (max-width: 768px) {
+      #hamburger-btn {
+        display: inline-flex;
+      }
+      .therapist-list {
+        display: none !important;
+      }
+      .chat-main {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        ring-width: 0 !important;
+        padding-bottom: 0 !important;
+        padding-top: 0 !important;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Redesigned chat header for mobile - single line with aligned items */
+      #chat-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        height: 56px;
+        min-height: 56px;
+        gap: 0;
+      }
+      #chat-header > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-grow: 1;
+        min-width: 0;
+      }
+      #chat-header > div:first-child img {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+      }
+      #chat-header > div:first-child div {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+      }
+      #chat-header > div:first-child h2 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #111827;
+      }
+      #chat-header > div:first-child p {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #chat-header > div:nth-child(2) {
+        display: flex;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      #chat-header > div:nth-child(2) button {
+        padding: 6px;
+        min-width: 32px;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #chat-header > div:nth-child(2) button i {
+        font-size: 20px;
+        line-height: 1;
+      }
+      /* Chat messages fill remaining space */
+      .chat-messages {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
+        flex-grow: 1;
+        overflow-y: auto;
+        max-height: none !important;
+        gap: 1rem;
+      }
+      /* Message bubbles bigger font and more vertical spacing */
+      .message {
+        font-size: 1rem !important;
+        max-width: 85% !important;
+        padding: 1rem 1.25rem !important;
+        border-radius: 1.25rem !important;
+      }
+      /* Input area fixed at bottom */
+      #chat-form {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid #d1d5db;
+        padding: 0.75rem 1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        z-index: 1000;
+      }
+      #chat-input {
+        font-size: 1rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        border-radius: 1.5rem !important;
+        max-height: 6rem;
+        overflow-y: auto;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+        border: 1px solid #d1d5db;
+        transition: border-color 0.2s ease;
+      }
+      #chat-input:focus {
+        outline-offset: 2px;
+        border-color: #111827;
+        box-shadow: 0 0 0 3px rgb(17 24 39 / 0.3);
+      }
+      #chat-form button {
+        flex-shrink: 0;
+        padding: 0.75rem 1.75rem;
+        font-size: 1.25rem;
+        border-radius: 1.5rem;
+        background-color: #111827;
+        color: white;
+        box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
+        transition: background-color 0.2s ease;
+      }
+      #chat-form button:hover,
+      #chat-form button:focus {
+        background-color: #1f2937;
+        outline: none;
+      }
+      /* Adjust chat-main padding bottom to avoid overlap with fixed input */
+      .chat-main {
+        padding-bottom: 72px;
+      }
+    }
+  </style>
+ </head>
+ <body>
+  <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+   <button id="hamburger-btn" aria-label="Abrir menu de terapeutas" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu-panel" type="button" class="bg-transparent border-none text-gray-900 text-2xl cursor-pointer hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-900 p-1">
+    <i class="fas fa-bars"></i>
+   </button>
+  </header>
+  <div class="flex flex-grow overflow-hidden chat-container max-w-7xl mx-auto w-full px-6 py-4 gap-6" style="height: calc(100vh - 56px);">
+   <!-- Lista de terapeutas desktop -->
+   <aside aria-label="Lista de terapeutas disponíveis" class="therapist-list flex flex-col w-72 border-r border-gray-300 pr-4 overflow-y-auto" role="list" style="height: 100vh;" tabindex="0">
+    <h1 class="text-2xl font-normal text-gray-900 select-text mb-6 px-3">Chat com Terapeutas</h1>
+    <div aria-selected="true" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none bg-gray-100" data-id="ana-silva" role="listitem" tabindex="0">
+     <img alt="Foto da terapeuta Ana Silva, mulher sorridente com cabelo castanho claro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/a3678f21-52b5-40c6-aa44-097f2b2c858b.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dra. Ana Silva
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicóloga Clínica
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="carlos-pereira" role="listitem" tabindex="0">
+     <img alt="Foto do terapeuta Carlos Pereira, homem sorridente com cabelo curto preto, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2a32fcf1-d63c-4a54-3cc7-c343fd06d39d.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dr. Carlos Pereira
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psiquiatra
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="mariana-costa" role="listitem" tabindex="0">
+     <img alt="Foto da terapeuta Mariana Costa, mulher sorridente com cabelo castanho escuro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/65c95587-cdca-4670-9d64-1d87b0849cb4.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dra. Mariana Costa
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicóloga Infantil
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="felipe-almeida" role="listitem" tabindex="0">
+     <img alt="Foto do terapeuta Felipe Almeida, homem sorridente com cabelo castanho, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/26852d5b-9341-4ba2-0892-e41f57100322.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dr. Felipe Almeida
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Terapeuta Familiar
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="juliana-martins" role="listitem" tabindex="0">
+     <img alt="Foto da terapeuta Juliana Martins, mulher sorridente com cabelo castanho claro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/6454d53a-a302-478e-d566-06c59ea8906e.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dra. Juliana Martins
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicóloga Humanista
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="lucas-fernandes" role="listitem" tabindex="0">
+     <img alt="Foto do terapeuta Lucas Fernandes, homem sorridente com cabelo castanho escuro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/bde4ef84-3618-4c78-463b-8f5cdd458cbe.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dr. Lucas Fernandes
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicólogo Cognitivo-Comportamental
+      </span>
+     </div>
+    </div>
+   </aside>
+   <!-- Chat principal -->
+   <section aria-label="Área de chat com terapeuta selecionado" class="chat-main flex flex-col flex-grow bg-white rounded-3xl shadow-xl ring-1 ring-gray-300 relative" style="height: 100vh; max-height: 100vh;" tabindex="0">
+    <!-- Header do chat -->
+    <header class="flex items-center justify-between border-b border-gray-300 px-6 py-3 select-text relative" id="chat-header">
+     <div class="flex items-center gap-4 min-w-0">
+      <img alt="Foto da terapeuta selecionada" class="w-10 h-10 rounded-full object-cover flex-shrink-0" height="40" id="chat-therapist-img" loading="lazy" src="https://storage.googleapis.com/a1aa/image/a3678f21-52b5-40c6-aa44-097f2b2c858b.jpg" width="40"/>
+      <div class="min-w-0 overflow-hidden">
+       <h2 class="text-lg font-semibold text-gray-900 truncate" id="chat-therapist-name">
+        Dra. Ana Silva
+       </h2>
+       <p class="text-gray-500 text-sm truncate" id="chat-therapist-specialty">
+        Psicóloga Clínica
+       </p>
+      </div>
+     </div>
+     <div class="flex items-center gap-3 flex-shrink-0">
+      <button aria-label="Iniciar videochamada com terapeuta" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900" id="btn-video-call" tabindex="0" type="button" title="Iniciar videochamada" style="width: 36px; height: 36px;">
+       <i class="fas fa-video fa-lg text-gray-700" style="font-size: 22px; line-height: 1;"></i>
+      </button>
+      <button aria-label="Iniciar chamada de áudio com terapeuta" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900" id="btn-audio-call" tabindex="0" type="button" title="Iniciar chamada de áudio" style="width: 36px; height: 36px;">
+       <i class="fas fa-phone fa-lg text-gray-700" style="font-size: 22px; line-height: 1;"></i>
+      </button>
+      <div class="relative">
+       <button aria-label="Mais opções" aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900" id="btn-more-options" tabindex="0" type="button" title="Mais opções" style="width: 36px; height: 36px;">
+        <i class="fas fa-ellipsis-v fa-lg text-gray-700" style="font-size: 22px; line-height: 1;"></i>
+       </button>
+       <div id="dropdown-menu" class="dropdown-menu" role="menu" aria-label="Menu de mais opções">
+        <button type="button" role="menuitem" tabindex="-1" id="option-view-profile">Ver perfil do terapeuta</button>
+        <button type="button" role="menuitem" tabindex="-1" id="option-schedule-session">Agendar nova sessão</button>
+        <button type="button" role="menuitem" tabindex="-1" id="option-end-conversation">Encerrar conversa</button>
+        <button type="button" role="menuitem" tabindex="-1" id="option-room-settings">Configurações da sala</button>
+       </div>
+      </div>
+     </div>
+    </header>
+    <!-- Área de mensagens -->
+    <div aria-live="polite" aria-relevant="additions" class="chat-messages flex-grow overflow-y-auto px-6 py-4 flex flex-col gap-4" id="chat-messages" role="log" tabindex="0" style="margin-top:0;">
+    </div>
+    <!-- Área de input -->
+    <form aria-label="Enviar mensagem" class="border-t border-gray-300 px-6 py-4 flex items-center gap-4" id="chat-form" style="padding-top: 12px;">
+     <textarea aria-label="Campo para digitar mensagem" class="flex-grow resize-none rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="chat-input" name="chat-input" placeholder="Digite sua mensagem..." required rows="1"></textarea>
+     <button aria-label="Enviar mensagem" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-xl px-8 py-3 shadow-lg tracking-wide transition select-none" type="submit" style="min-width: 56px;">
+      <i class="fas fa-paper-plane"></i>
+     </button>
+    </form>
+   </section>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- Modal -->
+  <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" tabindex="-1">
+   <div id="modal-content">
+    <button id="modal-close-btn" aria-label="Fechar modal" type="button">&times;</button>
+    <h3 id="modal-title"></h3>
+    <p id="modal-desc"></p>
+   </div>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  <div id="mobile-menu-overlay" tabindex="-1" aria-hidden="true"></div>
+  <nav id="mobile-menu-panel" aria-label="Menu de navegação" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
+   <button id="mobile-menu-close-btn" aria-label="Fechar menu" type="button">&times;</button>
+   <h2 class="text-xl font-semibold mb-4 select-text">Chat com Terapeutas</h2>
+   <div id="mobile-therapist-list" role="list" tabindex="0">
+    <div aria-selected="true" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none bg-gray-100" data-id="ana-silva" role="listitem" tabindex="0">
+     <img alt="Foto da terapeuta Ana Silva, mulher sorridente com cabelo castanho claro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/a3678f21-52b5-40c6-aa44-097f2b2c858b.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dra. Ana Silva
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicóloga Clínica
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="carlos-pereira" role="listitem" tabindex="0">
+     <img alt="Foto do terapeuta Carlos Pereira, homem sorridente com cabelo curto preto, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2a32fcf1-d63c-4a54-3cc7-c343fd06d39d.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dr. Carlos Pereira
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psiquiatra
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="mariana-costa" role="listitem" tabindex="0">
+     <img alt="Foto da terapeuta Mariana Costa, mulher sorridente com cabelo castanho escuro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/65c95587-cdca-4670-9d64-1d87b0849cb4.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dra. Mariana Costa
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicóloga Infantil
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="felipe-almeida" role="listitem" tabindex="0">
+     <img alt="Foto do terapeuta Felipe Almeida, homem sorridente com cabelo castanho, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/26852d5b-9341-4ba2-0892-e41f57100322.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dr. Felipe Almeida
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Terapeuta Familiar
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="juliana-martins" role="listitem" tabindex="0">
+     <img alt="Foto da terapeuta Juliana Martins, mulher sorridente com cabelo castanho claro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/6454d53a-a302-478e-d566-06c59ea8906e.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dra. Juliana Martins
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicóloga Humanista
+      </span>
+     </div>
+    </div>
+    <div aria-selected="false" class="therapist-item flex items-center gap-4 p-3 rounded-xl cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" data-id="lucas-fernandes" role="listitem" tabindex="0">
+     <img alt="Foto do terapeuta Lucas Fernandes, homem sorridente com cabelo castanho escuro, fundo neutro" class="w-14 h-14 rounded-full object-cover" height="56" loading="lazy" src="https://storage.googleapis.com/a1aa/image/bde4ef84-3618-4c78-463b-8f5cdd458cbe.jpg" width="56"/>
+     <div class="flex flex-col">
+      <span class="text-gray-900 font-normal text-lg select-text">
+       Dr. Lucas Fernandes
+      </span>
+      <span class="text-gray-600 text-sm select-text">
+       Psicólogo Cognitivo-Comportamental
+      </span>
+     </div>
+    </div>
+   </div>
+  </nav>
+
+  <script>
+    // Dados simulados para chat
+    const chats = {
+      "ana-silva": [
+        { from: "therapist", text: "Olá! Como você está se sentindo hoje?" },
+        { from: "user", text: "Oi, estou um pouco ansioso, mas melhor." },
+        { from: "therapist", text: "Que bom ouvir isso. Quer conversar mais sobre isso?" }
+      ],
+      "carlos-pereira": [
+        { from: "therapist", text: "Olá, em que posso ajudar hoje?" }
+      ],
+      "mariana-costa": [
+        { from: "therapist", text: "Oi! Como está seu filho?" }
+      ],
+      "felipe-almeida": [
+        { from: "therapist", text: "Olá! Vamos falar sobre sua família?" }
+      ],
+      "juliana-martins": [
+        { from: "therapist", text: "Oi! Como tem sido seu autocuidado?" }
+      ],
+      "lucas-fernandes": [
+        { from: "therapist", text: "Olá! Pronto para nossa sessão?" }
+      ]
+    };
+
+    // Terapeutas info for header update
+    const terapeutasInfo = {
+      "ana-silva": {
+        name: "Dra. Ana Silva",
+        specialty: "Psicóloga Clínica",
+        img: "https://storage.googleapis.com/a1aa/image/a3678f21-52b5-40c6-aa44-097f2b2c858b.jpg"
+      },
+      "carlos-pereira": {
+        name: "Dr. Carlos Pereira",
+        specialty: "Psiquiatra",
+        img: "https://storage.googleapis.com/a1aa/image/2a32fcf1-d63c-4a54-3cc7-c343fd06d39d.jpg"
+      },
+      "mariana-costa": {
+        name: "Dra. Mariana Costa",
+        specialty: "Psicóloga Infantil",
+        img: "https://storage.googleapis.com/a1aa/image/65c95587-cdca-4670-9d64-1d87b0849cb4.jpg"
+      },
+      "felipe-almeida": {
+        name: "Dr. Felipe Almeida",
+        specialty: "Terapeuta Familiar",
+        img: "https://storage.googleapis.com/a1aa/image/26852d5b-9341-4ba2-0892-e41f57100322.jpg"
+      },
+      "juliana-martins": {
+        name: "Dra. Juliana Martins",
+        specialty: "Psicóloga Humanista",
+        img: "https://storage.googleapis.com/a1aa/image/6454d53a-a302-478e-d566-06c59ea8906e.jpg"
+      },
+      "lucas-fernandes": {
+        name: "Dr. Lucas Fernandes",
+        specialty: "Psicólogo Cognitivo-Comportamental",
+        img: "https://storage.googleapis.com/a1aa/image/bde4ef84-3618-4c78-463b-8f5cdd458cbe.jpg"
+      }
+    };
+
+    const therapistItems = document.querySelectorAll(".therapist-item");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatTherapistName = document.getElementById("chat-therapist-name");
+    const chatTherapistSpecialty = document.getElementById("chat-therapist-specialty");
+    const chatTherapistImg = document.getElementById("chat-therapist-img");
+    const chatForm = document.getElementById("chat-form");
+    const chatInput = document.getElementById("chat-input");
+
+    const dropdownBtn = document.getElementById("btn-more-options");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+
+    const toastContainer = document.getElementById("toast-container");
+
+    const modalOverlay = document.getElementById("modal-overlay");
+    const modalTitle = document.getElementById("modal-title");
+    const modalDesc = document.getElementById("modal-desc");
+    const modalCloseBtn = document.getElementById("modal-close-btn");
+
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
+    const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+    const mobileMenuCloseBtn = document.getElementById("mobile-menu-close-btn");
+    const mobileTherapistList = document.getElementById("mobile-therapist-list");
+
+    let currentTherapistId = "ana-silva";
+
+    // Function to render chat messages
+    function renderChatMessages(therapistId) {
+      chatMessages.innerHTML = "";
+      const messages = chats[therapistId] || [];
+      messages.forEach((msg) => {
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("message");
+        msgDiv.classList.add(msg.from === "user" ? "user" : "therapist");
+        msgDiv.textContent = msg.text;
+        chatMessages.appendChild(msgDiv);
+      });
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      chatMessages.focus();
+    }
+
+    // Function to update header info
+    function updateChatHeader(therapistId) {
+      const info = terapeutasInfo[therapistId];
+      if (!info) return;
+      chatTherapistName.textContent = info.name;
+      chatTherapistSpecialty.textContent = info.specialty;
+      chatTherapistImg.src = info.img;
+      chatTherapistImg.alt = `Foto da terapeuta ${info.name}`;
+    }
+
+    // Handle therapist selection (desktop and mobile)
+    function selectTherapist(item) {
+      if (item.getAttribute("aria-selected") === "true") return;
+      // Update desktop list
+      therapistItems.forEach((el) => {
+        el.setAttribute("aria-selected", "false");
+        el.classList.remove("bg-gray-100");
+      });
+      item.setAttribute("aria-selected", "true");
+      item.classList.add("bg-gray-100");
+      // Update mobile list
+      const mobileItems = mobileTherapistList.querySelectorAll(".therapist-item");
+      mobileItems.forEach((el) => {
+        el.setAttribute("aria-selected", "false");
+        el.classList.remove("bg-gray-100");
+      });
+      // Find corresponding mobile item by data-id
+      const mobileItem = Array.from(mobileItems).find(i => i.dataset.id === item.dataset.id);
+      if (mobileItem) {
+        mobileItem.setAttribute("aria-selected", "true");
+        mobileItem.classList.add("bg-gray-100");
+      }
+      currentTherapistId = item.dataset.id;
+      updateChatHeader(currentTherapistId);
+      renderChatMessages(currentTherapistId);
+      chatInput.value = "";
+      chatInput.focus();
+      closeMobileMenu();
+      closeDropdownMenu();
+    }
+
+    therapistItems.forEach((item) => {
+      item.addEventListener("click", () => selectTherapist(item));
+      item.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectTherapist(item);
+        }
+      });
+    });
+
+    // Mobile therapist list event delegation
+    mobileTherapistList.addEventListener("click", (e) => {
+      const item = e.target.closest(".therapist-item");
+      if (item) {
+        selectTherapist(item);
+      }
+    });
+    mobileTherapistList.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        const item = e.target.closest(".therapist-item");
+        if (item) {
+          e.preventDefault();
+          selectTherapist(item);
+        }
+      }
+    });
+
+    // Handle sending message
+    chatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      // Add user message
+      chats[currentTherapistId] = chats[currentTherapistId] || [];
+      chats[currentTherapistId].push({ from: "user", text });
+      renderChatMessages(currentTherapistId);
+      chatInput.value = "";
+      // Simulate therapist reply after delay
+      setTimeout(() => {
+        chats[currentTherapistId].push({
+          from: "therapist",
+          text: "Recebi sua mensagem, obrigado por compartilhar."
+        });
+        renderChatMessages(currentTherapistId);
+      }, 1500);
+    });
+
+    // Toast creation function
+    function showToast(message, duration = 4000) {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.setAttribute("role", "alert");
+      toast.setAttribute("aria-live", "assertive");
+      toast.setAttribute("aria-atomic", "true");
+      toast.textContent = message;
+
+      const closeBtn = document.createElement("button");
+      closeBtn.className = "close-btn";
+      closeBtn.setAttribute("aria-label", "Fechar notificação");
+      closeBtn.innerHTML = "&times;";
+      closeBtn.addEventListener("click", () => {
+        toastContainer.removeChild(toast);
+      });
+      toast.appendChild(closeBtn);
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.classList.add("fade-out");
+          toast.style.transition = "opacity 0.5s ease";
+          toast.style.opacity = "0";
+          setTimeout(() => {
+            if (toast.parentNode) toastContainer.removeChild(toast);
+          }, 500);
+        }
+      }, duration);
+    }
+
+    // Modal functions
+    function openModal(title, description) {
+      modalTitle.textContent = title;
+      modalDesc.textContent = description;
+      modalOverlay.classList.add("active");
+      modalOverlay.focus();
+    }
+    function closeModal() {
+      modalOverlay.classList.remove("active");
+      // Return focus to last focused element or chat input
+      chatInput.focus();
+    }
+    modalCloseBtn.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+        closeModal();
+      }
+    });
+
+    // Dropdown menu toggle
+    function toggleDropdownMenu() {
+      const expanded = dropdownBtn.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        closeDropdownMenu();
+      } else {
+        openDropdownMenu();
+      }
+    }
+    function openDropdownMenu() {
+      dropdownMenu.classList.add("active");
+      dropdownBtn.setAttribute("aria-expanded", "true");
+      // Focus first menu item
+      const firstItem = dropdownMenu.querySelector("button");
+      if (firstItem) firstItem.focus();
+      // Close dropdown on outside click
+      document.addEventListener("click", outsideClickListener);
+      document.addEventListener("keydown", dropdownKeyListener);
+    }
+    function closeDropdownMenu() {
+      dropdownMenu.classList.remove("active");
+      dropdownBtn.setAttribute("aria-expanded", "false");
+      document.removeEventListener("click", outsideClickListener);
+      document.removeEventListener("keydown", dropdownKeyListener);
+      dropdownBtn.focus();
+    }
+    function outsideClickListener(e) {
+      if (!dropdownMenu.contains(e.target) && e.target !== dropdownBtn) {
+        closeDropdownMenu();
+      }
+    }
+    function dropdownKeyListener(e) {
+      if (e.key === "Escape") {
+        closeDropdownMenu();
+      }
+      // Keyboard navigation inside dropdown
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const items = Array.from(dropdownMenu.querySelectorAll("button"));
+        if (items.length === 0) return;
+        let index = items.indexOf(document.activeElement);
+        if (e.key === "ArrowDown") {
+          index = (index + 1) % items.length;
+        } else if (e.key === "ArrowUp") {
+          index = (index - 1 + items.length) % items.length;
+        }
+        items[index].focus();
+      }
+    }
+    dropdownBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDropdownMenu();
+    });
+    dropdownBtn.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openDropdownMenu();
+      }
+    });
+
+    // Dropdown menu item handlers
+    document.getElementById("option-view-profile").addEventListener("click", () => {
+      closeDropdownMenu();
+      openModal(
+        "Perfil do Terapeuta",
+        `Nome: ${terapeutasInfo[currentTherapistId].name}\nEspecialidade: ${terapeutasInfo[currentTherapistId].specialty}`
+      );
+    });
+    document.getElementById("option-schedule-session").addEventListener("click", () => {
+      closeDropdownMenu();
+      openModal(
+        "Agendar Nova Sessão",
+        `Funcionalidade de agendamento para ${terapeutasInfo[currentTherapistId].name} em breve disponível.`
+      );
+    });
+    document.getElementById("option-end-conversation").addEventListener("click", () => {
+      closeDropdownMenu();
+      openModal(
+        "Encerrar Conversa",
+        "Você encerrou a conversa. Para iniciar novamente, selecione o terapeuta."
+      );
+      // Clear chat messages for current therapist
+      chats[currentTherapistId] = [];
+      renderChatMessages(currentTherapistId);
+    });
+    document.getElementById("option-room-settings").addEventListener("click", () => {
+      closeDropdownMenu();
+      openModal(
+        "Configurações da Sala",
+        "Configurações da sala de chat estarão disponíveis em breve."
+      );
+    });
+
+    // Video call button handler - open embedded Jitsi Meet iframe modal
+    document.getElementById("btn-video-call").addEventListener("click", () => {
+      openVideoCallModal();
+    });
+
+    // Audio call button handler - open embedded Jitsi Meet iframe modal with audio only
+    document.getElementById("btn-audio-call").addEventListener("click", () => {
+      openAudioCallModal();
+    });
+
+    // Modal for video/audio call
+    const callModalOverlay = document.createElement("div");
+    callModalOverlay.id = "call-modal-overlay";
+    callModalOverlay.setAttribute("role", "dialog");
+    callModalOverlay.setAttribute("aria-modal", "true");
+    callModalOverlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background-color: rgba(31, 41, 55, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 11000;
+      padding: 1rem;
+    `;
+    callModalOverlay.tabIndex = -1;
+
+    const callModalContent = document.createElement("div");
+    callModalContent.style.cssText = `
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 600px;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    `;
+
+    const callModalCloseBtn = document.createElement("button");
+    callModalCloseBtn.setAttribute("aria-label", "Fechar chamada");
+    callModalCloseBtn.innerHTML = "&times;";
+    callModalCloseBtn.style.cssText = `
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      font-size: 2rem;
+      background: transparent;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      z-index: 10;
+      transition: color 0.2s ease;
+    `;
+    callModalCloseBtn.addEventListener("mouseenter", () => callModalCloseBtn.style.color = "#111827");
+    callModalCloseBtn.addEventListener("mouseleave", () => callModalCloseBtn.style.color = "#6b7280");
+    callModalCloseBtn.addEventListener("focus", () => callModalCloseBtn.style.color = "#111827");
+    callModalCloseBtn.addEventListener("blur", () => callModalCloseBtn.style.color = "#6b7280");
+
+    const callIframe = document.createElement("iframe");
+    callIframe.setAttribute("allow", "camera; microphone; fullscreen; display-capture");
+    callIframe.style.cssText = `
+      border: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 1rem;
+      flex-grow: 1;
+    `;
+
+    callModalContent.appendChild(callModalCloseBtn);
+    callModalContent.appendChild(callIframe);
+    callModalOverlay.appendChild(callModalContent);
+    document.body.appendChild(callModalOverlay);
+
+    function openCallModal() {
+      callModalOverlay.style.display = "flex";
+      callModalOverlay.focus();
+    }
+    function closeCallModal() {
+      callModalOverlay.style.display = "none";
+      callIframe.src = "";
+      chatInput.focus();
+    }
+    callModalCloseBtn.addEventListener("click", closeCallModal);
+    callModalOverlay.addEventListener("click", (e) => {
+      if (e.target === callModalOverlay) {
+        closeCallModal();
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && callModalOverlay.style.display === "flex") {
+        closeCallModal();
+      }
+    });
+
+    // Generate a unique room name based on therapist and user (simple)
+    function generateRoomName() {
+      const therapist = currentTherapistId.replace(/\s+/g, '-').toLowerCase();
+      const userId = "user"; // In real app, use real user id or session id
+      return `chatcomterapeutas-${therapist}-${userId}`;
+    }
+
+    function openVideoCallModal() {
+      const roomName = generateRoomName();
+      // Jitsi Meet embed URL with video enabled
+      const url = `https://meet.jit.si/${roomName}#userInfo.displayName="${encodeURIComponent(terapeutasInfo[currentTherapistId].name)}"`;
+      callIframe.src = url;
+      openCallModal();
+      showToast(`Iniciando videochamada com ${terapeutasInfo[currentTherapistId].name}...`);
+    }
+
+    function openAudioCallModal() {
+      const roomName = generateRoomName();
+      // Jitsi Meet embed URL with audio only (start with video muted and hidden)
+      const url = `https://meet.jit.si/${roomName}#config.startWithVideoMuted=true&config.startAudioOnly=true&userInfo.displayName="${encodeURIComponent(terapeutasInfo[currentTherapistId].name)}"`;
+      callIframe.src = url;
+      openCallModal();
+      showToast(`Chamando ${terapeutasInfo[currentTherapistId].name} por áudio...`);
+    }
+
+    // Hamburger menu open/close
+    function openMobileMenu() {
+      mobileMenuOverlay.classList.add("active");
+      mobileMenuPanel.classList.add("active");
+      mobileMenuPanel.setAttribute("aria-hidden", "false");
+      hamburgerBtn.setAttribute("aria-expanded", "true");
+      mobileMenuPanel.focus();
+      // Trap focus inside mobile menu
+      trapFocus(mobileMenuPanel);
+    }
+    function closeMobileMenu() {
+      mobileMenuOverlay.classList.remove("active");
+      mobileMenuPanel.classList.remove("active");
+      mobileMenuPanel.setAttribute("aria-hidden", "true");
+      hamburgerBtn.setAttribute("aria-expanded", "false");
+      hamburgerBtn.focus();
+      releaseFocusTrap();
+    }
+    hamburgerBtn.addEventListener("click", () => {
+      if (mobileMenuPanel.classList.contains("active")) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+    mobileMenuCloseBtn.addEventListener("click", closeMobileMenu);
+    mobileMenuOverlay.addEventListener("click", closeMobileMenu);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mobileMenuPanel.classList.contains("active")) {
+        closeMobileMenu();
+      }
+    });
+
+    // Focus trap utility for accessibility
+    let focusTrapElement = null;
+    let focusTrapHandler = null;
+    function trapFocus(element) {
+      focusTrapElement = element;
+      focusTrapHandler = function(e) {
+        if (!focusTrapElement.contains(e.target)) {
+          e.stopPropagation();
+          focusTrapElement.focus();
+        }
+      };
+      document.addEventListener("focusin", focusTrapHandler);
+    }
+    function releaseFocusTrap() {
+      if (focusTrapHandler) {
+        document.removeEventListener("focusin", focusTrapHandler);
+        focusTrapHandler = null;
+        focusTrapElement = null;
+      }
+    }
+
+    // Initialize chat with default therapist
+    updateChatHeader(currentTherapistId);
+    renderChatMessages(currentTherapistId);
+  </script>
+ </body>
+</html>

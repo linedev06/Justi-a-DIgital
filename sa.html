@@ -1,0 +1,1541 @@
+<html class="scroll-smooth" lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Plataforma de Saúde Mental Online
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+      background-color: #f5f5f7;
+      color: #1f2937;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      color: #111827;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+    a {
+      transition: color 0.3s ease;
+    }
+    button, a.button {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    /* Hamburger animation */
+    .hamburger {
+      width: 24px;
+      height: 18px;
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .hamburger span {
+      position: absolute;
+      height: 3px;
+      width: 100%;
+      background: #374151;
+      border-radius: 2px;
+      opacity: 1;
+      left: 0;
+      transition: all 0.3s ease-in-out;
+    }
+    .hamburger span:nth-child(1) {
+      top: 0;
+    }
+    .hamburger span:nth-child(2) {
+      top: 7.5px;
+    }
+    .hamburger span:nth-child(3) {
+      top: 15px;
+    }
+    .hamburger.active span:nth-child(1) {
+      top: 7.5px;
+      transform: rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      top: 7.5px;
+      transform: rotate(-45deg);
+    }
+    /* Emergency card */
+    #emergency-card {
+      position: fixed;
+      bottom: 80px;
+      right: 1rem;
+      max-width: 320px;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      padding: 1.5rem 2rem;
+      z-index: 60;
+      display: none;
+      font-size: 0.875rem;
+      color: #1f2937;
+      user-select: none;
+    }
+    #emergency-card h3 {
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #111827;
+    }
+    #emergency-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    #emergency-card ul li {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    #emergency-card ul li i {
+      color: #ef4444; /* red-500 */
+      min-width: 1.25rem;
+      text-align: center;
+    }
+    #emergency-card a {
+      color: #2563eb; /* blue-600 */
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    #emergency-card a:hover,
+    #emergency-card a:focus {
+      color: #1e40af; /* blue-800 */
+      outline: none;
+      text-decoration: underline;
+    }
+    /* Emergency button */
+    #emergency-button {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 70;
+      background-color: #111827;
+      color: white;
+      border-radius: 9999px;
+      padding: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    #emergency-button:hover,
+    #emergency-button:focus {
+      background-color: #1f2937;
+      outline: none;
+    }
+    #emergency-button span {
+      margin-left: 0.5rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      display: none;
+      user-select: none;
+    }
+    /* Show text on desktop */
+    @media (min-width: 640px) {
+      #emergency-button {
+        padding: 0.75rem 1.25rem;
+        border-radius: 1rem;
+      }
+      #emergency-button span {
+        display: inline;
+      }
+    }
+  </style>
+ </head>
+ <body class="min-h-screen flex flex-col bg-[#f5f5f7] text-gray-900">
+  <!-- Botão fixo de Apoio Emergencial -->
+  <button aria-expanded="false" aria-controls="emergency-card" aria-label="Abrir card de apoio emergencial" id="emergency-button" tabindex="0" type="button" title="Apoio Emergencial">
+   <i class="fas fa-phone-alt fa-lg" aria-hidden="true"></i>
+   <span>
+    Apoio Emergencial
+   </span>
+  </button>
+  <!-- Card de Apoio Emergencial -->
+  <aside aria-live="polite" aria-atomic="true" class="select-text" id="emergency-card" role="region" tabindex="0">
+   <h3>
+    Contatos de Emergência
+   </h3>
+   <ul>
+    <li>
+     <i class="fas fa-phone"></i>
+     <a href="tel:188" tabindex="0" rel="noopener noreferrer" target="_blank">
+      CVV - Centro de Valorização da Vida: 188
+     </a>
+    </li>
+    <li>
+     <i class="fas fa-phone"></i>
+     <a href="tel:192" tabindex="0" rel="noopener noreferrer" target="_blank">
+      SAMU - Serviço de Atendimento Móvel de Urgência: 192
+     </a>
+    </li>
+    <li>
+     <i class="fas fa-phone"></i>
+     <a href="tel:193" tabindex="0" rel="noopener noreferrer" target="_blank">
+      Corpo de Bombeiros: 193
+     </a>
+    </li>
+    <li>
+     <i class="fas fa-phone"></i>
+     <a href="tel:190" tabindex="0" rel="noopener noreferrer" target="_blank">
+      Polícia Militar: 190
+     </a>
+    </li>
+   </ul>
+  </aside>
+  <!-- Header / Navbar -->
+  <header class="bg-white shadow-sm sticky top-0 z-40 border-b border-gray-200">
+   <nav aria-label="Navegação principal" class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between h-16">
+    <a class="text-2xl font-normal tracking-wide text-gray-900 select-none" href="#" tabindex="0">
+     SaúdeMental
+    </a>
+    <ul class="hidden md:flex space-x-10 text-gray-700 text-sm font-normal tracking-wide" role="menubar">
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#home" role="menuitem" tabindex="0">
+       Início
+      </a>
+     </li>
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#busca" role="menuitem" tabindex="0">
+       Buscar Profissionais
+      </a>
+     </li>
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#recursos" role="menuitem" tabindex="0">
+       Recursos
+      </a>
+     </li>
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#area-usuario" role="menuitem" tabindex="0">
+       Área do Usuário
+      </a>
+     </li>
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#area-profissional" role="menuitem" tabindex="0">
+       Área Profissional
+      </a>
+     </li>
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#planos" role="menuitem" tabindex="0">
+       Planos
+      </a>
+     </li>
+     <li role="none">
+      <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#contato" role="menuitem" tabindex="0">
+       Contato
+      </a>
+     </li>
+    </ul>
+    <!-- Mobile menu button -->
+    <button aria-expanded="false" aria-label="Abrir menu" class="md:hidden focus:outline-none focus:ring-2 focus:ring-gray-900" id="mobile-menu-button" tabindex="0" type="button">
+     <div class="hamburger" id="hamburger-icon" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+     </div>
+    </button>
+   </nav>
+   <!-- Mobile menu -->
+   <div aria-label="Menu móvel" class="hidden md:hidden bg-white border-t border-gray-200" id="mobile-menu" role="menu">
+    <ul class="flex flex-col space-y-1 p-4 text-gray-700 text-base font-normal tracking-wide">
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#home" role="menuitem" tabindex="0">
+       Início
+      </a>
+     </li>
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#busca" role="menuitem" tabindex="0">
+       Buscar Profissionais
+      </a>
+     </li>
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#recursos" role="menuitem" tabindex="0">
+       Recursos
+      </a>
+     </li>
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#area-usuario" role="menuitem" tabindex="0">
+       Área do Usuário
+      </a>
+     </li>
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#area-profissional" role="menuitem" tabindex="0">
+       Área Profissional
+      </a>
+     </li>
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#planos" role="menuitem" tabindex="0">
+       Planos
+      </a>
+     </li>
+     <li role="none">
+      <a class="block px-3 py-2 rounded hover:bg-gray-100 focus:bg-gray-100 focus:outline-none" href="#contato" role="menuitem" tabindex="0">
+       Contato
+      </a>
+     </li>
+    </ul>
+   </div>
+  </header>
+  <main class="flex-grow">
+   <!-- Página Inicial Acolhedora -->
+   <section aria-label="Seção inicial com missão da plataforma" class="relative bg-white overflow-hidden pt-24 pb-28 sm:pt-32 sm:pb-36" id="home">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col-reverse lg:flex-row items-center justify-between gap-16">
+     <div class="max-w-xl text-center lg:text-left">
+      <h1 class="text-5xl leading-tight tracking-wide text-gray-900 select-text">
+       Sua saúde mental em primeiro lugar
+      </h1>
+      <p class="mt-8 text-lg text-gray-600 leading-relaxed font-normal max-w-lg mx-auto lg:mx-0 select-text">
+       Plataforma online que conecta você a profissionais de saúde mental qualificados, com segurança, acolhimento e tecnologia de ponta.
+      </p>
+      <a aria-label="Botão para encontrar profissional de saúde mental" class="inline-block mt-12 px-10 py-4 bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-xl shadow-lg tracking-wide transition select-none" href="#busca" role="button" tabindex="0">
+       Encontre seu profissional de saúde mental
+      </a>
+     </div>
+     <div class="w-full max-w-lg rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-300">
+      <img alt="Imagem de acolhimento com pessoas diversas sorrindo em ambiente calmo e elegante, transmitindo tranquilidade e confiança, com iluminação suave e tons neutros" class="w-full object-cover" height="400" loading="lazy" src="https://storage.googleapis.com/a1aa/image/fe731a39-ea6d-4c54-11e8-88f54fbe7baa.jpg" width="600"/>
+     </div>
+    </div>
+   </section>
+   <!-- Cadastro Simples -->
+   <section aria-labelledby="cadastro-title" class="bg-[#f5f5f7] py-20 px-6 sm:px-12 lg:px-20" id="cadastro">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="cadastro-title">
+      Cadastro Rápido e Intuitivo
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-2xl mx-auto font-normal text-lg leading-relaxed select-text">
+      Crie seu perfil em poucos passos, seja você usuário buscando apoio ou profissional oferecendo seus serviços.
+     </p>
+     <form aria-label="Formulário de cadastro para usuários e profissionais" class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8 bg-white p-10 rounded-3xl shadow-xl ring-1 ring-gray-300" id="form-cadastro" novalidate="" tabindex="0">
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="nome">
+        Nome completo
+       </label>
+       <input aria-describedby="nome-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="nome" name="nome" placeholder="Seu nome completo" required="" type="text"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="nome-error">
+        Por favor, insira seu nome completo.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="email">
+        E-mail
+       </label>
+       <input aria-describedby="email-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="email" name="email" placeholder="seu@email.com" required="" type="email"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="email-error">
+        Por favor, insira um e-mail válido.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="tipo">
+        Tipo de cadastro
+       </label>
+       <select aria-describedby="tipo-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="tipo" name="tipo" required="">
+        <option disabled="" selected="" value="">
+         Selecione
+        </option>
+        <option value="usuario">
+         Usuário
+        </option>
+        <option value="profissional">
+         Profissional
+        </option>
+       </select>
+       <p class="mt-1 text-xs text-red-600 hidden" id="tipo-error">
+        Por favor, selecione o tipo de cadastro.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="senha">
+        Senha
+       </label>
+       <input aria-describedby="senha-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="senha" minlength="8" name="senha" placeholder="Crie uma senha segura" required="" type="password"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="senha-error">
+        A senha deve ter no mínimo 8 caracteres.
+       </p>
+      </div>
+      <div class="sm:col-span-2">
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="descricao">
+        Descrição (para profissionais)
+       </label>
+       <textarea class="w-full rounded-lg border border-gray-300 px-5 py-3 resize-none text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="descricao" name="descricao" placeholder="Especialidades, abordagens, experiência..." rows="4"></textarea>
+      </div>
+      <div class="sm:col-span-2 flex flex-col sm:flex-row sm:justify-between items-center gap-6">
+       <button aria-label="Botão para enviar cadastro" class="w-full sm:w-auto bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-xl px-10 py-4 shadow-lg tracking-wide transition select-none" tabindex="0" type="submit">
+        Cadastrar
+       </button>
+       <div class="flex space-x-6">
+        <button aria-label="Login com Google" class="flex items-center justify-center space-x-3 border border-gray-300 rounded-xl px-5 py-3 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900 transition select-none" id="login-google" tabindex="0" type="button">
+         <img alt="Ícone do Google para login" class="w-6 h-6" height="24" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4e626140-5b6e-4687-a0d4-f74c351e22b1.jpg" width="24"/>
+         <span class="text-gray-900 font-normal tracking-wide text-sm select-none">
+          Google
+         </span>
+        </button>
+        <button aria-label="Login com Apple" class="flex items-center justify-center space-x-3 border border-gray-300 rounded-xl px-5 py-3 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900 transition select-none" id="login-apple" tabindex="0" type="button">
+         <img alt="Ícone da Apple para login" class="w-6 h-6" height="24" loading="lazy" src="https://storage.googleapis.com/a1aa/image/54db8d03-3f06-4ffe-3c02-1184bbf58238.jpg" width="24"/>
+         <span class="text-gray-900 font-normal tracking-wide text-sm select-none">
+          Apple
+         </span>
+        </button>
+       </div>
+      </div>
+     </form>
+     <div aria-live="polite" class="mt-6 max-w-xl mx-auto text-center text-green-700 font-normal text-base hidden" id="cadastro-sucesso" role="alert" tabindex="0">
+      Cadastro realizado com sucesso!
+     </div>
+    </div>
+   </section>
+   <!-- Busca Inteligente -->
+   <section aria-labelledby="busca-title" class="py-20 px-6 sm:px-12 lg:px-20 bg-white" id="busca">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="busca-title">
+      Busque seu profissional ideal
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed select-text">
+      Filtre por especialidade, localização, disponibilidade e abordagem para encontrar o apoio que você precisa.
+     </p>
+     <form aria-label="Formulário de busca inteligente" class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto" id="form-busca" novalidate="" tabindex="0">
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="especialidade">
+        Especialidade
+       </label>
+       <select class="w-full rounded-lg border border-gray-300 px-5 py-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="especialidade" name="especialidade">
+        <option selected="" value="">
+         Qualquer
+        </option>
+        <option value="ansiedade">
+         Ansiedade
+        </option>
+        <option value="depressao">
+         Depressão
+        </option>
+        <option value="terapia-cognitiva">
+         Terapia Cognitiva
+        </option>
+        <option value="psicoterapia">
+         Psicoterapia
+        </option>
+        <option value="psicologia-infantil">
+         Psicologia Infantil
+        </option>
+        <option value="psicologia-adolescente">
+         Psicologia Adolescente
+        </option>
+        <option value="psicologia-adulto">
+         Psicologia Adulto
+        </option>
+        <option value="psiquiatria">
+         Psiquiatria
+        </option>
+        <option value="psicologia-clinica">
+         Psicologia Clínica
+        </option>
+        <option value="terapia-familiar">
+         Terapia Familiar
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="localizacao">
+        Localização
+       </label>
+       <input class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="localizacao" name="localizacao" placeholder="Cidade, estado ou online" type="text"/>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="disponibilidade">
+        Disponibilidade
+       </label>
+       <select class="w-full rounded-lg border border-gray-300 px-5 py-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="disponibilidade" name="disponibilidade">
+        <option selected="" value="">
+         Qualquer
+        </option>
+        <option value="manha">
+         Manhã
+        </option>
+        <option value="tarde">
+         Tarde
+        </option>
+        <option value="noite">
+         Noite
+        </option>
+        <option value="fim-de-semana">
+         Fim de semana
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="abordagem">
+        Abordagem
+       </label>
+       <select class="w-full rounded-lg border border-gray-300 px-5 py-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="abordagem" name="abordagem">
+        <option selected="" value="">
+         Qualquer
+        </option>
+        <option value="cognitivo-comportamental">
+         Cognitivo-Comportamental
+        </option>
+        <option value="psicanalitica">
+         Psicanalítica
+        </option>
+        <option value="humanista">
+         Humanista
+        </option>
+        <option value="sistematica">
+         Sistêmica
+        </option>
+        <option value="gestalt">
+         Gestalt
+        </option>
+        <option value="terapia-ocupacional">
+         Terapia Ocupacional
+        </option>
+       </select>
+      </div>
+      <div class="md:col-span-4 flex justify-center mt-6">
+       <button aria-label="Botão para buscar profissionais" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-xl px-12 py-4 shadow-lg tracking-wide transition select-none" tabindex="0" type="submit">
+        Buscar
+       </button>
+      </div>
+     </form>
+     <div aria-live="polite" class="mt-16 max-w-7xl mx-auto" id="resultado-busca" tabindex="0">
+     </div>
+    </div>
+   </section>
+   <!-- Agendamento Online -->
+   <section aria-labelledby="agendamento-title" class="bg-[#f5f5f7] py-20 px-6 sm:px-12 lg:px-20" id="agendamento">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="agendamento-title">
+      Agendamento Online Fácil e Rápido
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed select-text">
+      Marque suas consultas em poucos cliques, com confirmações instantâneas e lembretes automáticos para você não esquecer.
+     </p>
+     <form aria-label="Formulário de agendamento de consultas" class="mt-12 bg-white p-10 rounded-3xl shadow-xl ring-1 ring-gray-300 grid grid-cols-1 sm:grid-cols-2 gap-8" id="form-agendamento" novalidate="" tabindex="0">
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="profissional-agenda">
+        Profissional
+       </label>
+       <select aria-describedby="profissional-agenda-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="profissional-agenda" name="profissional-agenda" required="">
+        <option disabled="" selected="" value="">
+         Selecione um profissional
+        </option>
+       </select>
+       <p class="mt-1 text-xs text-red-600 hidden" id="profissional-agenda-error">
+        Por favor, selecione um profissional.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="data-agenda">
+        Data
+       </label>
+       <input aria-describedby="data-agenda-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="data-agenda" min="" name="data-agenda" required="" type="date"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="data-agenda-error">
+        Por favor, selecione uma data válida.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="hora-agenda">
+        Hora
+       </label>
+       <input aria-describedby="hora-agenda-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="hora-agenda" name="hora-agenda" required="" type="time"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="hora-agenda-error">
+        Por favor, selecione uma hora válida.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="tipo-consulta-agenda">
+        Tipo de Consulta
+       </label>
+       <select aria-describedby="tipo-consulta-agenda-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="tipo-consulta-agenda" name="tipo-consulta-agenda" required="">
+        <option disabled="" selected="" value="">
+         Selecione
+        </option>
+        <option value="presencial">
+         Presencial
+        </option>
+        <option value="videochamada">
+         Videochamada
+        </option>
+       </select>
+       <p class="mt-1 text-xs text-red-600 hidden" id="tipo-consulta-agenda-error">
+        Por favor, selecione o tipo de consulta.
+       </p>
+      </div>
+      <div class="sm:col-span-2 flex justify-center mt-8">
+       <button aria-label="Botão para agendar consulta" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-xl px-14 py-4 shadow-lg tracking-wide transition select-none" tabindex="0" type="submit">
+        Agendar Consulta
+       </button>
+      </div>
+     </form>
+     <div aria-live="polite" class="mt-6 max-w-xl mx-auto text-center text-green-700 font-normal text-base hidden" id="agendamento-sucesso" role="alert" tabindex="0">
+      Consulta agendada com sucesso!
+     </div>
+    </div>
+   </section>
+   <!-- Área do Usuário -->
+   <section aria-labelledby="area-usuario-title" class="py-20 px-6 sm:px-12 lg:px-20 bg-white" id="area-usuario">
+    <div class="max-w-5xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="area-usuario-title">
+      Área do Usuário
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed select-text">
+      Gerencie suas consultas, acesse recursos de bem-estar e acompanhe seu progresso em um painel intuitivo e seguro.
+     </p>
+     <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-12 text-center" role="list">
+      <div aria-label="Gerenciar consultas" class="bg-[#f5f5f7] rounded-3xl p-10 shadow-xl ring-1 ring-gray-300 flex flex-col items-center cursor-pointer hover:ring-gray-900 transition select-none" id="btn-consultas" tabindex="0">
+       <i class="fas fa-calendar-check fa-4x text-gray-900 mb-6">
+       </i>
+       <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide select-text">
+        Consultas
+       </h3>
+       <p class="text-gray-600 text-base font-normal tracking-wide leading-relaxed max-w-xs select-text">
+        Visualize, agende e cancele suas consultas com facilidade.
+       </p>
+      </div>
+      <div aria-label="Acessar recursos de bem-estar" class="bg-[#f5f5f7] rounded-3xl p-10 shadow-xl ring-1 ring-gray-300 flex flex-col items-center cursor-pointer hover:ring-gray-900 transition select-none" id="btn-recursos" tabindex="0">
+       <i class="fas fa-book-open fa-4x text-gray-900 mb-6">
+       </i>
+       <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide select-text">
+        Recursos
+       </h3>
+       <p class="text-gray-600 text-base font-normal tracking-wide leading-relaxed max-w-xs select-text">
+        Artigos, vídeos e dicas para cuidar da sua saúde mental.
+       </p>
+      </div>
+      <div aria-label="Acompanhar progresso" class="bg-[#f5f5f7] rounded-3xl p-10 shadow-xl ring-1 ring-gray-300 flex flex-col items-center cursor-pointer hover:ring-gray-900 transition select-none" id="btn-progresso" tabindex="0">
+       <i class="fas fa-chart-line fa-4x text-gray-900 mb-6">
+       </i>
+       <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide select-text">
+        Progresso
+       </h3>
+       <p class="text-gray-600 text-base font-normal tracking-wide leading-relaxed max-w-xs select-text">
+        Monitore seu desenvolvimento e conquistas no autocuidado.
+       </p>
+      </div>
+     </div>
+     <div aria-live="polite" class="mt-12 max-w-4xl mx-auto" id="area-usuario-content" tabindex="0">
+     </div>
+    </div>
+   </section>
+   <!-- Recursos Educativos -->
+   <section aria-labelledby="recursos-title" class="bg-[#f5f5f7] py-20 px-6 sm:px-12 lg:px-20" id="recursos">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="recursos-title">
+      Recursos Educativos Gratuitos
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-4xl mx-auto font-normal text-lg leading-relaxed select-text">
+      Explore artigos, vídeos e dicas para melhorar sua saúde mental e qualidade de vida.
+     </p>
+     <div aria-live="polite" class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 max-w-7xl mx-auto" id="recursos-list" tabindex="0">
+     </div>
+    </div>
+   </section>
+   <!-- Atendimento por Videochamada -->
+   <section aria-labelledby="videochamada-title" class="py-20 px-6 sm:px-12 lg:px-20 bg-white" id="videochamada">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="text-4xl font-normal text-gray-900 mb-8 tracking-wide select-text" id="videochamada-title">
+      Atendimento por Videochamada Seguro e Criptografado
+     </h2>
+     <img alt="Imagem de videochamada entre paciente e psicólogo em interface moderna e segura, com elementos de criptografia visíveis, em tons neutros e iluminação suave" class="mx-auto rounded-3xl shadow-2xl w-full max-w-4xl ring-1 ring-gray-300" height="450" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2de46922-7f1d-4003-75e5-995ff9071054.jpg" width="800"/>
+     <p class="mt-8 text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed tracking-wide select-text">
+      Realize suas consultas de forma prática e segura, com tecnologia que protege sua privacidade e garante a confidencialidade.
+     </p>
+    </div>
+   </section>
+   <!-- Chat Seguro -->
+   <section aria-labelledby="chat-title" class="bg-[#f5f5f7] py-20 px-6 sm:px-12 lg:px-20" id="chat">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="text-4xl font-normal text-gray-900 mb-8 tracking-wide select-text" id="chat-title">
+      Chat Seguro e Privado
+     </h2>
+     <img alt="Imagem de interface de chat seguro entre usuário e profissional com histórico confidencial visível, em tons neutros e iluminação suave" class="mx-auto rounded-3xl shadow-2xl w-full max-w-4xl ring-1 ring-gray-300" height="450" loading="lazy" src="https://storage.googleapis.com/a1aa/image/05bd61fb-d489-47f0-3567-d219177fcab1.jpg" width="800"/>
+     <p class="mt-8 text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed tracking-wide select-text">
+      Converse com seu profissional de forma privada, com histórico protegido e criptografia ponta a ponta.
+     </p>
+    </div>
+   </section>
+   <!-- Planos e Assinaturas -->
+   <section aria-labelledby="planos-title" class="py-20 px-6 sm:px-12 lg:px-20 bg-white" id="planos">
+    <div class="max-w-6xl mx-auto text-center">
+     <h2 class="text-4xl font-normal text-gray-900 mb-10 tracking-wide select-text" id="planos-title">
+      Planos e Assinaturas
+     </h2>
+     <p class="text-gray-600 max-w-3xl mx-auto mb-16 font-normal text-lg leading-relaxed tracking-wide select-text">
+      Escolha o pacote ideal para você, com descontos especiais para planos mensais e pacotes de consultas.
+     </p>
+     <div aria-live="polite" class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto" id="planos-list" tabindex="0">
+     </div>
+    </div>
+   </section>
+   <!-- Feedback e Avaliações -->
+   <section aria-labelledby="avaliacoes-title" class="bg-[#f5f5f7] py-20 px-6 sm:px-12 lg:px-20" id="avaliacoes">
+    <div class="max-w-5xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="avaliacoes-title">
+      Feedback e Avaliações Anônimas
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed tracking-wide select-text">
+      Avalie os profissionais que você consultou para ajudar outros usuários a escolherem com confiança.
+     </p>
+     <div aria-live="polite" class="mt-16 space-y-12 max-w-4xl mx-auto" id="avaliacoes-list" tabindex="0">
+     </div>
+    </div>
+   </section>
+   <!-- Gamificação de Bem-estar -->
+   <section aria-labelledby="gamificacao-title" class="py-20 px-6 sm:px-12 lg:px-20 bg-white" id="gamificacao">
+    <div class="max-w-4xl mx-auto text-center select-text">
+     <h2 class="text-4xl font-normal text-gray-900 mb-8 tracking-wide" id="gamificacao-title">
+      Gamificação de Bem-estar
+     </h2>
+     <p class="text-gray-700 max-w-3xl mx-auto text-lg leading-relaxed mb-8">
+      Nossa plataforma oferece um sistema de gamificação para incentivar sua constância nos atendimentos e no autocuidado. Você pode ganhar recompensas simples e motivadoras ao completar metas e participar ativamente do seu processo de saúde mental.
+     </p>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-4xl mx-auto text-left">
+      <div class="bg-gray-50 rounded-2xl p-6 shadow-md ring-1 ring-gray-300">
+       <h3 class="text-xl font-normal text-gray-900 mb-3 tracking-wide flex items-center gap-3">
+        <i class="fas fa-trophy text-yellow-500"></i>
+        Metas Personalizadas
+       </h3>
+       <p class="text-gray-600 font-normal leading-relaxed">
+        Defina objetivos semanais e mensais para suas consultas e práticas de autocuidado.
+       </p>
+      </div>
+      <div class="bg-gray-50 rounded-2xl p-6 shadow-md ring-1 ring-gray-300">
+       <h3 class="text-xl font-normal text-gray-900 mb-3 tracking-wide flex items-center gap-3">
+        <i class="fas fa-medal text-blue-600"></i>
+        Recompensas e Conquistas
+       </h3>
+       <p class="text-gray-600 font-normal leading-relaxed">
+        Ganhe medalhas virtuais e reconhecimentos ao atingir suas metas e manter a regularidade.
+       </p>
+      </div>
+      <div class="bg-gray-50 rounded-2xl p-6 shadow-md ring-1 ring-gray-300">
+       <h3 class="text-xl font-normal text-gray-900 mb-3 tracking-wide flex items-center gap-3">
+        <i class="fas fa-chart-line text-green-600"></i>
+        Acompanhamento de Progresso
+       </h3>
+       <p class="text-gray-600 font-normal leading-relaxed">
+        Visualize seu progresso ao longo do tempo e receba incentivos para continuar seu desenvolvimento.
+       </p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <!-- Área Profissional -->
+   <section aria-labelledby="area-profissional-title" class="bg-[#f5f5f7] py-20 px-6 sm:px-12 lg:px-20" id="area-profissional">
+    <div class="max-w-5xl mx-auto">
+     <h2 class="text-4xl font-normal text-gray-900 text-center tracking-wide select-text" id="area-profissional-title">
+      Área Profissional
+     </h2>
+     <p class="mt-6 text-center text-gray-600 max-w-3xl mx-auto font-normal text-lg leading-relaxed tracking-wide select-text">
+      Ferramentas exclusivas para psicólogos e terapeutas, com agenda, relatórios básicos e integração de pagamentos.
+     </p>
+     <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-12 text-center" role="list">
+      <div aria-label="Agenda profissional" class="bg-white rounded-3xl p-10 shadow-xl ring-1 ring-gray-300 flex flex-col items-center cursor-pointer hover:ring-gray-900 transition select-none" id="prof-agenda" tabindex="0">
+       <i class="fas fa-calendar-alt fa-4x text-gray-900 mb-6">
+       </i>
+       <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide select-text">
+        Agenda
+       </h3>
+       <p class="text-gray-600 text-base font-normal tracking-wide leading-relaxed max-w-xs select-text">
+        Gerencie seus horários e consultas com facilidade.
+       </p>
+      </div>
+      <div aria-label="Relatórios básicos" class="bg-white rounded-3xl p-10 shadow-xl ring-1 ring-gray-300 flex flex-col items-center cursor-pointer hover:ring-gray-900 transition select-none" id="prof-relatorios" tabindex="0">
+       <i class="fas fa-file-alt fa-4x text-gray-900 mb-6">
+       </i>
+       <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide select-text">
+        Relatórios
+       </h3>
+       <p class="text-gray-600 text-base font-normal tracking-wide leading-relaxed max-w-xs select-text">
+        Acompanhe o progresso dos seus pacientes e resultados.
+       </p>
+      </div>
+      <div aria-label="Integração de pagamentos" class="bg-white rounded-3xl p-10 shadow-xl ring-1 ring-gray-300 flex flex-col items-center cursor-pointer hover:ring-gray-900 transition select-none" id="prof-pagamentos" tabindex="0">
+       <i class="fas fa-credit-card fa-4x text-gray-900 mb-6">
+       </i>
+       <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide select-text">
+        Pagamentos
+       </h3>
+       <p class="text-gray-600 text-base font-normal tracking-wide leading-relaxed max-w-xs select-text">
+        Receba pagamentos de forma segura e integrada.
+       </p>
+      </div>
+     </div>
+     <div aria-live="polite" class="mt-12 max-w-4xl mx-auto" id="area-profissional-content" tabindex="0">
+     </div>
+    </div>
+   </section>
+   <!-- Contato -->
+   <section aria-labelledby="contato-title" class="py-20 px-6 sm:px-12 lg:px-20 bg-white" id="contato">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="text-4xl font-normal text-gray-900 mb-8 tracking-wide select-text" id="contato-title">
+      Fale Conosco
+     </h2>
+     <p class="text-gray-600 max-w-3xl mx-auto mb-12 font-normal text-lg leading-relaxed tracking-wide select-text">
+      Estamos aqui para ajudar. Envie sua mensagem e responderemos o mais breve possível.
+     </p>
+     <form aria-label="Formulário de contato" class="grid grid-cols-1 gap-8 max-w-2xl mx-auto text-left" id="form-contato" novalidate="" tabindex="0">
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="nome-contato">
+        Nome
+       </label>
+       <input aria-describedby="nome-contato-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="nome-contato" name="nome-contato" placeholder="Seu nome" required="" type="text"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="nome-contato-error">
+        Por favor, insira seu nome.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="email-contato">
+        E-mail
+       </label>
+       <input aria-describedby="email-contato-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="email-contato" name="email-contato" placeholder="seu@email.com" required="" type="email"/>
+       <p class="mt-1 text-xs text-red-600 hidden" id="email-contato-error">
+        Por favor, insira um e-mail válido.
+       </p>
+      </div>
+      <div>
+       <label class="block text-sm font-normal text-gray-700 mb-2 tracking-wide select-none" for="mensagem">
+        Mensagem
+       </label>
+       <textarea aria-describedby="mensagem-error" aria-required="true" class="w-full rounded-lg border border-gray-300 px-5 py-3 resize-y text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition" id="mensagem" name="mensagem" placeholder="Escreva sua mensagem aqui" required="" rows="6"></textarea>
+       <p class="mt-1 text-xs text-red-600 hidden" id="mensagem-error">
+        Por favor, escreva sua mensagem.
+       </p>
+      </div>
+      <div class="flex justify-center">
+       <button aria-label="Botão para enviar mensagem de contato" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-3xl px-14 py-4 shadow-lg tracking-wide transition select-none" tabindex="0" type="submit">
+        Enviar
+       </button>
+      </div>
+     </form>
+     <div aria-live="polite" class="mt-6 max-w-xl mx-auto text-center text-green-700 font-normal text-base hidden" id="contato-sucesso" role="alert" tabindex="0">
+      Mensagem enviada com sucesso!
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="bg-white border-t border-gray-200 py-10 mt-20">
+   <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm font-normal tracking-wide select-none">
+    <p>
+     © 2024 Plataforma de Saúde Mental Online. Todos os direitos reservados.
+    </p>
+    <nav aria-label="Links do rodapé" class="mt-6 md:mt-0 space-x-8">
+     <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#politica-privacidade" tabindex="0">
+      Política de Privacidade
+     </a>
+     <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#termos-uso" tabindex="0">
+      Termos de Uso
+     </a>
+     <a class="hover:text-gray-900 focus:text-gray-900 focus:outline-none" href="#contato" tabindex="0">
+      Contato
+     </a>
+    </nav>
+   </div>
+  </footer>
+  <script>
+   // Mobile menu toggle with animation
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+
+    mobileMenuButton.addEventListener('click', () => {
+      const expanded =
+        mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+      mobileMenuButton.setAttribute('aria-expanded', !expanded);
+      mobileMenu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('active');
+    });
+
+    // Emergency button toggle card
+    const emergencyButton = document.getElementById('emergency-button');
+    const emergencyCard = document.getElementById('emergency-card');
+
+    emergencyButton.addEventListener('click', () => {
+      const isVisible = emergencyCard.style.display === 'block';
+      if (isVisible) {
+        emergencyCard.style.display = 'none';
+        emergencyButton.setAttribute('aria-expanded', 'false');
+      } else {
+        emergencyCard.style.display = 'block';
+        emergencyCard.focus();
+        emergencyButton.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    // Close emergency card if click outside
+    document.addEventListener('click', (e) => {
+      if (!emergencyCard.contains(e.target) && !emergencyButton.contains(e.target)) {
+        emergencyCard.style.display = 'none';
+        emergencyButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close emergency card on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && emergencyCard.style.display === 'block') {
+        emergencyCard.style.display = 'none';
+        emergencyButton.setAttribute('aria-expanded', 'false');
+        emergencyButton.focus();
+      }
+    });
+
+    // Dados simulados para profissionais
+    const profissionais = [
+      {
+        id: 'ana-silva',
+        nome: 'Dra. Ana Silva',
+        especialidade: 'Psicóloga Clínica',
+        descricao: 'Especialista em terapia cognitivo-comportamental, com 10 anos de experiência.',
+        imagem: 'https://placehold.co/300x220?text=Ana+Silva',
+        avaliacao: 4.5,
+        horarios: ['09:00', '10:00', '14:00', '15:00'],
+        localizacao: 'São Paulo',
+        disponibilidade: ['manha', 'tarde'],
+        abordagem: ['cognitivo-comportamental']
+      },
+      {
+        id: 'carlos-pereira',
+        nome: 'Dr. Carlos Pereira',
+        especialidade: 'Psiquiatra',
+        descricao: 'Atendimento especializado em transtornos de ansiedade e depressão.',
+        imagem: 'https://placehold.co/300x220?text=Carlos+Pereira',
+        avaliacao: 3.5,
+        horarios: ['11:00', '16:00', '17:00'],
+        localizacao: 'Rio de Janeiro',
+        disponibilidade: ['manha', 'tarde', 'noite'],
+        abordagem: ['psicanalitica']
+      },
+      {
+        id: 'mariana-costa',
+        nome: 'Dra. Mariana Costa',
+        especialidade: 'Psicóloga Infantil',
+        descricao: 'Especialista em desenvolvimento infantil e terapia lúdica.',
+        imagem: 'https://placehold.co/300x220?text=Mariana+Costa',
+        avaliacao: 5,
+        horarios: ['08:00', '09:30', '13:00'],
+        localizacao: 'Belo Horizonte',
+        disponibilidade: ['manha', 'tarde'],
+        abordagem: ['humanista']
+      },
+      {
+        id: 'felipe-almeida',
+        nome: 'Dr. Felipe Almeida',
+        especialidade: 'Terapeuta Familiar',
+        descricao: 'Atendimento focado em dinâmicas familiares e relacionamentos.',
+        imagem: 'https://placehold.co/300x220?text=Felipe+Almeida',
+        avaliacao: 3,
+        horarios: ['10:00', '15:00'],
+        localizacao: 'Curitiba',
+        disponibilidade: ['manha', 'tarde'],
+        abordagem: ['sistematica']
+      },
+      {
+        id: 'juliana-martins',
+        nome: 'Dra. Juliana Martins',
+        especialidade: 'Psicóloga Humanista',
+        descricao: 'Abordagem centrada no indivíduo, com foco em autoconhecimento e empatia.',
+        imagem: 'https://placehold.co/300x220?text=Juliana+Martins',
+        avaliacao: 3.5,
+        horarios: ['09:00', '11:00', '14:00'],
+        localizacao: 'Porto Alegre',
+        disponibilidade: ['manha', 'tarde'],
+        abordagem: ['humanista']
+      },
+      {
+        id: 'lucas-fernandes',
+        nome: 'Dr. Lucas Fernandes',
+        especialidade: 'Psicólogo Cognitivo-Comportamental',
+        descricao: 'Focado em técnicas práticas para ansiedade e estresse.',
+        imagem: 'https://placehold.co/300x220?text=Lucas+Fernandes',
+        avaliacao: 4,
+        horarios: ['08:30', '10:30', '16:00'],
+        localizacao: 'Recife',
+        disponibilidade: ['manha', 'tarde'],
+        abordagem: ['cognitivo-comportamental']
+      }
+    ];
+
+    // Dados simulados para recursos educativos
+    const recursos = [
+      {
+        tipo: 'artigo',
+        titulo: '5 técnicas para controlar a ansiedade',
+        descricao: 'Aprenda métodos simples e eficazes para reduzir a ansiedade no dia a dia.',
+        imagem: 'https://placehold.co/400x208?text=Meditação+em+ambiente+calmo',
+        link: '#'
+      },
+      {
+        tipo: 'vídeo',
+        titulo: 'Como melhorar a qualidade do sono',
+        descricao: 'Dicas práticas para ter noites mais tranquilas e restauradoras.',
+        imagem: 'https://placehold.co/400x208?text=Pessoa+dormindo+tranquilamente',
+        link: '#'
+      },
+      {
+        tipo: 'dica',
+        titulo: 'Práticas diárias para o autocuidado',
+        descricao: 'Pequenos hábitos que fazem grande diferença no seu bem-estar.',
+        imagem: 'https://placehold.co/400x208?text=Exercícios+ao+ar+livre',
+        link: '#'
+      },
+      {
+        tipo: 'artigo',
+        titulo: 'Entendendo a depressão e como buscar ajuda',
+        descricao: 'Informações essenciais para reconhecer sintomas e procurar tratamento.',
+        imagem: 'https://placehold.co/400x208?text=Pessoa+pensativa+em+ambiente+sereno',
+        link: '#'
+      },
+      {
+        tipo: 'vídeo',
+        titulo: 'Técnicas de respiração para reduzir o estresse',
+        descricao: 'Aprenda exercícios simples para acalmar a mente e o corpo.',
+        imagem: 'https://placehold.co/400x208?text=Exercícios+de+respiração',
+        link: '#'
+      },
+      {
+        tipo: 'dica',
+        titulo: 'Como manter a motivação para o autocuidado',
+        descricao: 'Estratégias para criar hábitos saudáveis e sustentáveis.',
+        imagem: 'https://placehold.co/400x208?text=Pessoa+feliz+praticando+autocuidado',
+        link: '#'
+      }
+    ];
+
+    // Dados simulados para planos
+    const planos = [
+      {
+        nome: 'Plano Básico',
+        preco: 'R$ 150',
+        descricao: '1 consulta por mês',
+        beneficios: ['Agendamento online', 'Chat seguro', 'Recursos educativos'],
+        destaque: false
+      },
+      {
+        nome: 'Plano Premium',
+        preco: 'R$ 500',
+        descricao: '4 consultas por mês',
+        beneficios: ['Agendamento online', 'Chat seguro', 'Recursos educativos', 'Descontos exclusivos', 'Atendimento por videochamada'],
+        destaque: true
+      },
+      {
+        nome: 'Plano Corporativo',
+        preco: 'Sob consulta',
+        descricao: 'Soluções personalizadas para empresas',
+        beneficios: ['Programas de saúde mental', 'Relatórios e análises', 'Suporte dedicado'],
+        destaque: false
+      }
+    ];
+
+    // Dados simulados para avaliações
+    const avaliacoes = [
+      {
+        profissional: 'Dra. Ana Silva',
+        avaliacao: 4.5,
+        texto: 'Atendimento acolhedor e muito profissional. Me ajudou a entender e controlar minha ansiedade.'
+      },
+      {
+        profissional: 'Dr. Carlos Pereira',
+        avaliacao: 3.5,
+        texto: 'Muito atencioso e competente. Recomendo para quem precisa de ajuda psiquiátrica.'
+      },
+      {
+        profissional: 'Dra. Mariana Costa',
+        avaliacao: 5,
+        texto: 'Excelente com crianças, muito paciente e dedicada. Minha filha adorou as sessões.'
+      }
+    ];
+
+    // Função para criar estrelas de avaliação
+    function criarEstrelas(nota) {
+      const fullStars = Math.floor(nota);
+      const halfStar = nota % 1 >= 0.5;
+      let starsHtml = '';
+      for (let i = 0; i < fullStars; i++) {
+        starsHtml += '<i class="fas fa-star"></i>';
+      }
+      if (halfStar) {
+        starsHtml += '<i class="fas fa-star-half-alt"></i>';
+      }
+      const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+      for (let i = 0; i < emptyStars; i++) {
+        starsHtml += '<i class="far fa-star"></i>';
+      }
+      return starsHtml;
+    }
+
+    // Renderizar lista de profissionais na busca
+    function renderizarProfissionais(lista) {
+      const container = document.getElementById('resultado-busca');
+      container.innerHTML = '';
+      if (lista.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-600 font-normal text-lg select-text">Nenhum profissional encontrado com os filtros aplicados.</p>';
+        return;
+      }
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12';
+      lista.forEach(prof => {
+        const card = document.createElement('article');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `Perfil do profissional ${prof.nome}, ${prof.especialidade}`);
+        card.className = 'bg-white rounded-3xl shadow-xl p-8 flex flex-col ring-1 ring-gray-300 hover:ring-gray-900 transition cursor-pointer select-text';
+        card.innerHTML = `
+          <img src="${prof.imagem}" alt="Foto do profissional ${prof.nome} em ambiente elegante e neutro" class="rounded-2xl mb-6 object-cover h-44 w-full" loading="lazy" width="300" height="220"/>
+          <h3 class="text-2xl font-normal text-gray-900 mb-1 tracking-wide">${prof.nome}</h3>
+          <p class="text-gray-700 mb-3 text-base font-normal tracking-wide">${prof.especialidade}</p>
+          <p class="text-gray-600 text-sm flex-grow font-normal leading-relaxed tracking-wide">${prof.descricao}</p>
+          <div class="mt-6 flex justify-between items-center">
+            <span aria-label="Avaliação ${prof.avaliacao} estrelas" class="text-yellow-500">${criarEstrelas(prof.avaliacao)}</span>
+            <button aria-label="Agendar consulta com ${prof.nome}" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white text-sm font-normal rounded-2xl px-6 py-2 tracking-wide transition" type="button">Agendar</button>
+          </div>
+        `;
+        // Botão agendar preenche o formulário de agendamento e foca nele
+        const btnAgendar = card.querySelector('button');
+        btnAgendar.addEventListener('click', () => {
+          document.getElementById('profissional-agenda').value = prof.id;
+          document.getElementById('agendamento').scrollIntoView({behavior: 'smooth'});
+          document.getElementById('profissional-agenda').focus();
+        });
+        grid.appendChild(card);
+      });
+      container.appendChild(grid);
+      container.focus();
+    }
+
+    // Filtrar profissionais conforme formulário de busca
+    function filtrarProfissionais(filtros) {
+      return profissionais.filter(prof => {
+        if (filtros.especialidade && filtros.especialidade !== '' && prof.especialidade.toLowerCase() !== filtros.especialidade.toLowerCase() && !prof.abordagem.includes(filtros.especialidade.toLowerCase())) {
+          if(prof.especialidade.toLowerCase().indexOf(filtros.especialidade.toLowerCase()) === -1) return false;
+        }
+        if (filtros.localizacao && filtros.localizacao.trim() !== '') {
+          if (!prof.localizacao.toLowerCase().includes(filtros.localizacao.toLowerCase()) && filtros.localizacao.toLowerCase() !== 'online') {
+            return false;
+          }
+        }
+        if (filtros.disponibilidade && filtros.disponibilidade !== '') {
+          if (!prof.disponibilidade.includes(filtros.disponibilidade)) {
+            return false;
+          }
+        }
+        if (filtros.abordagem && filtros.abordagem !== '') {
+          if (!prof.abordagem.includes(filtros.abordagem)) {
+            return false;
+          }
+        }
+        return true;
+      });
+    }
+
+    // Renderizar recursos educativos
+    function renderizarRecursos() {
+      const container = document.getElementById('recursos-list');
+      recursos.forEach(rec => {
+        const card = document.createElement('article');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `${rec.tipo.charAt(0).toUpperCase() + rec.tipo.slice(1)}: ${rec.titulo}`);
+        card.className = 'bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col ring-1 ring-gray-300 hover:ring-gray-900 transition cursor-pointer select-text';
+        card.innerHTML = `
+          <img src="${rec.imagem}" alt="${rec.tipo.charAt(0).toUpperCase() + rec.tipo.slice(1)} relacionado a ${rec.titulo}" class="w-full object-cover h-52 rounded-t-3xl" loading="lazy" width="400" height="208"/>
+          <div class="p-8 flex flex-col flex-grow">
+            <h3 class="text-2xl font-normal text-gray-900 mb-3 tracking-wide">${rec.titulo}</h3>
+            <p class="text-gray-600 flex-grow text-base font-normal leading-relaxed tracking-wide">${rec.descricao}</p>
+            <a href="${rec.link}" class="mt-6 inline-block text-gray-900 font-normal tracking-wide hover:underline focus:underline" tabindex="0">${rec.tipo === 'artigo' ? 'Ler artigo' : rec.tipo === 'vídeo' ? 'Assistir vídeo' : 'Ver dicas'}</a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Renderizar planos
+    function renderizarPlanos() {
+      const container = document.getElementById('planos-list');
+      planos.forEach(plano => {
+        const card = document.createElement('div');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `Plano ${plano.nome}`);
+        card.className = `border rounded-3xl p-12 shadow-xl ring-1 ring-gray-300 transition cursor-pointer select-text flex flex-col ${plano.destaque ? 'border-gray-900 shadow-2xl ring-gray-900' : 'border-gray-300 hover:ring-gray-900'}`;
+        card.innerHTML = `
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">${plano.nome}</h3>
+          <p class="text-gray-900 text-5xl font-normal mb-6 tracking-wide">${plano.preco}</p>
+          <p class="text-gray-700 mb-10 text-lg font-normal tracking-wide leading-relaxed">${plano.descricao}</p>
+          <ul class="text-gray-700 mb-12 space-y-4 flex-grow text-left font-normal tracking-wide">
+            ${plano.beneficios.map(b => `<li class="flex items-center gap-3"><i class="fas fa-check text-gray-900"></i>${b}</li>`).join('')}
+          </ul>
+          <button aria-label="Assinar ${plano.nome}" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-3xl px-10 py-4 shadow-lg tracking-wide transition" type="button">${plano.destaque ? 'Assinar' : plano.nome === 'Plano Corporativo' ? 'Solicitar' : 'Assinar'}</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Renderizar avaliações
+    function renderizarAvaliacoes() {
+      const container = document.getElementById('avaliacoes-list');
+      avaliacoes.forEach(av => {
+        const card = document.createElement('article');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `Avaliação anônima de usuário para ${av.profissional}`);
+        card.className = 'bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 hover:ring-gray-900 transition cursor-pointer select-text';
+        card.innerHTML = `
+          <div class="flex items-center mb-6 gap-4">
+            <span aria-label="Avaliação ${av.avaliacao} estrelas" class="text-yellow-500 text-xl">${criarEstrelas(av.avaliacao)}</span>
+            <span class="text-gray-900 font-normal tracking-wide text-base">Anônimo</span>
+          </div>
+          <p class="text-gray-700 text-base font-normal leading-relaxed tracking-wide max-w-xl mx-auto">${av.texto}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Preencher select de profissionais no agendamento
+    function preencherSelectProfissionais() {
+      const select = document.getElementById('profissional-agenda');
+      profissionais.forEach(prof => {
+        const option = document.createElement('option');
+        option.value = prof.id;
+        option.textContent = prof.nome;
+        select.appendChild(option);
+      });
+    }
+
+    // Validação e envio do formulário de cadastro
+    const formCadastro = document.getElementById('form-cadastro');
+    formCadastro.addEventListener('submit', e => {
+      e.preventDefault();
+      let valido = true;
+
+      // Nome
+      const nome = formCadastro.nome;
+      const nomeError = document.getElementById('nome-error');
+      if (!nome.value.trim()) {
+        nomeError.classList.remove('hidden');
+        valido = false;
+      } else {
+        nomeError.classList.add('hidden');
+      }
+
+      // Email
+      const email = formCadastro.email;
+      const emailError = document.getElementById('email-error');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.value.trim() || !emailRegex.test(email.value.trim())) {
+        emailError.classList.remove('hidden');
+        valido = false;
+      } else {
+        emailError.classList.add('hidden');
+      }
+
+      // Tipo
+      const tipo = formCadastro.tipo;
+      const tipoError = document.getElementById('tipo-error');
+      if (!tipo.value) {
+        tipoError.classList.remove('hidden');
+        valido = false;
+      } else {
+        tipoError.classList.add('hidden');
+      }
+
+      // Senha
+      const senha = formCadastro.senha;
+      const senhaError = document.getElementById('senha-error');
+      if (!senha.value || senha.value.length < 8) {
+        senhaError.classList.remove('hidden');
+        valido = false;
+      } else {
+        senhaError.classList.add('hidden');
+      }
+
+      if (!valido) return;
+
+      // Simular cadastro com sucesso
+      formCadastro.reset();
+      const sucesso = document.getElementById('cadastro-sucesso');
+      sucesso.classList.remove('hidden');
+      sucesso.focus();
+      setTimeout(() => {
+        sucesso.classList.add('hidden');
+      }, 5000);
+    });
+
+    // Validação e envio do formulário de busca
+    const formBusca = document.getElementById('form-busca');
+    formBusca.addEventListener('submit', e => {
+      e.preventDefault();
+      const filtros = {
+        especialidade: formBusca.especialidade.value,
+        localizacao: formBusca.localizacao.value,
+        disponibilidade: formBusca.disponibilidade.value,
+        abordagem: formBusca.abordagem.value
+      };
+      const resultado = filtrarProfissionais(filtros);
+      renderizarProfissionais(resultado);
+    });
+
+    // Validação e envio do formulário de agendamento
+    const formAgendamento = document.getElementById('form-agendamento');
+    formAgendamento.data.min = new Date().toISOString().split('T')[0];
+    formAgendamento.addEventListener('submit', e => {
+      e.preventDefault();
+      let valido = true;
+
+      // Profissional
+      const profSelect = formAgendamento['profissional-agenda'];
+      const profError = document.getElementById('profissional-agenda-error');
+      if (!profSelect.value) {
+        profError.classList.remove('hidden');
+        valido = false;
+      } else {
+        profError.classList.add('hidden');
+      }
+
+      // Data
+      const dataInput = formAgendamento['data-agenda'];
+      const dataError = document.getElementById('data-agenda-error');
+      if (!dataInput.value || new Date(dataInput.value) < new Date(new Date().toISOString().split('T')[0])) {
+        dataError.classList.remove('hidden');
+        valido = false;
+      } else {
+        dataError.classList.add('hidden');
+      }
+
+      // Hora
+      const horaInput = formAgendamento['hora-agenda'];
+      const horaError = document.getElementById('hora-agenda-error');
+      if (!horaInput.value) {
+        horaError.classList.remove('hidden');
+        valido = false;
+      } else {
+        horaError.classList.add('hidden');
+      }
+
+      // Tipo Consulta
+      const tipoConsulta = formAgendamento['tipo-consulta-agenda'];
+      const tipoConsultaError = document.getElementById('tipo-consulta-agenda-error');
+      if (!tipoConsulta.value) {
+        tipoConsultaError.classList.remove('hidden');
+        valido = false;
+      } else {
+        tipoConsultaError.classList.add('hidden');
+      }
+
+      if (!valido) return;
+
+      // Simular agendamento com sucesso
+      formAgendamento.reset();
+      const sucesso = document.getElementById('agendamento-sucesso');
+      sucesso.classList.remove('hidden');
+      sucesso.focus();
+      setTimeout(() => {
+        sucesso.classList.add('hidden');
+      }, 5000);
+    });
+
+    // Validação e envio do formulário de contato
+    const formContato = document.getElementById('form-contato');
+    formContato.addEventListener('submit', e => {
+      e.preventDefault();
+      let valido = true;
+
+      // Nome
+      const nomeContato = formContato['nome-contato'];
+      const nomeContatoError = document.getElementById('nome-contato-error');
+      if (!nomeContato.value.trim()) {
+        nomeContatoError.classList.remove('hidden');
+        valido = false;
+      } else {
+        nomeContatoError.classList.add('hidden');
+      }
+
+      // Email
+      const emailContato = formContato['email-contato'];
+      const emailContatoError = document.getElementById('email-contato-error');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailContato.value.trim() || !emailRegex.test(emailContato.value.trim())) {
+        emailContatoError.classList.remove('hidden');
+        valido = false;
+      } else {
+        emailContatoError.classList.add('hidden');
+      }
+
+      // Mensagem
+      const mensagem = formContato['mensagem'];
+      const mensagemError = document.getElementById('mensagem-error');
+      if (!mensagem.value.trim()) {
+        mensagemError.classList.remove('hidden');
+        valido = false;
+      } else {
+        mensagemError.classList.add('hidden');
+      }
+
+      if (!valido) return;
+
+      // Simular envio com sucesso
+      formContato.reset();
+      const sucesso = document.getElementById('contato-sucesso');
+      sucesso.classList.remove('hidden');
+      sucesso.focus();
+      setTimeout(() => {
+        sucesso.classList.add('hidden');
+      }, 5000);
+    });
+
+    // Área do usuário: conteúdo dinâmico
+    const areaUsuarioContent = document.getElementById('area-usuario-content');
+    document.getElementById('btn-consultas').addEventListener('click', () => {
+      areaUsuarioContent.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 select-text">
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">Minhas Consultas</h3>
+          <p class="text-gray-600 font-normal mb-6">Aqui você pode visualizar, agendar e cancelar suas consultas.</p>
+          <button id="btn-novo-agendamento" class="bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 text-white font-normal rounded-xl px-8 py-3 shadow-lg tracking-wide transition select-none" type="button">Novo Agendamento</button>
+          <ul class="mt-6 space-y-4 text-gray-700 font-normal max-w-xl mx-auto">
+            <li class="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <span>Consulta com Dra. Ana Silva - 10/07/2024 às 09:00</span>
+              <button class="text-red-600 hover:text-red-800 focus:outline-none" aria-label="Cancelar consulta com Dra. Ana Silva em 10 de julho de 2024 às 09:00" type="button">Cancelar</button>
+            </li>
+            <li class="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <span>Consulta com Dr. Carlos Pereira - 15/07/2024 às 16:00</span>
+              <button class="text-red-600 hover:text-red-800 focus:outline-none" aria-label="Cancelar consulta com Dr. Carlos Pereira em 15 de julho de 2024 às 16:00" type="button">Cancelar</button>
+            </li>
+          </ul>
+        </div>
+      `;
+      document.getElementById('btn-novo-agendamento').addEventListener('click', () => {
+        document.getElementById('agendamento').scrollIntoView({behavior: 'smooth'});
+        document.getElementById('profissional-agenda').focus();
+      });
+      areaUsuarioContent.focus();
+    });
+    document.getElementById('btn-recursos').addEventListener('click', () => {
+      areaUsuarioContent.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 select-text">
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">Recursos de Bem-estar</h3>
+          <p class="text-gray-600 font-normal mb-6">Acesse artigos, vídeos e dicas para cuidar da sua saúde mental.</p>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            ${recursos.map(rec => `
+              <li class="border border-gray-300 rounded-lg p-4">
+                <h4 class="text-xl font-normal text-gray-900 mb-2">${rec.titulo}</h4>
+                <p class="text-gray-700 font-normal">${rec.descricao}</p>
+                <a href="${rec.link}" class="inline-block mt-2 text-gray-900 font-normal hover:underline focus:underline" tabindex="0">${rec.tipo === 'artigo' ? 'Ler artigo' : rec.tipo === 'vídeo' ? 'Assistir vídeo' : 'Ver dicas'}</a>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
+      areaUsuarioContent.focus();
+    });
+    document.getElementById('btn-progresso').addEventListener('click', () => {
+      areaUsuarioContent.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 select-text max-w-xl mx-auto">
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">Meu Progresso</h3>
+          <p class="text-gray-600 font-normal mb-6">Monitore seu desenvolvimento e conquistas no autocuidado.</p>
+          <div class="w-full bg-gray-300 rounded-full h-6 overflow-hidden mb-6">
+            <div class="bg-gray-900 h-6 rounded-full" style="width: 65%;"></div>
+          </div>
+          <p class="text-gray-700 font-normal">Você completou 65% do seu plano de autocuidado mensal.</p>
+        </div>
+      `;
+      areaUsuarioContent.focus();
+    });
+
+    // Área profissional: conteúdo dinâmico
+    const areaProfissionalContent = document.getElementById('area-profissional-content');
+    document.getElementById('prof-agenda').addEventListener('click', () => {
+      areaProfissionalContent.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 select-text max-w-4xl mx-auto">
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">Minha Agenda</h3>
+          <p class="text-gray-600 font-normal mb-6">Gerencie seus horários e consultas com facilidade.</p>
+          <ul class="space-y-4 text-gray-700 font-normal">
+            <li class="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <span>Consulta com João Silva - 10/07/2024 às 09:00</span>
+              <button class="text-red-600 hover:text-red-800 focus:outline-none" aria-label="Cancelar consulta com João Silva em 10 de julho de 2024 às 09:00" type="button">Cancelar</button>
+            </li>
+            <li class="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <span>Consulta com Maria Souza - 15/07/2024 às 16:00</span>
+              <button class="text-red-600 hover:text-red-800 focus:outline-none" aria-label="Cancelar consulta com Maria Souza em 15 de julho de 2024 às 16:00" type="button">Cancelar</button>
+            </li>
+          </ul>
+        </div>
+      `;
+      areaProfissionalContent.focus();
+    });
+    document.getElementById('prof-relatorios').addEventListener('click', () => {
+      areaProfissionalContent.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 select-text max-w-4xl mx-auto">
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">Relatórios</h3>
+          <p class="text-gray-600 font-normal mb-6">Acompanhe o progresso dos seus pacientes e resultados.</p>
+          <table class="w-full text-left border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th class="border border-gray-300 px-4 py-2">Paciente</th>
+                <th class="border border-gray-300 px-4 py-2">Última Consulta</th>
+                <th class="border border-gray-300 px-4 py-2">Progresso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">João Silva</td>
+                <td class="border border-gray-300 px-4 py-2">10/07/2024</td>
+                <td class="border border-gray-300 px-4 py-2">70%</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">Maria Souza</td>
+                <td class="border border-gray-300 px-4 py-2">15/07/2024</td>
+                <td class="border border-gray-300 px-4 py-2">85%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+      areaProfissionalContent.focus();
+    });
+    document.getElementById('prof-pagamentos').addEventListener('click', () => {
+      areaProfissionalContent.innerHTML = `
+        <div class="bg-white rounded-3xl shadow-xl p-10 ring-1 ring-gray-300 select-text max-w-4xl mx-auto">
+          <h3 class="text-3xl font-normal text-gray-900 mb-6 tracking-wide">Pagamentos</h3>
+          <p class="text-gray-600 font-normal mb-6">Receba pagamentos de forma segura e integrada.</p>
+          <ul class="space-y-4 text-gray-700 font-normal">
+            <li class="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <span>Consulta com João Silva - R$ 150,00 - Pago</span>
+              <button class="text-gray-600 cursor-not-allowed" aria-label="Pagamento já efetuado" disabled type="button">Pago</button>
+            </li>
+            <li class="border border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <span>Consulta com Maria Souza - R$ 150,00 - Pendente</span>
+              <button class="text-blue-600 hover:text-blue-800 focus:outline-none" aria-label="Marcar pagamento como recebido" type="button" id="btn-pagar-maria">Marcar como pago</button>
+            </li>
+          </ul>
+        </div>
+      `;
+      areaProfissionalContent.focus();
+
+      const btnPagarMaria = document.getElementById('btn-pagar-maria');
+      btnPagarMaria.addEventListener('click', () => {
+        btnPagarMaria.textContent = 'Pago';
+        btnPagarMaria.disabled = true;
+        btnPagarMaria.classList.remove('text-blue-600', 'hover:text-blue-800');
+        btnPagarMaria.classList.add('text-gray-600', 'cursor-not-allowed');
+      });
+    });
+
+    // Inicializações
+    preencherSelectProfissionais();
+    renderizarRecursos();
+    renderizarPlanos();
+    renderizarAvaliacoes();
+    renderizarProfissionais(profissionais);
+  </script>
+ </body>
+</html>

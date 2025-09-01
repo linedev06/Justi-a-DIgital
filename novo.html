@@ -287,6 +287,225 @@
        min-height: auto;
      }
    }
+   #chatModal {
+     /* base styles for modal container */
+     z-index: 9999;
+   }
+
+   /* Mobile: full screen chat */
+   @media (max-width: 767px) {
+     #chatModal > div {
+       position: fixed;
+       inset: 0;
+       width: 100vw;
+       height: 100vh;
+       border-radius: 0;
+       box-shadow: none;
+       display: flex;
+       flex-direction: column;
+       background-color: white;
+       padding: 0;
+       overflow: hidden;
+     }
+   }
+
+   /* Desktop: centered card */
+   @media (min-width: 768px) {
+     #chatModal > div {
+       position: relative;
+       max-width: 400px;
+       max-height: 80vh;
+       border-radius: 1rem;
+       box-shadow: 0 12px 28px rgba(30, 58, 138, 0.25);
+       display: flex;
+       flex-direction: column;
+       background-color: white;
+       padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+       overflow: hidden;
+     }
+   }
+
+   /* Chat Header */
+   #chatModal > div > header {
+     background-color: #1e3a8a;
+     color: white;
+     padding: 1rem 1.5rem;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     position: sticky;
+     top: 0;
+     z-index: 10;
+     user-select: none;
+     font-weight: 600;
+     font-size: 1.25rem;
+     border-top-left-radius: 1rem;
+     border-top-right-radius: 1rem;
+   }
+
+   /* On mobile, header corners are square */
+   @media (max-width: 767px) {
+     #chatModal > div > header {
+       border-radius: 0;
+       padding-left: 1rem;
+       padding-right: 1rem;
+     }
+   }
+
+   /* Close button in header */
+   #chatModal > div > header button {
+     background: transparent;
+     border: none;
+     color: white;
+     font-size: 1.25rem;
+     cursor: pointer;
+     padding: 0.25rem;
+     border-radius: 0.375rem;
+     transition: color 0.2s ease;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+   #chatModal > div > header button:hover,
+   #chatModal > div > header button:focus {
+     color: #93c5fd;
+     outline: none;
+   }
+
+   /* Chat messages container */
+   #chatMessages {
+     background-color: white;
+     flex-grow: 1;
+     overflow-y: auto;
+     padding: 1rem 1rem 1rem 1rem;
+     scroll-behavior: smooth;
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     font-size: 15px;
+     line-height: 1.4;
+   }
+
+   /* Scrollbar styling for modern browsers */
+   #chatMessages::-webkit-scrollbar {
+     width: 8px;
+   }
+   #chatMessages::-webkit-scrollbar-thumb {
+     background-color: rgba(30, 58, 138, 0.3);
+     border-radius: 4px;
+   }
+   #chatMessages::-webkit-scrollbar-track {
+     background: transparent;
+   }
+
+   /* Message bubbles */
+   #chatMessages p {
+     max-width: 75%;
+     padding: 0.5rem 0.75rem;
+     border-radius: 1rem;
+     word-wrap: break-word;
+     white-space: pre-wrap;
+   }
+
+   /* User messages: right aligned, blue background, white text */
+   #chatMessages p.user-message {
+     background-color: #1e3a8a;
+     color: white;
+     align-self: flex-end;
+     border-bottom-right-radius: 0.25rem;
+     border-bottom-left-radius: 1rem;
+     border-top-left-radius: 1rem;
+     border-top-right-radius: 1rem;
+   }
+
+   /* System/attendant messages: left aligned, light gray background, black text */
+   #chatMessages p.system-message {
+     background-color: #e5e7eb; /* gray-200 */
+     color: #111827; /* gray-900 */
+     align-self: flex-start;
+     border-bottom-left-radius: 0.25rem;
+     border-bottom-right-radius: 1rem;
+     border-top-left-radius: 1rem;
+     border-top-right-radius: 1rem;
+   }
+
+   /* Initial message: italic, centered, gray text */
+   #chatMessages p.initial-message {
+     color: #9ca3af; /* gray-400 */
+     font-style: italic;
+     align-self: center;
+     max-width: 100%;
+     padding: 0;
+     background: transparent;
+   }
+
+   /* Chat input area */
+   #chatModal > div > form {
+     background-color: white;
+     padding: 0.75rem 1rem;
+     display: flex;
+     gap: 0.75rem;
+     align-items: center;
+     position: sticky;
+     bottom: 0;
+     z-index: 10;
+     border-top: 1px solid #cbd5e1;
+     border-bottom-left-radius: 1rem;
+     border-bottom-right-radius: 1rem;
+   }
+
+   /* On mobile, input area respects safe-area inset */
+   @media (max-width: 767px) {
+     #chatModal > div > form {
+       padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+       border-radius: 0;
+       border-top-left-radius: 0;
+       border-top-right-radius: 0;
+       border-bottom-left-radius: 0;
+       border-bottom-right-radius: 0;
+     }
+   }
+
+   /* Chat input field */
+   #chatInput {
+     flex-grow: 1;
+     border: 1.5px solid #d1d5db; /* gray-300 */
+     border-radius: 9999px;
+     padding: 0.75rem 1rem;
+     font-size: 1rem;
+     outline-offset: 2px;
+     transition: border-color 0.3s ease;
+     color: #1e3a8a;
+     font-family: "Inter", sans-serif;
+   }
+   #chatInput:focus {
+     border-color: #1e3a8a;
+     box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.3);
+     outline: none;
+   }
+
+   /* Send button */
+   #chatForm button {
+     background-color: #1e3a8a;
+     border: none;
+     border-radius: 9999px;
+     width: 44px;
+     height: 44px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.2s ease;
+     color: white;
+     font-size: 1.25rem;
+     padding: 0;
+   }
+   #chatForm button:hover,
+   #chatForm button:focus {
+     background-color: #1e40af;
+     outline: none;
+     transform: scale(1.1);
+   }
   </style>
  </head>
  <body class="min-h-screen flex flex-col bg-gradient-to-br from-indigo-100 to-white text-blue-900">
@@ -366,7 +585,7 @@
      <div class="flex items-center space-x-4">
       <img alt="Logo pequeno do Justiça Digital, letras JD em branco sobre fundo azul escuro" class="object-contain rounded" height="48" src="https://storage.googleapis.com/a1aa/image/b50dafdc-7df1-4ff4-927b-8b85f137820f.jpg" width="48"/>
       <span class="font-semibold text-xl text-blue-900 select-none tracking-wide">
-       Justiça Digital
+       JD
       </span>
      </div>
      <div class="flex items-center space-x-6">
@@ -417,119 +636,190 @@
      </button>
     </section>
     <!-- Card 3: Ajuda Rápida -->
-    <section aria-labelledby="supportTitle" class="flex flex-col" style="min-height: 320px;">
-     <div class="header">
-      <div class="icon-wrapper" aria-hidden="true">
-       <i class="fas fa-headset fa-lg"></i>
-      </div>
-      <h2 id="supportTitle">Suporte e Orientação</h2>
-     </div>
-     <p class="description" id="supportDescription">
-      Precisa de ajuda agora? Fale com a nossa equipe.
-     </p>
-     <div class="support-buttons" role="group" aria-label="Opções de contato de suporte">
-      <a aria-label="Entrar em contato via WhatsApp" href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" class="btn-primary" role="button">
-       <i class="fab fa-whatsapp"></i> WhatsApp
-      </a>
-      <a aria-label="Enviar e-mail para suporte" href="mailto:suporte@justicadigital.gov.br" class="btn-primary" role="button">
-       <i class="fas fa-envelope"></i> E-mail
-      </a>
-      <button aria-label="Abrir chat online de suporte" class="btn-primary" id="btnOpenChat" type="button">
-       <i class="fas fa-comments"></i> Chat Online
-      </button>
-     </div>
-    </section>
+ <section aria-labelledby="supportTitle" class="flex flex-col items-center justify-center bg-gray-50 rounded-xl p-6 shadow-md min-h-[320px] space-y-6">
+  <!-- Cabeçalho -->
+  <div class="flex flex-col items-center space-y-2">
+    <div class="flex items-center justify-center w-12 h-12 bg-[#1e3a8a] text-white rounded-full">
+      <i class="fas fa-headset fa-lg"></i>
+    </div>
+    <h2 id="supportTitle" class="text-xl font-semibold text-gray-800 text-center">
+      Suporte e Orientação
+    </h2>
+  </div>
+
+  <!-- Descrição -->
+  <p class="text-gray-600 text-center max-w-sm">
+    Precisa de ajuda agora? Fale com a nossa equipe.
+  </p>
+
+  <!-- Botões -->
+  <div class="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
+    <a
+      aria-label="Entrar em contato via WhatsApp"
+      href="https://wa.me/5511999999999"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#3b4f9e] text-white font-medium py-2 px-4 rounded-lg transition"
+    >
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+
+    <a
+      aria-label="Enviar e-mail para suporte"
+      href="mailto:suporte@justicadigital.gov.br"
+      class="flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#3b4f9e] text-white font-medium py-2 px-4 rounded-lg transition"
+    >
+      <i class="fas fa-envelope"></i> E-mail
+    </a>
+
+    <button
+      aria-label="Abrir chat online de suporte"
+      class="flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#3b4f9e] text-white font-medium py-2 px-4 rounded-lg transition"
+      id="btnOpenChat"
+    >
+      <i class="fas fa-comments"></i> Chat Online
+    </button>
+  </div>
+</section>
+
    </main>
   </section>
   <!-- Tutoriais Page (hidden by default) -->
-  <section aria-label="Página de tutoriais passo a passo" class="fixed inset-0 bg-white z-50 overflow-y-auto p-6 hidden" id="tutorialsPage">
-   <header class="flex items-center justify-between mb-6 max-w-4xl mx-auto">
+  <section aria-label="Página de tutoriais passo a passo" 
+         id="tutorialsPage"
+         class="fixed inset-0 bg-white z-50 overflow-y-auto p-6 hidden">
+
+  <!-- Cabeçalho -->
+  <header class="flex items-center justify-between mb-6 max-w-5xl mx-auto">
     <h2 class="text-2xl font-semibold text-blue-900">
-     Tutoriais Passo a Passo
+      Tutoriais Passo a Passo
     </h2>
-    <button aria-label="Fechar página de tutoriais" class="text-blue-700 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 rounded" id="btnCloseTutorials" type="button">
-     <i class="fas fa-times fa-lg"></i>
+    <button aria-label="Fechar página de tutoriais" 
+            id="btnCloseTutorials"
+            type="button"
+            class="text-blue-700 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 rounded">
+      <i class="fas fa-times fa-lg"></i>
     </button>
-   </header>
-   <div class="max-w-4xl mx-auto space-y-8">
+  </header>
+
+  <!-- Conteúdo -->
+  <div class="max-w-5xl mx-auto space-y-10">
+
+    <!-- Documentos -->
     <article>
-     <h3 class="text-xl font-semibold text-blue-800 mb-3 border-b border-blue-200 pb-1">
-      Documentos
-     </h3>
-     <ul class="space-y-4">
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Thumbnail de vídeo tutorial sobre emissão de documentos, mostrando uma pessoa usando computador com documentos digitais na tela" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/6d35f0bd-9957-4f52-1d78-3025ee7cc355.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Como emitir documentos digitais (vídeo)
-       </a>
-      </li>
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Capa de PDF ilustrado sobre emissão de documentos, com ícones de documentos e balança da justiça" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/aa23e9a7-bdec-4570-65d6-559970d53eb7.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Guia ilustrado para emissão de documentos (PDF)
-       </a>
-      </li>
-     </ul>
+      <h3 class="text-xl font-semibold text-blue-800 mb-4 border-b border-blue-200 pb-2">
+        Documentos
+      </h3>
+      <ul class="space-y-5">
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/6d35f0bd-9957-4f52-1d78-3025ee7cc355.jpg"
+               alt="Thumbnail de vídeo tutorial sobre emissão de documentos"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Como emitir documentos digitais (vídeo)
+          </a>
+        </li>
+
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/aa23e9a7-bdec-4570-65d6-559970d53eb7.jpg"
+               alt="Capa de PDF ilustrado sobre emissão de documentos"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Guia ilustrado para emissão de documentos (PDF)
+          </a>
+        </li>
+      </ul>
     </article>
+
+    <!-- Benefícios -->
     <article>
-     <h3 class="text-xl font-semibold text-blue-800 mb-3 border-b border-blue-200 pb-1">
-      Benefícios
-     </h3>
-     <ul class="space-y-4">
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Thumbnail de vídeo tutorial sobre acesso a benefícios sociais, mostrando uma família feliz com documentos" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/91598f5b-369c-4489-5e9b-2ece060b3cf1.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Como acessar benefícios sociais (vídeo)
-       </a>
-      </li>
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Capa de PDF ilustrado sobre benefícios sociais, com ícones de mãos segurando coração e documentos" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/513d93b4-f2cd-4139-35cd-8ef5db9aaa14.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Guia ilustrado para benefícios sociais (PDF)
-       </a>
-      </li>
-     </ul>
+      <h3 class="text-xl font-semibold text-blue-800 mb-4 border-b border-blue-200 pb-2">
+        Benefícios
+      </h3>
+      <ul class="space-y-5">
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/91598f5b-369c-4489-5e9b-2ece060b3cf1.jpg"
+               alt="Thumbnail de vídeo tutorial sobre acesso a benefícios sociais"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Como acessar benefícios sociais (vídeo)
+          </a>
+        </li>
+
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/513d93b4-f2cd-4139-35cd-8ef5db9aaa14.jpg"
+               alt="Capa de PDF ilustrado sobre benefícios sociais"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Guia ilustrado para benefícios sociais (PDF)
+          </a>
+        </li>
+      </ul>
     </article>
+
+    <!-- Processos -->
     <article>
-     <h3 class="text-xl font-semibold text-blue-800 mb-3 border-b border-blue-200 pb-1">
-      Processos
-     </h3>
-     <ul class="space-y-4">
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Thumbnail de vídeo tutorial sobre acompanhamento de processos online, mostrando tela de computador com processos judiciais" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/11318e50-bcda-448d-9f6a-8d3ecdbfb213.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Como acompanhar processos online (vídeo)
-       </a>
-      </li>
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Capa de PDF ilustrado sobre acompanhamento de processos, com ícones de balança e documentos" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/0130edc5-b437-4d2d-e9df-0e589fd5a163.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Guia ilustrado para acompanhamento de processos (PDF)
-       </a>
-      </li>
-     </ul>
+      <h3 class="text-xl font-semibold text-blue-800 mb-4 border-b border-blue-200 pb-2">
+        Processos
+      </h3>
+      <ul class="space-y-5">
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/11318e50-bcda-448d-9f6a-8d3ecdbfb213.jpg"
+               alt="Thumbnail de vídeo tutorial sobre acompanhamento de processos"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Como acompanhar processos online (vídeo)
+          </a>
+        </li>
+
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/0130edc5-b437-4d2d-e9df-0e589fd5a163.jpg"
+               alt="Capa de PDF ilustrado sobre acompanhamento de processos"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Guia ilustrado para acompanhamento de processos (PDF)
+          </a>
+        </li>
+      </ul>
     </article>
+
+    <!-- Defensoria -->
     <article>
-     <h3 class="text-xl font-semibold text-blue-800 mb-3 border-b border-blue-200 pb-1">
-      Defensoria
-     </h3>
-     <ul class="space-y-4">
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Thumbnail de vídeo tutorial sobre serviços da defensoria pública, mostrando advogado e cidadão em atendimento" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/ec001c77-f3e3-4430-f9a6-17a5f6383262.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Conheça a Defensoria Pública (vídeo)
-       </a>
-      </li>
-      <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 bg-blue-50 rounded-lg p-3">
-       <img alt="Capa de PDF ilustrado sobre defensoria pública, com ícones de advogado e balança da justiça" class="rounded-lg mb-2 sm:mb-0 w-full sm:w-32 h-20 object-cover" height="80" src="https://storage.googleapis.com/a1aa/image/ebf69ec9-2937-4312-9658-b107e91bbf54.jpg" width="120"/>
-       <a class="text-blue-700 hover:underline font-medium text-base" href="#">
-        Guia ilustrado da Defensoria Pública (PDF)
-       </a>
-      </li>
-     </ul>
+      <h3 class="text-xl font-semibold text-blue-800 mb-4 border-b border-blue-200 pb-2">
+        Defensoria
+      </h3>
+      <ul class="space-y-5">
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/ec001c77-f3e3-4430-f9a6-17a5f6383262.jpg"
+               alt="Thumbnail de vídeo tutorial sobre serviços da defensoria pública"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Conheça a Defensoria Pública (vídeo)
+          </a>
+        </li>
+
+        <li class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 bg-blue-50 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+          <img src="https://storage.googleapis.com/a1aa/image/ebf69ec9-2937-4312-9658-b107e91bbf54.jpg"
+               alt="Capa de PDF ilustrado sobre defensoria pública"
+               class="rounded-lg w-full sm:w-40 h-32 object-cover mb-3 sm:mb-0"/>
+          <a href="#"
+             class="text-blue-700 hover:underline font-medium text-base">
+            Guia ilustrado da Defensoria Pública (PDF)
+          </a>
+        </li>
+      </ul>
     </article>
-   </div>
-  </section>
+
+  </div>
+</section>
+
   <!-- Calendário Oficina Modal -->
   <section aria-labelledby="calendarTitle" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-60 opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center justify-center p-4" id="calendarModal" role="dialog" tabindex="-1" aria-hidden="true">
    <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-lg">
@@ -584,8 +874,8 @@
     </div>
     <form class="flex space-x-3" id="chatForm" novalidate="">
      <input aria-label="Campo para digitar mensagem do chat" autocomplete="off" class="flex-grow border border-blue-300 rounded-lg px-4 py-5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-40 text-base" id="chatInput" name="chatInput" placeholder="Digite sua mensagem..." required="" type="text"/>
-     <button aria-label="Enviar mensagem do chat" class="btn-primary px-8 py-3" type="submit">
-      Enviar
+     <button aria-label="Enviar mensagem do chat" class="btn-primary px-8 py-3 fas fa-paper-plane" type="submit" >
+     
      </button>
     </form>
    </div>
@@ -604,7 +894,7 @@
     </a>
    </nav>
    <div class="flex items-center space-x-2">
-    <img alt="Logo pequeno da AJJM em fundo azul escuro com letras brancas" class="w-9 h-9 object-contain rounded" height="36" src="https://storage.googleapis.com/a1aa/image/15ca89ff-83dd-4319-a5bf-9702a4f2fb51.jpg" width="36"/>
+    <img alt="Logo pequeno da AJJM em fundo azul escuro com letras brancas" class="w-9 h-9 object-contain rounded" height="36" src="" width="36"/>
     <span class="text-sm font-semibold tracking-wide select-none">
      AJJM
     </span>
@@ -789,14 +1079,10 @@
     });
 
     // Close tutorials page
-    document.getElementById("btnCloseTutorials").addEventListener("click", () => {
-      tutorialsPage.classList.add("hidden");
-      if (!dashboardSection.classList.contains("hidden")) {
-        // do nothing, user is logged in
-      } else {
-        renderHome();
-      }
-    });
+document.getElementById("btnCloseTutorials").addEventListener("click", () => {
+  tutorialsPage.classList.add("hidden"); // esconde o card de tutoriais
+  dashboardSection.classList.remove("hidden"); // garante que o dashboard apareça
+});
 
     // Open calendar modal
     document.getElementById("btnViewCalendar").addEventListener("click", () => {
@@ -810,6 +1096,30 @@
       document.getElementById("calendarForm").reset();
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     // Open chat modal
     document.getElementById("btnOpenChat").addEventListener("click", () => {
       showModal(chatModal);
